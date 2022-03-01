@@ -18,21 +18,22 @@
   <meta name="author" content="zhangweijie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="__init__与 __new__ 方法__new__和__init__参数的不同__new__所接收的第一个参数是cls，而__init__所接收的第一个参数是self。这是因为当我们调用__new__的时候，该类的实例还并不存在（也就是self所引用的对象还不存在），所以需要接收一个类作为参数，从而产生一个实例。而当我们调用__init__的时候，实例已经存在，因此__init__接受self">
+    <meta name="description" content="Elasticsearch简介1、Elasticsearch 下载及启动1https:&#x2F;&#x2F;www.elastic.co&#x2F;cn&#x2F;downloads&#x2F;elasticsearch   # 下载地址  下载完成后解压进入该文件目录 12bin&#x2F;elasticsearch  # 启动 elasticsearch网址输入为：localhost:9200  # 查看是否启动成功  2、插件管理查看插件目录 1b">
 <meta property="og:type" content="article">
-<meta property="og:title" content="inint与 new 方法">
-<meta property="og:url" content="http://example.com/2019/11/20/init%20%E4%B8%8E%20new%20%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:title" content="Elasticsearch 简介">
+<meta property="og:url" content="http://example.com/2020/02/05/Elasticsearch%E7%AE%80%E4%BB%8B/index.html">
 <meta property="og:site_name" content="ffreedom">
-<meta property="og:description" content="__init__与 __new__ 方法__new__和__init__参数的不同__new__所接收的第一个参数是cls，而__init__所接收的第一个参数是self。这是因为当我们调用__new__的时候，该类的实例还并不存在（也就是self所引用的对象还不存在），所以需要接收一个类作为参数，从而产生一个实例。而当我们调用__init__的时候，实例已经存在，因此__init__接受self">
+<meta property="og:description" content="Elasticsearch简介1、Elasticsearch 下载及启动1https:&#x2F;&#x2F;www.elastic.co&#x2F;cn&#x2F;downloads&#x2F;elasticsearch   # 下载地址  下载完成后解压进入该文件目录 12bin&#x2F;elasticsearch  # 启动 elasticsearch网址输入为：localhost:9200  # 查看是否启动成功  2、插件管理查看插件目录 1b">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-11-20T03:03:31.000Z">
-<meta property="article:modified_time" content="2022-03-01T09:14:48.836Z">
+<meta property="article:published_time" content="2020-02-05T05:51:31.000Z">
+<meta property="article:modified_time" content="2022-03-01T09:21:48.673Z">
 <meta property="article:author" content="zhangweijie">
-<meta property="article:tag" content="标准库">
+<meta property="article:tag" content="ELK">
+<meta property="article:tag" content="Elasticsearch">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>inint与 new 方法 - ffreedom</title>
+  <title>Elasticsearch 简介 - ffreedom</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -178,7 +179,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="inint与 new 方法">
+            <span class="h2" id="subtitle" title="Elasticsearch 简介">
               
             </span>
 
@@ -188,8 +189,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2019-11-20 11:03" pubdate>
-        2019年11月20日 上午
+      <time datetime="2020-02-05 13:51" pubdate>
+        2020年2月5日 下午
       </time>
     </span>
   
@@ -199,7 +200,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.8k 字
+      633 字
     </span>
   
 
@@ -208,7 +209,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      15 分钟
+      6 分钟
     </span>
   
 
@@ -245,36 +246,29 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">inint与 new 方法</h1>
+            <h1 style="display: none">Elasticsearch 简介</h1>
             
             <div class="markdown-body">
-              <h2 id="init-与-new-方法"><a href="#init-与-new-方法" class="headerlink" title="__init__与 __new__ 方法"></a><code>__init__</code>与 <code>__new__</code> 方法</h2><h3 id="new-和-init-参数的不同"><a href="#new-和-init-参数的不同" class="headerlink" title="__new__和__init__参数的不同"></a><code>__new__</code>和<code>__init__</code>参数的不同</h3><p><code>__new__</code>所接收的第一个参数是<code>cls</code>，而<code>__init__</code>所接收的第一个参数是<code>self</code>。这是因为当我们调用<code>__new__</code>的时候，该类的实例还并不存在（也就是<code>self</code>所引用的对象还不存在），所以需要接收一个类作为参数，从而产生一个实例。而当我们调用<code>__init__</code>的时候，实例已经存在，因此<code>__init__</code>接受<code>self</code>作为第一个参数并对该实例进行必要的初始化操作。这也意味着<code>__init__</code>是在<code>__new__</code>之后被调用的。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">newStyleClass</span>(<span class="hljs-title class_ inherited__">object</span>): <br>    <span class="hljs-comment"># In Python2, we need to specify the object as the base.</span><br>    <span class="hljs-comment"># In Python3 it&#x27;s default.</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__new__</span>(<span class="hljs-params">cls</span>):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;__new__ is called&quot;</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">super</span>(newStyleClass, cls).__new__(cls)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;__init__ is called&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;self is: &quot;</span>, self)<br><br>n=newStyleClass()<br><span class="hljs-built_in">print</span>(n)<br></code></pre></td></tr></table></figure>
+              <h2 id="Elasticsearch简介"><a href="#Elasticsearch简介" class="headerlink" title="Elasticsearch简介"></a>Elasticsearch简介</h2><h3 id="1、Elasticsearch-下载及启动"><a href="#1、Elasticsearch-下载及启动" class="headerlink" title="1、Elasticsearch 下载及启动"></a>1、Elasticsearch 下载及启动</h3><figure class="highlight awk"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span>www.elastic.co<span class="hljs-regexp">/cn/</span>downloads/elasticsearch   <span class="hljs-comment"># 下载地址</span><br></code></pre></td></tr></table></figure>
 
-<p>结果如下：</p>
-<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs ada">__new__ <span class="hljs-keyword">is</span> called<br>__init__ <span class="hljs-keyword">is</span> called<br>self <span class="hljs-keyword">is</span>: &lt;__main__.newStyleClass <span class="hljs-keyword">at</span> <span class="hljs-number">0</span>x109290890&gt;<br>&lt;__main__.newStyleClass <span class="hljs-keyword">at</span> <span class="hljs-number">0</span>x109290890&gt;<br></code></pre></td></tr></table></figure>
+<p>下载完成后解压进入该文件目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">bin/elasticsearch  <span class="hljs-comment"># 启动 elasticsearch</span><br>网址输入为：localhost:9200  <span class="hljs-comment"># 查看是否启动成功</span><br></code></pre></td></tr></table></figure>
 
-<p>创建类实例并初始化的过程中<code>__new__</code>和<code>__init__</code>被调用的顺序也能从上面代码的输出结果中看出：<code>__new__</code>函数首先被调用，构造了一个<code>newStyleClass</code>的实例，接着<code>__init__</code>函数在<code>__new__</code>函数返回一个实例的时候被调用，并且这个实例作为<code>self</code>参数被传入了<code>__init__</code>函数。****</p>
-<p>这里需要注意的是，如果<code>__new__</code>函数返回一个已经存在的实例（不论是哪个类的），<code>__init__</code>不会被调用。如下面代码所示：</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">obj = <span class="hljs-number">12</span> <br># obj can be an <span class="hljs-keyword">object</span> from any <span class="hljs-keyword">class</span>, even <span class="hljs-keyword">object</span>.<span class="hljs-constructor">__new__(<span class="hljs-params">object</span>)</span><br><br><span class="hljs-keyword">class</span> return<span class="hljs-constructor">ExistedObj(<span class="hljs-params">object</span>)</span>:<br>    def <span class="hljs-constructor">__new__(<span class="hljs-params">cls</span>)</span>:<br>        print(<span class="hljs-string">&quot;__new__ is called&quot;</span>)<br>        return obj<br><br>    def <span class="hljs-constructor">__init(<span class="hljs-params">self</span>)</span>:<br>        print(<span class="hljs-string">&quot;__init__ is called&quot;</span>)<br><br>r=return<span class="hljs-constructor">ExistedObj()</span><br>print(r)<br></code></pre></td></tr></table></figure>
+<h3 id="2、插件管理"><a href="#2、插件管理" class="headerlink" title="2、插件管理"></a>2、插件管理</h3><p>查看插件目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">bin/elasticsearch-plugins list<br></code></pre></td></tr></table></figure>
 
-<p>结果如下：</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">__new__ <span class="hljs-keyword">is</span> <span class="hljs-keyword">called</span><br><span class="hljs-number">12</span><br></code></pre></td></tr></table></figure>
+<p>安装插件</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">bin/elasticsearch-plugins </span><span class="hljs-keyword">install </span>analysis-icu<br></code></pre></td></tr></table></figure>
 
-<p>同时另一个需要注意的点是：</p>
-<p>如果我们在<code>__new__</code>函数中不返回任何对象，则<code>__init__</code>函数也不会被调用。</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs angelscript"><span class="hljs-keyword">class</span> <span class="hljs-symbol">notReturnObj</span>(<span class="hljs-symbol">object</span>):<br>    <span class="hljs-symbol">def</span> <span class="hljs-symbol">__new__</span>(<span class="hljs-symbol">cls</span>):<br>        <span class="hljs-symbol">print</span>(&quot;<span class="hljs-symbol">__new__</span> <span class="hljs-symbol">is</span> <span class="hljs-symbol">called</span>&quot;)<br><br>    <span class="hljs-symbol">def</span> <span class="hljs-symbol">__init__</span>(<span class="hljs-symbol">self</span>):<br>        <span class="hljs-symbol">print</span>(&quot;<span class="hljs-symbol">__init__</span> <span class="hljs-symbol">is</span> <span class="hljs-symbol">called</span>&quot;)<br><br><span class="hljs-symbol">print</span>(<span class="hljs-symbol">notReturnObj</span>())<br></code></pre></td></tr></table></figure>
+<p>如何查看插件是否安装成功</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">bin/elasticsearch <span class="hljs-comment"># 启动 elasticsearch</span><br>网址输入为：localhost:<span class="hljs-number">9200</span><span class="hljs-regexp">/_cat/</span>plugins   <span class="hljs-comment"># _cat 为一个查询API</span><br></code></pre></td></tr></table></figure>
 
-<p>结果如下：</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">__new__ <span class="hljs-keyword">is</span> <span class="hljs-keyword">called</span><br><span class="hljs-keyword">None</span><br></code></pre></td></tr></table></figure>
+<h3 id="3、node-管理"><a href="#3、node-管理" class="headerlink" title="3、node 管理"></a>3、node 管理</h3><p>启动多个elasticsearch 实例</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment"># node.name为节点名称或实例名称   cluster.name为集群名称  path.data为存放数据路径</span><br>bin/elasticsearch -E node.<span class="hljs-attribute">name</span>=node0 -E cluster.<span class="hljs-attribute">name</span>=geektime -E path.<span class="hljs-attribute">data</span>=node0_data -d<br>bin/elasticsearch -E node.<span class="hljs-attribute">name</span>=node1 -E cluster.<span class="hljs-attribute">name</span>=geektime -E path.<span class="hljs-attribute">data</span>=node1_data -d<br></code></pre></td></tr></table></figure>
 
-<p>可见如果<code>__new__</code>函数不返回对象的话，不会有任何对象被创建，<code>__init__</code>函数也不会被调用来初始化对象，<code>__new__</code>返回 None</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
-<li><code>__init__</code>不能有返回值</li>
-<li><code>__new__</code>函数直接上可以返回别的类的实例。如上面例子中的<code>returnExistedObj</code>类的<code>__new__</code>函数返回了一个<code>int</code>值。</li>
-<li>只有在<code>__new__</code>返回一个新创建属于该类的实例时当前类的<code>__init__</code>才会被调用.</li>
-<li>![image-20191120105155474](&#x2F;Users&#x2F;zhangweijie&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20191120105155474.png)</li>
-</ol>
+<p>查看 node</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">网址为：localhost:<span class="hljs-number">9200</span><span class="hljs-regexp">/_cat/</span>nodes<br></code></pre></td></tr></table></figure>
+
 
             </div>
             <hr>
@@ -284,9 +278,9 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>
+                      <a class="hover-with-bg" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>
                     
-                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python/">Python</a>
+                      <a class="hover-with-bg" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/ELK/">ELK</a>
                     
                   </div>
                 
@@ -294,7 +288,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E6%A0%87%E5%87%86%E5%BA%93/">标准库</a>
+                      <a class="hover-with-bg" href="/tags/ELK/">ELK</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Elasticsearch/">Elasticsearch</a>
                     
                   </div>
                 
@@ -311,9 +307,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2020/02/05/Elasticsearch%E7%AE%80%E4%BB%8B/">
+                      <a href="/2020/02/05/logstash%20%E7%AE%80%E4%BB%8B/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Elasticsearch 简介</span>
+                        <span class="hidden-mobile">logstash 简介</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -321,8 +317,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2019/11/06/aiohttp%20%E6%A8%A1%E5%9D%97%E8%AF%A6%E8%A7%A3.md/">
-                        <span class="hidden-mobile">aiohttp 模块详解</span>
+                      <a href="/2019/11/20/init%20%E4%B8%8E%20new%20%E6%96%B9%E6%B3%95/">
+                        <span class="hidden-mobile">inint与 new 方法</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

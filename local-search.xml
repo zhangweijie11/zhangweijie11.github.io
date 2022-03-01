@@ -100,6 +100,93 @@
   
   
   <entry>
+    <title>Kibana简介</title>
+    <link href="/2020/02/06/kibana%20%E7%AE%80%E4%BB%8B/"/>
+    <url>/2020/02/06/kibana%20%E7%AE%80%E4%BB%8B/</url>
+    
+    <content type="html"><![CDATA[<h2 id="Kibana简介"><a href="#Kibana简介" class="headerlink" title="Kibana简介"></a>Kibana简介</h2><h3 id="1、kibana-下载"><a href="#1、kibana-下载" class="headerlink" title="1、kibana 下载"></a>1、kibana 下载</h3><figure class="highlight awk"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span>www.elastic.co<span class="hljs-regexp">/cn/</span>downloads/kibana<br></code></pre></td></tr></table></figure><h3 id="2、kibana-启动"><a href="#2、kibana-启动" class="headerlink" title="2、kibana 启动"></a>2、kibana 启动</h3><p>解压后进入该目录，首先启动kibana</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">bin/kibana <span class="hljs-comment"># 启动命令</span><br>网址为：localhost:5601 <span class="hljs-comment"># 查看是否启动成功</span><br></code></pre></td></tr></table></figure><h3 id="3、插件管理"><a href="#3、插件管理" class="headerlink" title="3、插件管理"></a>3、插件管理</h3><p>查看插件信息</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">bin/kiban-plugin list<br></code></pre></td></tr></table></figure><p>下载插件</p><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">bin/kiban-plugin </span><span class="hljs-keyword">install </span>plugin_location <br></code></pre></td></tr></table></figure><h3 id="4、DSL-基本命令"><a href="#4、DSL-基本命令" class="headerlink" title="4、DSL 基本命令"></a>4、DSL 基本命令</h3>]]></content>
+    
+    
+    <categories>
+      
+      <category>大数据</category>
+      
+      <category>ELK</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>ELK</tag>
+      
+      <tag>Kibana</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>logstash 简介</title>
+    <link href="/2020/02/05/logstash%20%E7%AE%80%E4%BB%8B/"/>
+    <url>/2020/02/05/logstash%20%E7%AE%80%E4%BB%8B/</url>
+    
+    <content type="html"><![CDATA[<h2 id="logstash-简介"><a href="#logstash-简介" class="headerlink" title="logstash 简介"></a>logstash 简介</h2><h3 id="1、下载及启动"><a href="#1、下载及启动" class="headerlink" title="1、下载及启动"></a>1、下载及启动</h3><figure class="highlight awk"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span>www.elastic.co<span class="hljs-regexp">/cn/</span>downloads/logstash  <span class="hljs-comment"># 下载地址</span><br></code></pre></td></tr></table></figure><p>解压后进入该目录，将写好的配置文件放进 bin 文件夹</p><p>文件如下</p><figure class="highlight puppet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs puppet"><span class="hljs-keyword">input</span> &#123;<br>  file &#123;<br>    <span class="hljs-attr">path</span> =&gt; <span class="hljs-string">&quot;/Users/zhangweijie/ELK/logstash-7.5.2/bin/movies.csv&quot;</span><br>    <span class="hljs-attr">start_position</span> =&gt; <span class="hljs-string">&quot;beginning&quot;</span><br>    <span class="hljs-attr">sincedb_path</span> =&gt; <span class="hljs-string">&quot;/dev/null&quot;</span><br>  &#125;<br>&#125;<br><span class="hljs-keyword">filter</span> &#123;<br>  csv &#123;<br>    <span class="hljs-attr">separator</span> =&gt; <span class="hljs-string">&quot;,&quot;</span><br>    <span class="hljs-attr">columns</span> =&gt; [<span class="hljs-string">&quot;id&quot;</span>,<span class="hljs-string">&quot;content&quot;</span>,<span class="hljs-string">&quot;genre&quot;</span>]<br>  &#125;<br><br>  <span class="hljs-keyword">mutate</span> &#123;<br>    <span class="hljs-attr">split</span> =&gt; &#123; <span class="hljs-string">&quot;genre&quot;</span> =&gt; <span class="hljs-string">&quot;|&quot;</span> &#125;<br>    <span class="hljs-keyword">remove_field</span> =&gt; [<span class="hljs-string">&quot;path&quot;</span>, <span class="hljs-string">&quot;host&quot;</span>,<span class="hljs-string">&quot;@timestamp&quot;</span>,<span class="hljs-string">&quot;message&quot;</span>]<br>  &#125;<br><br>  <span class="hljs-keyword">mutate</span> &#123;<br><br>    <span class="hljs-attr">split</span> =&gt; [<span class="hljs-string">&quot;content&quot;</span>, <span class="hljs-string">&quot;(&quot;</span>]<br>    <span class="hljs-attr">add_field</span> =&gt; &#123; <span class="hljs-string">&quot;title&quot;</span> =&gt; <span class="hljs-string">&quot;%&#123;[content][0]&#125;&quot;</span>&#125;<br>    <span class="hljs-keyword">add_field</span> =&gt; &#123; <span class="hljs-string">&quot;year&quot;</span> =&gt; <span class="hljs-string">&quot;%&#123;[content][1]&#125;&quot;</span>&#125;<br>  &#125;<br><br>  <span class="hljs-keyword">mutate</span> &#123;<br>    <span class="hljs-attr">convert</span> =&gt; &#123;<br>      <span class="hljs-string">&quot;year&quot;</span> =&gt; <span class="hljs-string">&quot;integer&quot;</span><br>    &#125;<br>    <span class="hljs-keyword">strip</span> =&gt; [<span class="hljs-string">&quot;title&quot;</span>]<br>    remove_field =&gt; [<span class="hljs-string">&quot;path&quot;</span>, <span class="hljs-string">&quot;host&quot;</span>,<span class="hljs-string">&quot;@timestamp&quot;</span>,<span class="hljs-string">&quot;message&quot;</span>,<span class="hljs-string">&quot;content&quot;</span>]<br>  &#125;<br><br>&#125;<br><span class="hljs-keyword">output</span> &#123;<br>   elasticsearch &#123;<br>     <span class="hljs-attr">hosts</span> =&gt; <span class="hljs-string">&quot;http://localhost:9200&quot;</span><br>     <span class="hljs-attr">index</span> =&gt; <span class="hljs-string">&quot;movies&quot;</span><br>     <span class="hljs-attr">document_id</span> =&gt; <span class="hljs-string">&quot;%&#123;id&#125;&quot;</span><br>   &#125;<br>  <span class="hljs-keyword">stdout</span> &#123;&#125;<br>&#125;<br><br></code></pre></td></tr></table></figure><p>启动</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo ./logstash -f logstash.conf<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>大数据</category>
+      
+      <category>ELK</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>ELK</tag>
+      
+      <tag>logstash</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Elasticsearch 简介</title>
+    <link href="/2020/02/05/Elasticsearch%E7%AE%80%E4%BB%8B/"/>
+    <url>/2020/02/05/Elasticsearch%E7%AE%80%E4%BB%8B/</url>
+    
+    <content type="html"><![CDATA[<h2 id="Elasticsearch简介"><a href="#Elasticsearch简介" class="headerlink" title="Elasticsearch简介"></a>Elasticsearch简介</h2><h3 id="1、Elasticsearch-下载及启动"><a href="#1、Elasticsearch-下载及启动" class="headerlink" title="1、Elasticsearch 下载及启动"></a>1、Elasticsearch 下载及启动</h3><figure class="highlight awk"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span>www.elastic.co<span class="hljs-regexp">/cn/</span>downloads/elasticsearch   <span class="hljs-comment"># 下载地址</span><br></code></pre></td></tr></table></figure><p>下载完成后解压进入该文件目录</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">bin/elasticsearch  <span class="hljs-comment"># 启动 elasticsearch</span><br>网址输入为：localhost:9200  <span class="hljs-comment"># 查看是否启动成功</span><br></code></pre></td></tr></table></figure><h3 id="2、插件管理"><a href="#2、插件管理" class="headerlink" title="2、插件管理"></a>2、插件管理</h3><p>查看插件目录</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">bin/elasticsearch-plugins list<br></code></pre></td></tr></table></figure><p>安装插件</p><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">bin/elasticsearch-plugins </span><span class="hljs-keyword">install </span>analysis-icu<br></code></pre></td></tr></table></figure><p>如何查看插件是否安装成功</p><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">bin/elasticsearch <span class="hljs-comment"># 启动 elasticsearch</span><br>网址输入为：localhost:<span class="hljs-number">9200</span><span class="hljs-regexp">/_cat/</span>plugins   <span class="hljs-comment"># _cat 为一个查询API</span><br></code></pre></td></tr></table></figure><h3 id="3、node-管理"><a href="#3、node-管理" class="headerlink" title="3、node 管理"></a>3、node 管理</h3><p>启动多个elasticsearch 实例</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment"># node.name为节点名称或实例名称   cluster.name为集群名称  path.data为存放数据路径</span><br>bin/elasticsearch -E node.<span class="hljs-attribute">name</span>=node0 -E cluster.<span class="hljs-attribute">name</span>=geektime -E path.<span class="hljs-attribute">data</span>=node0_data -d<br>bin/elasticsearch -E node.<span class="hljs-attribute">name</span>=node1 -E cluster.<span class="hljs-attribute">name</span>=geektime -E path.<span class="hljs-attribute">data</span>=node1_data -d<br></code></pre></td></tr></table></figure><p>查看 node</p><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">网址为：localhost:<span class="hljs-number">9200</span><span class="hljs-regexp">/_cat/</span>nodes<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>大数据</category>
+      
+      <category>ELK</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>ELK</tag>
+      
+      <tag>Elasticsearch</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>inint与 new 方法</title>
     <link href="/2019/11/20/init%20%E4%B8%8E%20new%20%E6%96%B9%E6%B3%95/"/>
     <url>/2019/11/20/init%20%E4%B8%8E%20new%20%E6%96%B9%E6%B3%95/</url>
