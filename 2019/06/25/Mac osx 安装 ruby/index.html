@@ -18,38 +18,31 @@
   <meta name="author" content="zhangweijie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="使用 Ettercap嗅探工具进行 DNS 欺骗实验 前提条件：需要安装kali 虚拟机，或者自己安装ettercap 工具 涉及服务器：本地服务器（172.30.0.56）、kali 虚拟机（172.30.0.133）、网关（172.30.0.1，172.30.0.254）  一、实验名称DNS欺骗 二、实验原理冒充域名服务器，将查询的 IP 地址设置为攻击者的 IP 地址，这样用户上网就只能看">
+    <meta name="description" content="安装CocoaPods第一步起因:重装系统后需要重新安装CocoaPods网上搜了下发现很多都过时了，已经不能用了。而且taobao Gems源已经停止服务，现在有ruby-china提供服务PS：”$”开头表示需要在终端下执行 1.安装RVM1$ curl -L https:&#x2F;&#x2F;get.rvm.io | bash -s stable  期间可能需要输入密码(我安装时没有提示，密码就是开机密码输入">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用 Ettercap嗅探工具进行 DNS 欺骗实验">
-<meta property="og:url" content="http://example.com/2021/03/01/%E4%BD%BF%E7%94%A8%20Ettercap%E5%97%85%E6%8E%A2%E5%B7%A5%E5%85%B7%E8%BF%9B%E8%A1%8C%20DNS%20%E6%AC%BA%E9%AA%97%E5%AE%9E%E9%AA%8C/index.html">
+<meta property="og:title" content="Mac 安装 ruby">
+<meta property="og:url" content="http://example.com/2019/06/25/Mac%20osx%20%E5%AE%89%E8%A3%85%20ruby/index.html">
 <meta property="og:site_name" content="ffreedom">
-<meta property="og:description" content="使用 Ettercap嗅探工具进行 DNS 欺骗实验 前提条件：需要安装kali 虚拟机，或者自己安装ettercap 工具 涉及服务器：本地服务器（172.30.0.56）、kali 虚拟机（172.30.0.133）、网关（172.30.0.1，172.30.0.254）  一、实验名称DNS欺骗 二、实验原理冒充域名服务器，将查询的 IP 地址设置为攻击者的 IP 地址，这样用户上网就只能看">
+<meta property="og:description" content="安装CocoaPods第一步起因:重装系统后需要重新安装CocoaPods网上搜了下发现很多都过时了，已经不能用了。而且taobao Gems源已经停止服务，现在有ruby-china提供服务PS：”$”开头表示需要在终端下执行 1.安装RVM1$ curl -L https:&#x2F;&#x2F;get.rvm.io | bash -s stable  期间可能需要输入密码(我安装时没有提示，密码就是开机密码输入">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281509294.png">
-<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281509975.png">
-<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281455623.png">
-<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281432316.png">
-<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281433117.png">
-<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281435479.png">
-<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281436063.png">
-<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281438910.png">
-<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281439827.png">
-<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281440789.png">
-<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281440797.png">
-<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281442111.png">
-<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281451243.png">
-<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281456734.png">
-<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281457571.png">
-<meta property="article:published_time" content="2021-03-01T06:07:31.000Z">
-<meta property="article:modified_time" content="2022-03-01T07:14:52.615Z">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081128066.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081128763.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081128518.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081128428.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081128625.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081129344.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081129237.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081129101.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081129235.png">
+<meta property="article:published_time" content="2019-06-25T01:18:31.000Z">
+<meta property="article:modified_time" content="2022-03-01T09:17:12.228Z">
 <meta property="article:author" content="zhangweijie">
-<meta property="article:tag" content="DNS 欺骗">
-<meta property="article:tag" content="安全工具">
+<meta property="article:tag" content="ruby">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281509294.png">
+<meta name="twitter:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081128066.png">
   
   
-  <title>使用 Ettercap嗅探工具进行 DNS 欺骗实验 - ffreedom</title>
+  <title>Mac 安装 ruby - ffreedom</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -195,7 +188,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="使用 Ettercap嗅探工具进行 DNS 欺骗实验">
+            <span class="h2" id="subtitle" title="Mac 安装 ruby">
               
             </span>
 
@@ -205,8 +198,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-01 14:07" pubdate>
-        2021年3月1日 下午
+      <time datetime="2019-06-25 09:18" pubdate>
+        2019年6月25日 上午
       </time>
     </span>
   
@@ -216,7 +209,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      929 字
+      1.3k 字
     </span>
   
 
@@ -225,7 +218,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8 分钟
+      12 分钟
     </span>
   
 
@@ -262,60 +255,51 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">使用 Ettercap嗅探工具进行 DNS 欺骗实验</h1>
+            <h1 style="display: none">Mac 安装 ruby</h1>
             
             <div class="markdown-body">
-              <h1 id="使用-Ettercap嗅探工具进行-DNS-欺骗实验"><a href="#使用-Ettercap嗅探工具进行-DNS-欺骗实验" class="headerlink" title="使用 Ettercap嗅探工具进行 DNS 欺骗实验"></a>使用 Ettercap嗅探工具进行 DNS 欺骗实验</h1><blockquote>
-<p>前提条件：需要安装<code>kali 虚拟机</code>，或者自己安装<code>ettercap 工具</code></p>
-<p>涉及服务器：本地服务器（172.30.0.56）、kali 虚拟机（172.30.0.133）、网关（172.30.0.1，172.30.0.254）</p>
-</blockquote>
-<h2 id="一、实验名称"><a href="#一、实验名称" class="headerlink" title="一、实验名称"></a>一、实验名称</h2><p><strong>DNS欺骗</strong></p>
-<h2 id="二、实验原理"><a href="#二、实验原理" class="headerlink" title="二、实验原理"></a>二、实验原理</h2><p>冒充域名服务器，将查询的 IP 地址设置为攻击者的 IP 地址，这样用户上网就只能看到攻击者主主页，而不是用户访问的真实的页面。</p>
-<p><strong>正常情况</strong></p>
-<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281509294.png" srcset="/img/loading.gif" lazyload alt="image-20220228141758055"></p>
-<p><strong>异常情况</strong></p>
-<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281509975.png" srcset="/img/loading.gif" lazyload alt="image-20220228141830850"></p>
-<h2 id="三、实验步骤"><a href="#三、实验步骤" class="headerlink" title="三、实验步骤"></a>三、实验步骤</h2><h3 id="1、清除攻击机和靶机的-DNS-缓存数据"><a href="#1、清除攻击机和靶机的-DNS-缓存数据" class="headerlink" title="1、清除攻击机和靶机的 DNS 缓存数据"></a>1、清除攻击机和靶机的 DNS 缓存数据</h3><ul>
-<li><p>MAC系统</p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">sudo killall -HUP mDNSResponder</span><br><span class="hljs-attribute">sudo dscacheutil -flushcache</span><br></code></pre></td></tr></table></figure>
-</li>
-<li><p>Windows 系统</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 查看 DNS 缓存内容</span><br>ipconfig/displaydns<br><span class="hljs-comment"># 清除 DNS 缓存内容</span><br>ifconfig /flushdns<br></code></pre></td></tr></table></figure>
-</li>
-<li><p>Linux 系统</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver"><span class="hljs-comment"># Step 1. 查看 DNS 缓存状况</span><br>sudo systemd-<span class="hljs-built_in">resolve</span> <span class="hljs-comment">--statistics</span><br><br><span class="hljs-comment"># Step 2. 清除 DNS 缓存，systemd-resolve daemon 默认在所有的 Ubuntu 系统上运行</span><br>sudo systemd-<span class="hljs-built_in">resolve</span> <span class="hljs-comment">--flush-caches</span><br><br><span class="hljs-comment"># Step 3. 正在查看验证结果（SYSIN）</span><br>sudo systemd-<span class="hljs-built_in">resolve</span> <span class="hljs-comment">--statistics</span><br></code></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="2、修改相关-DNS-文件（攻击机）"><a href="#2、修改相关-DNS-文件（攻击机）" class="headerlink" title="2、修改相关 DNS 文件（攻击机）"></a>2、修改相关 DNS 文件（攻击机）</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-comment"># 输入命令</span><br><span class="hljs-attribute">vim</span> /etc/ettercap/etter.dns<br><span class="hljs-comment"># 添加内容</span><br>*  A   <span class="hljs-number">172.30.0.133</span><br>*  PTR <span class="hljs-number">172.30.0.133</span><br></code></pre></td></tr></table></figure>
+              <h3 id="安装CocoaPods第一步"><a href="#安装CocoaPods第一步" class="headerlink" title="安装CocoaPods第一步"></a>安装CocoaPods第一步</h3><p><strong>起因:重装系统后需要重新安装CocoaPods网上搜了下发现很多都过时了，已经不能用了。而且taobao Gems源已经停止服务，现在有ruby-china提供服务PS：”$”开头表示需要在终端下执行</strong></p>
+<h3 id="1-安装RVM"><a href="#1-安装RVM" class="headerlink" title="1.安装RVM"></a>1.安装RVM</h3><figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$ </span><span class="language-bash">curl -L https://get.rvm.io | bash -s stable</span><br></code></pre></td></tr></table></figure>
 
-<h3 id="3、开启自带的-Apache-服务"><a href="#3、开启自带的-Apache-服务" class="headerlink" title="3、开启自带的 Apache 服务"></a>3、开启自带的 Apache 服务</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment"># 开启服务</span><span class="hljs-built_in"></span><br><span class="hljs-built_in">service </span>apache2 start<br><br><span class="hljs-comment"># 查询状态</span><span class="hljs-built_in"></span><br><span class="hljs-built_in">service </span>apache2 status<br></code></pre></td></tr></table></figure>
+<p><strong>期间可能需要输入密码(我安装时没有提示，密码就是开机密码输入时密码不会显示直接输入完成就可以)，等待一段时间将安装好(大概五六分钟)。</strong><br><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081128066.png" srcset="/img/loading.gif" lazyload alt="安装RVM"></p>
+<h3 id="2-载入RVM环境"><a href="#2-载入RVM环境" class="headerlink" title="2.载入RVM环境"></a>2.载入RVM环境</h3><p><strong>若打开新终端窗口则不用执行</strong></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle">$ <span class="hljs-keyword">source</span> ~<span class="hljs-regexp">/.rvm/</span>scripts/rvm<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281455623.png" srcset="/img/loading.gif" lazyload alt="image-20220228145536734"></p>
-<h3 id="4、开启-ettercap-图形界面"><a href="#4、开启-ettercap-图形界面" class="headerlink" title="4、开启 ettercap 图形界面"></a>4、开启 ettercap 图形界面</h3><ul>
-<li><p>方式一</p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">ettercap -G</span><br></code></pre></td></tr></table></figure>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081128763.png" srcset="/img/loading.gif" lazyload alt="载入RVM环境"></p>
+<h3 id="3-检查RVM是否安装好"><a href="#3-检查RVM是否安装好" class="headerlink" title="3.检查RVM是否安装好"></a>3.检查RVM是否安装好</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$ </span><span class="language-bash">rvm -v</span><br></code></pre></td></tr></table></figure>
 
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081128518.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h3 id="4-安装Ruby"><a href="#4-安装Ruby" class="headerlink" title="4.安装Ruby"></a>4.安装Ruby</h3><p>##### 1&gt;列出已知的ruby版本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$ </span><span class="language-bash">rvm list known</span><br></code></pre></td></tr></table></figure>
 
-</li>
-<li><p>方式二</p>
-<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281432316.png" srcset="/img/loading.gif" lazyload alt="image-20220228143217106"></p>
-</li>
-</ul>
-<h3 id="5、选择网卡"><a href="#5、选择网卡" class="headerlink" title="5、选择网卡"></a>5、选择网卡</h3><p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281433117.png" srcset="/img/loading.gif" lazyload alt="image-20220228143315708"></p>
-<h3 id="6、扫描网关下的所有存活主机"><a href="#6、扫描网关下的所有存活主机" class="headerlink" title="6、扫描网关下的所有存活主机"></a>6、扫描网关下的所有存活主机</h3><p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281435479.png" srcset="/img/loading.gif" lazyload alt="image-20220228143537655"></p>
-<p><strong>扫描结果</strong></p>
-<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281436063.png" srcset="/img/loading.gif" lazyload alt="image-20220228143633113"></p>
-<h3 id="7、选择攻击目标"><a href="#7、选择攻击目标" class="headerlink" title="7、选择攻击目标"></a>7、选择攻击目标</h3><p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281438910.png" srcset="/img/loading.gif" lazyload alt="image-20220228143810935"></p>
-<h3 id="8、开启-ARP-投毒"><a href="#8、开启-ARP-投毒" class="headerlink" title="8、开启 ARP 投毒"></a>8、开启 ARP 投毒</h3><p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281439827.png" srcset="/img/loading.gif" lazyload alt="image-20220228143935749"></p>
-<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281440789.png" srcset="/img/loading.gif" lazyload alt="image-20220228143959644"></p>
-<h3 id="9、使用插件开启-DNS-欺骗"><a href="#9、使用插件开启-DNS-欺骗" class="headerlink" title="9、使用插件开启 DNS 欺骗"></a>9、使用插件开启 DNS 欺骗</h3><p>Plugins –&gt; manage plugins –&gt; dns spoof</p>
-<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281440797.png" srcset="/img/loading.gif" lazyload alt="image-20220228144057221"></p>
-<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281442111.png" srcset="/img/loading.gif" lazyload alt="image-20220228144218575"></p>
-<h3 id="10、验证结果"><a href="#10、验证结果" class="headerlink" title="10、验证结果"></a>10、验证结果</h3><p><strong>当发生 DNS 欺骗后，靶机请求的数据都会在 ettercap 工具中展示出来！</strong></p>
-<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281451243.png" srcset="/img/loading.gif" lazyload alt="image-20220228145135214"></p>
-<p><strong>此时靶机再去请求数据时，页面就会显示我们预想的 Apache 的默认页面！</strong></p>
-<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281456734.png" srcset="/img/loading.gif" lazyload alt="image-20220228145652393"></p>
-<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281457571.png" srcset="/img/loading.gif" lazyload alt="image-20220228145726419"></p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081128428.png" srcset="/img/loading.gif" lazyload alt="列出已知的ruby版本"></p>
+<h5 id="2-gt-选择2-0-0版本进行安装-其他版本也可以"><a href="#2-gt-选择2-0-0版本进行安装-其他版本也可以" class="headerlink" title="2&gt;选择2.0.0版本进行安装(其他版本也可以)"></a>2&gt;选择2.0.0版本进行安装(其他版本也可以)</h5><p><strong>等待下载(途中需要按回车确定安装路径、还要输入密码)、编译。完成之后Ruby、Ruby Gems就安装好了</strong><br><code>$ rvm install 2.6</code><br><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081128625.png" srcset="/img/loading.gif" lazyload alt="选择2.0.0版本进行安装"></p>
+<h5 id="3-gt-查询已安装的ruby"><a href="#3-gt-查询已安装的ruby" class="headerlink" title="3&gt;查询已安装的ruby"></a>3&gt;查询已安装的ruby</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$ </span><span class="language-bash">rvm list</span><br></code></pre></td></tr></table></figure>
 
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081129344.png" srcset="/img/loading.gif" lazyload alt="查询已安装的ruby"></p>
+<h5 id="4-gt-卸载已安装的版本-若已经安装过ruby）"><a href="#4-gt-卸载已安装的版本-若已经安装过ruby）" class="headerlink" title="4&gt;卸载已安装的版本(若已经安装过ruby）"></a>4&gt;卸载已安装的版本(若已经安装过ruby）</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$ </span><span class="language-bash">rvm remove [版本号]</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="4-设置Ruby版本"><a href="#4-设置Ruby版本" class="headerlink" title="4.设置Ruby版本"></a>4.设置Ruby版本</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$ </span><span class="language-bash">rvm 2.6 —default</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081129237.png" srcset="/img/loading.gif" lazyload alt="设置Ruby版本"><br><strong>检查是否安装好了</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$ </span><span class="language-bash">rvm -v</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081129101.png" srcset="/img/loading.gif" lazyload alt="检查"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$ </span><span class="language-bash">gem -v</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081129235.png" srcset="/img/loading.gif" lazyload alt="检查"></p>
+<h3 id="5-更换Ruby源"><a href="#5-更换Ruby源" class="headerlink" title="5.更换Ruby源"></a>5.更换Ruby源</h3><p><strong>我们需要来修改更换Ruby源，国内镜像源 taobao 源 已经停止维护了（由于国内被墙）所以要把源切换至ruby-china</strong></p>
+<h5 id="1-gt-检测Ruby源"><a href="#1-gt-检测Ruby源" class="headerlink" title="1&gt;检测Ruby源"></a>1&gt;检测Ruby源</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$ </span><span class="language-bash">gem sources -l</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>检查结果：（ 如果电脑没安装过 CocoaPods，此时应该是默认 ruby 源 ）</strong><br><code>huanghaipoMacBook-Pro:~ jijiucheng$ gem sources -l *** CURRENT SOURCES *** https://rubygems.org/</code></p>
+<h4 id="2-gt-移除-ruby-源"><a href="#2-gt-移除-ruby-源" class="headerlink" title="2&gt;移除 ruby 源"></a>2&gt;移除 ruby 源</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$ </span><span class="language-bash">gem sources --remove https://rubygems.org/</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="3-gt-移除结果："><a href="#3-gt-移除结果：" class="headerlink" title="3&gt;移除结果："></a>3&gt;移除结果：</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">huanghaipoMacBook-Pro:local jijiucheng$ gem sources --remove https://rubygems.org/<br>https://rubygems.org/ removed from sources<br></code></pre></td></tr></table></figure>
+
+<p><strong>替换添加国内镜像源 ruby-china 源，因为上面已经提到国内镜像源 taobao 源 已经停止维护了，所以此处替换的是 ruby-china 源，且尽量确保只有一个 ruby-china 源</strong><br><code>$ gem sources --add https://gems.ruby-china.org</code></p>
+<h4 id="4-gt-替换结果："><a href="#4-gt-替换结果：" class="headerlink" title="4&gt;替换结果："></a>4&gt;替换结果：</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">huanghaipoMacBook-Pro:local jijiucheng$ gem sources --add https://gems.ruby-china.com<br>https://gems.ruby-china.org added to sources<br></code></pre></td></tr></table></figure>
+
+<h4 id="5-gt-再次检查此时的-ruby-源：（-已经变成了-ruby-china-源-）"><a href="#5-gt-再次检查此时的-ruby-源：（-已经变成了-ruby-china-源-）" class="headerlink" title="5&gt;再次检查此时的 ruby 源：（ 已经变成了 ruby-china 源 ）"></a>5&gt;再次检查此时的 ruby 源：（ 已经变成了 ruby-china 源 ）</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">huanghaipoMacBook-Pro:local jijiucheng$ gem sources -l<br>*** CURRENT SOURCES ***<br>https://gems.ruby-china.com<br></code></pre></td></tr></table></figure>
             </div>
             <hr>
             <div>
@@ -324,9 +308,9 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/">安全研究</a>
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>
                     
-                      <a class="hover-with-bg" href="/categories/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/%E5%9F%9F%E5%90%8D%E7%9F%A5%E8%AF%86/">域名知识</a>
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/ruby/">ruby</a>
                     
                   </div>
                 
@@ -334,9 +318,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/DNS-%E6%AC%BA%E9%AA%97/">DNS 欺骗</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E5%AE%89%E5%85%A8%E5%B7%A5%E5%85%B7/">安全工具</a>
+                      <a class="hover-with-bg" href="/tags/ruby/">ruby</a>
                     
                   </div>
                 
@@ -353,9 +335,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/01/19/Golang%20%E4%BB%A3%E7%A0%81%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98/">
+                      <a href="/2019/11/06/aiohttp%20%E6%A8%A1%E5%9D%97%E8%AF%A6%E8%A7%A3.md/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Golang 代码编译问题</span>
+                        <span class="hidden-mobile">aiohttp 模块详解</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     

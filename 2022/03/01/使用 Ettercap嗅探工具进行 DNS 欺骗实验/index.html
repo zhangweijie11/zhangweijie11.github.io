@@ -18,21 +18,38 @@
   <meta name="author" content="zhangweijie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Golang 代码编译问题 Windows  12345678910# 编译代码SET CGO_ENABLED&#x3D;0SET GOOS&#x3D;darwinSET GOARCH&#x3D;amd64go build main.goSET CGO_ENABLED&#x3D;0SET GOOS&#x3D;linuxSET GOARCH&#x3D;amd64go build main.go   Linux  123# 编译代码CGO_ENABLED&#x3D;0">
+    <meta name="description" content="使用 Ettercap嗅探工具进行 DNS 欺骗实验 前提条件：需要安装kali 虚拟机，或者自己安装ettercap 工具 涉及服务器：本地服务器（172.30.0.56）、kali 虚拟机（172.30.0.133）、网关（172.30.0.1，172.30.0.254）  一、实验名称DNS欺骗 二、实验原理冒充域名服务器，将查询的 IP 地址设置为攻击者的 IP 地址，这样用户上网就只能看">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Golang 代码编译问题">
-<meta property="og:url" content="http://example.com/2022/01/19/Golang%20%E4%BB%A3%E7%A0%81%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:title" content="使用 Ettercap嗅探工具进行 DNS 欺骗实验">
+<meta property="og:url" content="http://example.com/2022/03/01/%E4%BD%BF%E7%94%A8%20Ettercap%E5%97%85%E6%8E%A2%E5%B7%A5%E5%85%B7%E8%BF%9B%E8%A1%8C%20DNS%20%E6%AC%BA%E9%AA%97%E5%AE%9E%E9%AA%8C/index.html">
 <meta property="og:site_name" content="ffreedom">
-<meta property="og:description" content="Golang 代码编译问题 Windows  12345678910# 编译代码SET CGO_ENABLED&#x3D;0SET GOOS&#x3D;darwinSET GOARCH&#x3D;amd64go build main.goSET CGO_ENABLED&#x3D;0SET GOOS&#x3D;linuxSET GOARCH&#x3D;amd64go build main.go   Linux  123# 编译代码CGO_ENABLED&#x3D;0">
+<meta property="og:description" content="使用 Ettercap嗅探工具进行 DNS 欺骗实验 前提条件：需要安装kali 虚拟机，或者自己安装ettercap 工具 涉及服务器：本地服务器（172.30.0.56）、kali 虚拟机（172.30.0.133）、网关（172.30.0.1，172.30.0.254）  一、实验名称DNS欺骗 二、实验原理冒充域名服务器，将查询的 IP 地址设置为攻击者的 IP 地址，这样用户上网就只能看">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-01-19T06:07:31.000Z">
-<meta property="article:modified_time" content="2022-03-01T08:48:52.402Z">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281509294.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281509975.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281455623.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281432316.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281433117.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281435479.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281436063.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281438910.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281439827.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281440789.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281440797.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281442111.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281451243.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281456734.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281457571.png">
+<meta property="article:published_time" content="2022-03-01T06:07:31.000Z">
+<meta property="article:modified_time" content="2022-03-01T09:15:41.011Z">
 <meta property="article:author" content="zhangweijie">
-<meta property="article:tag" content="Golang">
+<meta property="article:tag" content="DNS 欺骗">
+<meta property="article:tag" content="安全工具">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281509294.png">
   
   
-  <title>Golang 代码编译问题 - ffreedom</title>
+  <title>使用 Ettercap嗅探工具进行 DNS 欺骗实验 - ffreedom</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -178,7 +195,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Golang 代码编译问题">
+            <span class="h2" id="subtitle" title="使用 Ettercap嗅探工具进行 DNS 欺骗实验">
               
             </span>
 
@@ -188,8 +205,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-01-19 14:07" pubdate>
-        2022年1月19日 下午
+      <time datetime="2022-03-01 14:07" pubdate>
+        2022年3月1日 下午
       </time>
     </span>
   
@@ -199,7 +216,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      391 字
+      929 字
     </span>
   
 
@@ -208,7 +225,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      4 分钟
+      8 分钟
     </span>
   
 
@@ -245,24 +262,59 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Golang 代码编译问题</h1>
+            <h1 style="display: none">使用 Ettercap嗅探工具进行 DNS 欺骗实验</h1>
             
             <div class="markdown-body">
-              <h1 id="Golang-代码编译问题"><a href="#Golang-代码编译问题" class="headerlink" title="Golang 代码编译问题"></a>Golang 代码编译问题</h1><ul>
-<li>Windows</li>
+              <h1 id="使用-Ettercap嗅探工具进行-DNS-欺骗实验"><a href="#使用-Ettercap嗅探工具进行-DNS-欺骗实验" class="headerlink" title="使用 Ettercap嗅探工具进行 DNS 欺骗实验"></a>使用 Ettercap嗅探工具进行 DNS 欺骗实验</h1><blockquote>
+<p>前提条件：需要安装<code>kali 虚拟机</code>，或者自己安装<code>ettercap 工具</code></p>
+<p>涉及服务器：本地服务器（172.30.0.56）、kali 虚拟机（172.30.0.133）、网关（172.30.0.1，172.30.0.254）</p>
+</blockquote>
+<h2 id="一、实验名称"><a href="#一、实验名称" class="headerlink" title="一、实验名称"></a>一、实验名称</h2><p><strong>DNS欺骗</strong></p>
+<h2 id="二、实验原理"><a href="#二、实验原理" class="headerlink" title="二、实验原理"></a>二、实验原理</h2><p>冒充域名服务器，将查询的 IP 地址设置为攻击者的 IP 地址，这样用户上网就只能看到攻击者主主页，而不是用户访问的真实的页面。</p>
+<p><strong>正常情况</strong></p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281509294.png" srcset="/img/loading.gif" lazyload alt="image-20220228141758055"></p>
+<p><strong>异常情况</strong></p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281509975.png" srcset="/img/loading.gif" lazyload alt="image-20220228141830850"></p>
+<h2 id="三、实验步骤"><a href="#三、实验步骤" class="headerlink" title="三、实验步骤"></a>三、实验步骤</h2><h3 id="1、清除攻击机和靶机的-DNS-缓存数据"><a href="#1、清除攻击机和靶机的-DNS-缓存数据" class="headerlink" title="1、清除攻击机和靶机的 DNS 缓存数据"></a>1、清除攻击机和靶机的 DNS 缓存数据</h3><ul>
+<li><p>MAC系统</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">sudo killall -HUP mDNSResponder</span><br><span class="hljs-attribute">sudo dscacheutil -flushcache</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>Windows 系统</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 查看 DNS 缓存内容</span><br>ipconfig/displaydns<br><span class="hljs-comment"># 清除 DNS 缓存内容</span><br>ifconfig /flushdns<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>Linux 系统</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver"><span class="hljs-comment"># Step 1. 查看 DNS 缓存状况</span><br>sudo systemd-<span class="hljs-built_in">resolve</span> <span class="hljs-comment">--statistics</span><br><br><span class="hljs-comment"># Step 2. 清除 DNS 缓存，systemd-resolve daemon 默认在所有的 Ubuntu 系统上运行</span><br>sudo systemd-<span class="hljs-built_in">resolve</span> <span class="hljs-comment">--flush-caches</span><br><br><span class="hljs-comment"># Step 3. 正在查看验证结果（SYSIN）</span><br>sudo systemd-<span class="hljs-built_in">resolve</span> <span class="hljs-comment">--statistics</span><br></code></pre></td></tr></table></figure></li>
 </ul>
-<figure class="highlight routeros"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment"># 编译代码</span><br><span class="hljs-built_in">SET</span> <span class="hljs-attribute">CGO_ENABLED</span>=0<br><span class="hljs-built_in">SET</span> <span class="hljs-attribute">GOOS</span>=darwin<br><span class="hljs-built_in">SET</span> <span class="hljs-attribute">GOARCH</span>=amd64<br>go build main.go<br><br><span class="hljs-built_in">SET</span> <span class="hljs-attribute">CGO_ENABLED</span>=0<br><span class="hljs-built_in">SET</span> <span class="hljs-attribute">GOOS</span>=linux<br><span class="hljs-built_in">SET</span> <span class="hljs-attribute">GOARCH</span>=amd64<br>go build main.go<br></code></pre></td></tr></table></figure>
+<h3 id="2、修改相关-DNS-文件（攻击机）"><a href="#2、修改相关-DNS-文件（攻击机）" class="headerlink" title="2、修改相关 DNS 文件（攻击机）"></a>2、修改相关 DNS 文件（攻击机）</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-comment"># 输入命令</span><br><span class="hljs-attribute">vim</span> /etc/ettercap/etter.dns<br><span class="hljs-comment"># 添加内容</span><br>*  A   <span class="hljs-number">172.30.0.133</span><br>*  PTR <span class="hljs-number">172.30.0.133</span><br></code></pre></td></tr></table></figure>
 
-<ul>
-<li>Linux</li>
+<h3 id="3、开启自带的-Apache-服务"><a href="#3、开启自带的-Apache-服务" class="headerlink" title="3、开启自带的 Apache 服务"></a>3、开启自带的 Apache 服务</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment"># 开启服务</span><span class="hljs-built_in"></span><br><span class="hljs-built_in">service </span>apache2 start<br><br><span class="hljs-comment"># 查询状态</span><span class="hljs-built_in"></span><br><span class="hljs-built_in">service </span>apache2 status<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281455623.png" srcset="/img/loading.gif" lazyload alt="image-20220228145536734"></p>
+<h3 id="4、开启-ettercap-图形界面"><a href="#4、开启-ettercap-图形界面" class="headerlink" title="4、开启 ettercap 图形界面"></a>4、开启 ettercap 图形界面</h3><ul>
+<li><p>方式一</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">ettercap -G</span><br></code></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>方式二</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281432316.png" srcset="/img/loading.gif" lazyload alt="image-20220228143217106"></p>
+</li>
 </ul>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment"># 编译代码</span><br><span class="hljs-attribute">CGO_ENABLED</span>=0 <span class="hljs-attribute">GOOS</span>=darwin <span class="hljs-attribute">GOARCH</span>=amd64 go build main.go<br><span class="hljs-attribute">CGO_ENABLED</span>=0 <span class="hljs-attribute">GOOS</span>=windows <span class="hljs-attribute">GOARCH</span>=amd64 go build main.go<br></code></pre></td></tr></table></figure>
-
-<ul>
-<li>MAC</li>
-</ul>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment"># 编译代码</span><br><span class="hljs-attribute">CGO_ENABLED</span>=0 <span class="hljs-attribute">GOOS</span>=linux <span class="hljs-attribute">GOARCH</span>=amd64 go build main.go  # linux<br><span class="hljs-attribute">CGO_ENABLED</span>=0 <span class="hljs-attribute">GOOS</span>=windows <span class="hljs-attribute">GOARCH</span>=amd64 go build main.go  # windows<br></code></pre></td></tr></table></figure>
-
+<h3 id="5、选择网卡"><a href="#5、选择网卡" class="headerlink" title="5、选择网卡"></a>5、选择网卡</h3><p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281433117.png" srcset="/img/loading.gif" lazyload alt="image-20220228143315708"></p>
+<h3 id="6、扫描网关下的所有存活主机"><a href="#6、扫描网关下的所有存活主机" class="headerlink" title="6、扫描网关下的所有存活主机"></a>6、扫描网关下的所有存活主机</h3><p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281435479.png" srcset="/img/loading.gif" lazyload alt="image-20220228143537655"></p>
+<p><strong>扫描结果</strong></p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281436063.png" srcset="/img/loading.gif" lazyload alt="image-20220228143633113"></p>
+<h3 id="7、选择攻击目标"><a href="#7、选择攻击目标" class="headerlink" title="7、选择攻击目标"></a>7、选择攻击目标</h3><p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281438910.png" srcset="/img/loading.gif" lazyload alt="image-20220228143810935"></p>
+<h3 id="8、开启-ARP-投毒"><a href="#8、开启-ARP-投毒" class="headerlink" title="8、开启 ARP 投毒"></a>8、开启 ARP 投毒</h3><p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281439827.png" srcset="/img/loading.gif" lazyload alt="image-20220228143935749"></p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281440789.png" srcset="/img/loading.gif" lazyload alt="image-20220228143959644"></p>
+<h3 id="9、使用插件开启-DNS-欺骗"><a href="#9、使用插件开启-DNS-欺骗" class="headerlink" title="9、使用插件开启 DNS 欺骗"></a>9、使用插件开启 DNS 欺骗</h3><p>Plugins –&gt; manage plugins –&gt; dns spoof</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281440797.png" srcset="/img/loading.gif" lazyload alt="image-20220228144057221"></p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281442111.png" srcset="/img/loading.gif" lazyload alt="image-20220228144218575"></p>
+<h3 id="10、验证结果"><a href="#10、验证结果" class="headerlink" title="10、验证结果"></a>10、验证结果</h3><p><strong>当发生 DNS 欺骗后，靶机请求的数据都会在 ettercap 工具中展示出来！</strong></p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281451243.png" srcset="/img/loading.gif" lazyload alt="image-20220228145135214"></p>
+<p><strong>此时靶机再去请求数据时，页面就会显示我们预想的 Apache 的默认页面！</strong></p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281456734.png" srcset="/img/loading.gif" lazyload alt="image-20220228145652393"></p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202202281457571.png" srcset="/img/loading.gif" lazyload alt="image-20220228145726419"></p>
 
             </div>
             <hr>
@@ -272,9 +324,9 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>
+                      <a class="hover-with-bg" href="/categories/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/">安全研究</a>
                     
-                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Golang/">Golang</a>
+                      <a class="hover-with-bg" href="/categories/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/%E5%9F%9F%E5%90%8D%E7%9F%A5%E8%AF%86/">域名知识</a>
                     
                   </div>
                 
@@ -282,7 +334,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Golang/">Golang</a>
+                      <a class="hover-with-bg" href="/tags/DNS-%E6%AC%BA%E9%AA%97/">DNS 欺骗</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AE%89%E5%85%A8%E5%B7%A5%E5%85%B7/">安全工具</a>
                     
                   </div>
                 
@@ -299,18 +353,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/02/28/hello-world/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Hello World</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/01/21/Golang%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/">
-                        <span class="hidden-mobile">Golang 配置文件相关操作</span>
+                      <a href="/2022/02/28/hello-world/">
+                        <span class="hidden-mobile">Hello World</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

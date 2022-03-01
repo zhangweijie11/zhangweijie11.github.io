@@ -1,0 +1,698 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangweijie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="aiohttp 模块详解0. 前言本文翻译自aiohttp的官方文档，如有纰漏，欢迎指出。 aiohttp分为服务器端和客户端，本文只介绍客户端。 另外我已经对 aiohttp 和 asyncio进行了封装，可以参考我的 github 地址： https:&#x2F;&#x2F;github.com&#x2F;web-trump&#x2F;ahttp 由于上下文的缘故，请求代码必须在一个异步的函数中进行： 12async def fn(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="aiohttp 模块详解">
+<meta property="og:url" content="http://example.com/2019/11/06/aiohttp%20%E6%A8%A1%E5%9D%97%E8%AF%A6%E8%A7%A3.md/index.html">
+<meta property="og:site_name" content="ffreedom">
+<meta property="og:description" content="aiohttp 模块详解0. 前言本文翻译自aiohttp的官方文档，如有纰漏，欢迎指出。 aiohttp分为服务器端和客户端，本文只介绍客户端。 另外我已经对 aiohttp 和 asyncio进行了封装，可以参考我的 github 地址： https:&#x2F;&#x2F;github.com&#x2F;web-trump&#x2F;ahttp 由于上下文的缘故，请求代码必须在一个异步的函数中进行： 12async def fn(">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-11-06T03:51:31.000Z">
+<meta property="article:modified_time" content="2022-03-01T09:13:28.488Z">
+<meta property="article:author" content="zhangweijie">
+<meta property="article:tag" content="aiohttp">
+<meta property="article:tag" content="标准库">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>aiohttp 模块详解 - ffreedom</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","app_key":"WbImCRYLaCb0AN9W178IBFBs","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ffreedom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="aiohttp 模块详解">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-11-06 11:51" pubdate>
+        2019年11月6日 中午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      10k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      88 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">aiohttp 模块详解</h1>
+            
+            <div class="markdown-body">
+              <h2 id="aiohttp-模块详解"><a href="#aiohttp-模块详解" class="headerlink" title="aiohttp 模块详解"></a>aiohttp 模块详解</h2><h3 id="0-前言"><a href="#0-前言" class="headerlink" title="0. 前言"></a><strong>0. 前言</strong></h3><p>本文翻译自aiohttp的官方文档，如有纰漏，欢迎指出。</p>
+<p>aiohttp分为服务器端和客户端，本文只介绍客户端。</p>
+<p>另外我已经对 aiohttp 和 asyncio进行了封装，可以参考我的 github 地址：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/web-trump/ahttp">https://github.com/web-trump/ahttp</a></p>
+<p>由于上下文的缘故，请求代码必须在一个异步的函数中进行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">fn</span>():<br>    <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="1-aiohttp安装"><a href="#1-aiohttp安装" class="headerlink" title="1. aiohttp安装"></a><strong>1. aiohttp安装</strong></h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pip3 install aiohttp<br></code></pre></td></tr></table></figure>
+
+<h4 id="1-1-基本请求用法"><a href="#1-1-基本请求用法" class="headerlink" title="1.1. 基本请求用法"></a><strong>1.1. 基本请求用法</strong></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> aiohttp.get(<span class="hljs-string">&#x27;https://github.com&#x27;</span>) <span class="hljs-keyword">as</span> r:<br>    <span class="hljs-keyword">await</span> r.text()<br></code></pre></td></tr></table></figure>
+
+<p>其中r.text(), 可以在括号中指定解码方式，编码方式，例如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">await</span> resp.text(encoding=<span class="hljs-string">&#x27;windows-1251&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>或者也可以选择不编码，适合读取图像等，是无法编码的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">await</span> resp.read()<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-发起一个session请求"><a href="#2-发起一个session请求" class="headerlink" title="2.发起一个session请求"></a><strong>2.发起一个session请求</strong></h3><p>首先是导入aiohttp模块：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> aiohttp<br></code></pre></td></tr></table></figure>
+
+<p>然后我们试着获取一个web源码，这里以GitHub的公共Time-line页面为例:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> aiohttp.ClientSession() <span class="hljs-keyword">as</span> session:<br>    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.get(<span class="hljs-string">&#x27;https://api.github.com/events&#x27;</span>) <span class="hljs-keyword">as</span> resp:<br>        <span class="hljs-built_in">print</span>(resp.status)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-keyword">await</span> resp.text())<br></code></pre></td></tr></table></figure>
+
+<p>上面的代码中，我们创建了一个 ClientSession 对象命名为session，然后通过session的get方法得到一个 ClientResponse 对象，命名为resp，get方法中传入了一个必须的参数url，就是要获得源码的http url。至此便通过协程完成了一个异步IO的get请求。</p>
+<p>有get请求当然有post请求，并且post请求也是一个协程：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">session.post(<span class="hljs-string">&#x27;http://httpbin.org/post&#x27;</span>, data=<span class="hljs-string">b&#x27;data&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+
+<p>用法和get是一样的，区别是post需要一个额外的参数data，即是需要post的数据。</p>
+<p>除了get和post请求外，其他http的操作方法也是一样的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">session.put(<span class="hljs-string">&#x27;http://httpbin.org/put&#x27;</span>, data=<span class="hljs-string">b&#x27;data&#x27;</span>)<br><br>session.delete(<span class="hljs-string">&#x27;http://httpbin.org/delete&#x27;</span>)<br><br>session.head(<span class="hljs-string">&#x27;http://httpbin.org/get&#x27;</span>)<br><br>session.options(<span class="hljs-string">&#x27;http://httpbin.org/get&#x27;</span>)<br><br>session.patch(<span class="hljs-string">&#x27;http://httpbin.org/patch&#x27;</span>, data=<span class="hljs-string">b&#x27;data&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>小记：</p>
+<p>不要为每次的连接都创建一次session,一般情况下只需要创建一个session，然后使用这个session执行所有的请求。</p>
+<p>每个session对象，内部包含了一个连接池，并且将会保持连接和连接复用（默认开启）可以加快整体的性能。</p>
+<h3 id="3-在URL中传递参数"><a href="#3-在URL中传递参数" class="headerlink" title="3.在URL中传递参数"></a><strong>3.在URL中传递参数</strong></h3><p>我们经常需要通过 get 在url中传递一些参数，参数将会作为url问号后面的一部分发给服务器。在aiohttp的请求中，允许以dict的形式来表示问号后的参数。举个例子，如果你想传递 key1&#x3D;value1  key2&#x3D;value2 到 httpbin.org&#x2F;get 你可以使用下面的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">params = &#123;<span class="hljs-string">&#x27;key1&#x27;</span>: <span class="hljs-string">&#x27;value1&#x27;</span>, <span class="hljs-string">&#x27;key2&#x27;</span>: <span class="hljs-string">&#x27;value2&#x27;</span>&#125;<br><span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.get(<span class="hljs-string">&#x27;http://httpbin.org/get&#x27;</span>, params=params) <span class="hljs-keyword">as</span> resp:<br>    <span class="hljs-keyword">assert</span> resp.url == <span class="hljs-string">&#x27;http://httpbin.org/get?key2=value2&amp;key1=value1&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>可以看到，代码正确的执行了，说明参数被正确的传递了进去。不管是一个参数两个参数，还是更多的参数，都可以通过这种方式来传递。除了这种方式之外，还有另外一个，使用一个 list 来传递（这种方式可以传递一些特殊的参数，例如下面两个key是相等的也可以正确传递）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">params = [(<span class="hljs-string">&#x27;key&#x27;</span>, <span class="hljs-string">&#x27;value1&#x27;</span>), (<span class="hljs-string">&#x27;key&#x27;</span>, <span class="hljs-string">&#x27;value2&#x27;</span>)]<br><span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.get(<span class="hljs-string">&#x27;http://httpbin.org/get&#x27;</span>, params=params) <span class="hljs-keyword">as</span> r:<br>    <span class="hljs-keyword">assert</span> r.url == <span class="hljs-string">&#x27;http://httpbin.org/get?key=value2&amp;key=value1&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>除了上面两种，我们也可以直接通过传递字符串作为参数来传递，但是需要注意，通过字符串传递的特殊字符不会被编码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.get(<span class="hljs-string">&#x27;http://httpbin.org/get&#x27;</span>, params=<span class="hljs-string">&#x27;key=value+1&#x27;</span>) <span class="hljs-keyword">as</span> r:<br>    <span class="hljs-keyword">assert</span> r.url == <span class="hljs-string">&#x27;http://httpbin.org/get?key=value+1&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="4-响应的内容"><a href="#4-响应的内容" class="headerlink" title="4.响应的内容"></a>4.响应的内容</h3><p>还是以GitHub的公共Time-line页面为例，我们可以获得页面响应的内容：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.get(<span class="hljs-string">&#x27;https://api.github.com/events&#x27;</span>) <span class="hljs-keyword">as</span> resp:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-keyword">await</span> resp.text())<br></code></pre></td></tr></table></figure>
+
+<p>运行之后，会打印出类似于如下的内容：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&#x27;[&#123;&quot;created_at&quot;:&quot;2015-06-12T14:06:22Z&quot;,&quot;public&quot;:true,&quot;actor&quot;:&#123;...</span><br></code></pre></td></tr></table></figure>
+
+<p>resp的text方法，会自动将服务器端返回的内容进行解码–decode，当然我们也可以自定义编码方式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">await</span> resp.text(encoding=<span class="hljs-string">&#x27;gb2312&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+
+<p>除了text方法可以返回解码后的内容外，我们也可以得到类型是字节的内容：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-keyword">await</span> resp.read())<br></code></pre></td></tr></table></figure>
+
+
+<p>运行的结果是：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">b&#x27;[&#123;&quot;created_at&quot;:&quot;2015-06-12T14:06:22Z&quot;,&quot;public&quot;:true,&quot;actor&quot;:&#123;...</span><br></code></pre></td></tr></table></figure>
+
+<p>gzip和deflate转换编码已经为你自动解码。</p>
+<p>小记：</p>
+<p>text(),read()方法是把整个响应体读入内存，如果你是获取大量的数据，请考虑使用”字节流“（streaming response）</p>
+<h3 id="5-特殊响应内容：json"><a href="#5-特殊响应内容：json" class="headerlink" title="5.特殊响应内容：json"></a><strong>5.特殊响应内容：json</strong></h3><p>如果我们获取的页面的响应内容是json，aiohttp内置了更好的方法来处理json:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.get(<span class="hljs-string">&#x27;https://api.github.com/events&#x27;</span>) <span class="hljs-keyword">as</span> resp:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-keyword">await</span> resp.json())<br></code></pre></td></tr></table></figure>
+
+<p>如果因为某种原因而导致resp.json()解析json失败，例如返回不是json字符串等等，那么resp.json()将抛出一个错误，也可以给json()方法指定一个解码方式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-keyword">await</span> resp.json(encoding=<span class="hljs-string">&#x27;gb2312&#x27;</span>))<br></code></pre></td></tr></table></figure>
+
+<p>或者传递一个函数进去：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-keyword">await</span> resp.json(<span class="hljs-keyword">lambda</span>(x:x.replace(<span class="hljs-string">&#x27;a&#x27;</span>,<span class="hljs-string">&#x27;b&#x27;</span>))))<br></code></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="6-以字节流的方式读取响应内容"><a href="#6-以字节流的方式读取响应内容" class="headerlink" title="6.以字节流的方式读取响应内容"></a>6.以字节流的方式读取响应内容</h3><p>虽然json(),text(),read()很方便的能把响应的数据读入到内存，但是我们仍然应该谨慎的使用它们，因为它们是把整个的响应体全部读入了内存。即使你只是想下载几个字节大小的文件，但这些方法却将在内存中加载所有的数据。所以我们可以通过控制字节数来控制读入内存的响应内容：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.get(<span class="hljs-string">&#x27;https://api.github.com/events&#x27;</span>) <span class="hljs-keyword">as</span> resp:<br>    <span class="hljs-keyword">await</span> resp.content.read(<span class="hljs-number">10</span>) <span class="hljs-comment">#读取前10个字节</span><br></code></pre></td></tr></table></figure>
+
+<p>一般地，我们应该使用以下的模式来把读取的字节流保存到文件中：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(filename, <span class="hljs-string">&#x27;wb&#x27;</span>) <span class="hljs-keyword">as</span> fd:<br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        chunk = <span class="hljs-keyword">await</span> resp.content.read(chunk_size)<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> chunk:<br>            <span class="hljs-keyword">break</span><br>        fd.write(chunk)<br></code></pre></td></tr></table></figure>
+
+<h3 id="7-自定义请求头"><a href="#7-自定义请求头" class="headerlink" title="7.自定义请求头"></a><strong>7.自定义请求头</strong></h3><p>如果你想添加请求头，可以像get添加参数那样以dict的形式，作为get或者post的参数进行请求：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> json<br>url = <span class="hljs-string">&#x27;https://api.github.com/some/endpoint&#x27;</span><br>payload = &#123;<span class="hljs-string">&#x27;some&#x27;</span>: <span class="hljs-string">&#x27;data&#x27;</span>&#125;<br>headers = &#123;<span class="hljs-string">&#x27;content-type&#x27;</span>: <span class="hljs-string">&#x27;application/json&#x27;</span>&#125;<br><span class="hljs-keyword">await</span> session.post(url, data=json.dumps(payload), headers=headers)<br></code></pre></td></tr></table></figure>
+
+<h3 id="8-自定义Cookie"><a href="#8-自定义Cookie" class="headerlink" title="8.自定义Cookie"></a>8.自定义Cookie</h3><p>给服务器发送cookie，可以通过给 ClientSession 传递一个cookie参数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">url = <span class="hljs-string">&#x27;http://httpbin.org/cookies&#x27;</span><br>cookies = &#123;<span class="hljs-string">&#x27;cookies_are&#x27;</span>: <span class="hljs-string">&#x27;working&#x27;</span>&#125;<br><span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> ClientSession(cookies=cookies) <span class="hljs-keyword">as</span> session:<br>    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.get(url) <span class="hljs-keyword">as</span> resp:<br>        <span class="hljs-keyword">assert</span> <span class="hljs-keyword">await</span> resp.json() == &#123;<span class="hljs-string">&quot;cookies&quot;</span>: &#123;<span class="hljs-string">&quot;cookies_are&quot;</span>: <span class="hljs-string">&quot;working&quot;</span>&#125;&#125;<br></code></pre></td></tr></table></figure>
+
+
+<p>可直接访问链接 “httpbin.org&#x2F;cookies”查看当前cookie，访问session中的cookie请见第10节。</p>
+<h3 id="9-post数据的几种方式"><a href="#9-post数据的几种方式" class="headerlink" title="9.post数据的几种方式"></a><strong>9.post数据的几种方式</strong></h3><h4 id="（1）模拟表单post数据"><a href="#（1）模拟表单post数据" class="headerlink" title="（1）模拟表单post数据"></a>（1）模拟表单post数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">payload = &#123;<span class="hljs-string">&#x27;key1&#x27;</span>: <span class="hljs-string">&#x27;value1&#x27;</span>, <span class="hljs-string">&#x27;key2&#x27;</span>: <span class="hljs-string">&#x27;value2&#x27;</span>&#125;<br><span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.post(<span class="hljs-string">&#x27;http://httpbin.org/post&#x27;</span>, data=payload) <span class="hljs-keyword">as</span> resp:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-keyword">await</span> resp.text())<br></code></pre></td></tr></table></figure>
+
+<p>注意：data&#x3D;dict的方式post的数据将被转码，和form提交数据是一样的作用，如果你不想被转码，可以直接以字符串的形式 <strong>data&#x3D;str</strong> 提交，这样就不会被转码。</p>
+<h4 id="（2）post-json"><a href="#（2）post-json" class="headerlink" title="（2）post json"></a>（2）post json</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> json<br>url = <span class="hljs-string">&#x27;https://api.github.com/some/endpoint&#x27;</span><br>payload = &#123;<span class="hljs-string">&#x27;some&#x27;</span>: <span class="hljs-string">&#x27;data&#x27;</span>&#125;<br><span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.post(url, data=json.dumps(payload)) <span class="hljs-keyword">as</span> resp:<br>    ...<br></code></pre></td></tr></table></figure>
+
+<p>其实json.dumps(payload)返回的也是一个字符串，只不过这个字符串可以被识别为json格式</p>
+<h4 id="（3）post-小文件"><a href="#（3）post-小文件" class="headerlink" title="（3）post 小文件"></a>（3）post 小文件</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">url = <span class="hljs-string">&#x27;http://httpbin.org/post&#x27;</span><br>files = &#123;<span class="hljs-string">&#x27;file&#x27;</span>: <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;report.xls&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>)&#125;<br><span class="hljs-keyword">await</span> session.post(url, data=files)<br></code></pre></td></tr></table></figure>
+
+<p>可以设置好文件名和content-type:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">url = <span class="hljs-string">&#x27;http://httpbin.org/post&#x27;</span><br>data = FormData()<br>data.add_field(<span class="hljs-string">&#x27;file&#x27;</span>, <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;report.xls&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>), filename=<span class="hljs-string">&#x27;report.xls&#x27;</span>,<br>                content_type=<span class="hljs-string">&#x27;application/vnd.ms-excel&#x27;</span>)<br><span class="hljs-keyword">await</span> session.post(url, data=data)<br></code></pre></td></tr></table></figure>
+
+<p>如果将文件对象设置为数据参数，aiohttp将自动以字节流的形式发送给服务器。</p>
+<h4 id="（4）post-大文件"><a href="#（4）post-大文件" class="headerlink" title="（4）post 大文件"></a>（4）post 大文件</h4><p>aiohttp支持多种类型的文件以流媒体的形式上传，所以我们可以在文件未读入内存的情况下发送大文件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@aiohttp.streamer</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">file_sender</span>(<span class="hljs-params">writer, file_name=<span class="hljs-literal">None</span></span>):<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(file_name, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>        chunk = f.read(<span class="hljs-number">2</span>**<span class="hljs-number">16</span>)<br>        <span class="hljs-keyword">while</span> chunk:<br>            <span class="hljs-keyword">yield</span> <span class="hljs-keyword">from</span> writer.write(chunk)<br>            chunk = f.read(<span class="hljs-number">2</span>**<span class="hljs-number">16</span>)<br><span class="hljs-comment"># Then you can use `file_sender` as a data provider:</span><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.post(<span class="hljs-string">&#x27;http://httpbin.org/post&#x27;</span>, data=file_sender(file_name=<span class="hljs-string">&#x27;huge_file&#x27;</span>)) <span class="hljs-keyword">as</span> resp:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-keyword">await</span> resp.text())<br></code></pre></td></tr></table></figure>
+
+<p>同时我们可以从一个url获取文件后，直接post给另一个url，并计算hash值:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">feed_stream</span>(<span class="hljs-params">resp, stream</span>):<br>    h = hashlib.sha256()<br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        chunk = <span class="hljs-keyword">await</span> resp.content.readany()<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> chunk:<br>            <span class="hljs-keyword">break</span><br>        h.update(chunk)<br>        stream.feed_data(chunk)<br>    <span class="hljs-keyword">return</span> h.hexdigest()<br>resp = session.get(<span class="hljs-string">&#x27;http://httpbin.org/post&#x27;</span>)<br>stream = StreamReader()<br>loop.create_task(session.post(<span class="hljs-string">&#x27;http://httpbin.org/post&#x27;</span>, data=stream))<br>file_hash = <span class="hljs-keyword">await</span> feed_stream(resp, stream)<br></code></pre></td></tr></table></figure>
+
+<p>因为响应内容类型是StreamReader，所以可以把get和post连接起来，同时进行post和get：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">r = <span class="hljs-keyword">await</span> session.get(<span class="hljs-string">&#x27;http://python.org&#x27;</span>)<br><br><span class="hljs-keyword">await</span> session.post(<span class="hljs-string">&#x27;http://httpbin.org/post&#x27;</span>, data=r.content)<br></code></pre></td></tr></table></figure>
+
+<h4 id="（5）post预压缩数据"><a href="#（5）post预压缩数据" class="headerlink" title="（5）post预压缩数据"></a>（5）post预压缩数据</h4><p>在通过aiohttp发送前就已经压缩的数据, 调用压缩函数的函数名（通常是deflate 或 zlib）作为content-encoding的值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">my_coroutine</span>(<span class="hljs-params">session, headers, my_data</span>):<br>    data = zlib.compress(my_data)<br>    headers = &#123;<span class="hljs-string">&#x27;Content-Encoding&#x27;</span>: <span class="hljs-string">&#x27;deflate&#x27;</span>&#125;<br>    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.post(<span class="hljs-string">&#x27;http://httpbin.org/post&#x27;</span>, data=data, headers=headers)<br>        <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
+
+<p>10.keep-alive, 连接池，共享cookie</p>
+<p>ClientSession 用于在多个连接之间共享cookie：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> aiohttp.ClientSession() <span class="hljs-keyword">as</span> session:<br>    <span class="hljs-keyword">await</span> session.get(<span class="hljs-string">&#x27;http://httpbin.org/cookies/set?my_cookie=my_value&#x27;</span>)<br>    filtered = session.cookie_jar.filter_cookies(<span class="hljs-string">&#x27;http://httpbin.org&#x27;</span>)<br>    <span class="hljs-keyword">assert</span> filtered[<span class="hljs-string">&#x27;my_cookie&#x27;</span>].value == <span class="hljs-string">&#x27;my_value&#x27;</span><br>    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.get(<span class="hljs-string">&#x27;http://httpbin.org/cookies&#x27;</span>) <span class="hljs-keyword">as</span> r:<br>        json_body = <span class="hljs-keyword">await</span> r.json()<br>        <span class="hljs-keyword">assert</span> json_body[<span class="hljs-string">&#x27;cookies&#x27;</span>][<span class="hljs-string">&#x27;my_cookie&#x27;</span>] == <span class="hljs-string">&#x27;my_value&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>也可以为所有的连接设置共同的请求头：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> aiohttp.ClientSession(<br>    headers=&#123;<span class="hljs-string">&quot;Authorization&quot;</span>: <span class="hljs-string">&quot;Basic bG9naW46cGFzcw==&quot;</span>&#125;) <span class="hljs-keyword">as</span> session:<br>    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.get(<span class="hljs-string">&quot;http://httpbin.org/headers&quot;</span>) <span class="hljs-keyword">as</span> r:<br>        json_body = <span class="hljs-keyword">await</span> r.json()<br>        <span class="hljs-keyword">assert</span> json_body[<span class="hljs-string">&#x27;headers&#x27;</span>][<span class="hljs-string">&#x27;Authorization&#x27;</span>] == <span class="hljs-string">&#x27;Basic bG9naW46cGFzcw==&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>ClientSession 还支持 keep-alive连接和连接池(connection pooling)</p>
+<h3 id="11-cookie安全性"><a href="#11-cookie安全性" class="headerlink" title="11.cookie安全性"></a><strong>11.cookie安全性</strong></h3><p>默认ClientSession使用的是严格模式的 aiohttp.CookieJar. RFC 2109，明确的禁止接受url和ip地址产生的cookie，只能接受 DNS 解析IP产生的cookie。可以通过设置aiohttp.CookieJar 的 unsafe&#x3D;True 来配置：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">jar = aiohttp.CookieJar(unsafe=<span class="hljs-literal">True</span>)<br>session = aiohttp.ClientSession(cookie_jar=jar)<br></code></pre></td></tr></table></figure>
+
+<h3 id="12-控制同时连接的数量（连接池）"><a href="#12-控制同时连接的数量（连接池）" class="headerlink" title="12.控制同时连接的数量（连接池）"></a>12.控制同时连接的数量（连接池）</h3><p>也可以理解为同时请求的数量，为了限制同时打开的连接数量，我们可以将限制参数传递给连接器：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">conn = aiohttp.TCPConnector(limit=<span class="hljs-number">30</span>) <span class="hljs-comment"># 同时最大进行连接的连接数为30，默认是100，limit=0的时候是无限制</span><br></code></pre></td></tr></table></figure>
+
+
+<p>限制同时打开限制同时打开连接到同一端点的数量（(host, port, is_ssl) 三的倍数），可以通过设置 limit_per_host 参数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">conn = aiohttp.TCPConnector(limit_per_host=<span class="hljs-number">30</span>) <span class="hljs-comment"># 默认是0</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="13-自定义域名解析"><a href="#13-自定义域名解析" class="headerlink" title="13.自定义域名解析"></a>13.自定义域名解析</h3><p>我们可以指定域名服务器的 IP 对我们提供的get或post的url进行解析：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> aiohttp.resolver <span class="hljs-keyword">import</span> AsyncResolver<br>resolver = AsyncResolver(nameservers=[<span class="hljs-string">&quot;8.8.8.8&quot;</span>, <span class="hljs-string">&quot;8.8.4.4&quot;</span>])<br>conn = aiohttp.TCPConnector(resolver=resolver)<br></code></pre></td></tr></table></figure>
+
+<h3 id="14-设置代理"><a href="#14-设置代理" class="headerlink" title="14.设置代理"></a><strong>14.设置代理</strong></h3><p>aiohttp支持使用代理来访问网页：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> aiohttp.ClientSession() <span class="hljs-keyword">as</span> session:<br>    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.get(<span class="hljs-string">&quot;http://python.org&quot;</span>, proxy=<span class="hljs-string">&quot;http://some.proxy.com&quot;</span>) <span class="hljs-keyword">as</span> resp:<br>        <span class="hljs-built_in">print</span>(resp.status)<br></code></pre></td></tr></table></figure>
+
+<p>当然也支持需要授权的页面：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> aiohttp.ClientSession() <span class="hljs-keyword">as</span> session:<br>    proxy_auth = aiohttp.BasicAuth(<span class="hljs-string">&#x27;user&#x27;</span>, <span class="hljs-string">&#x27;pass&#x27;</span>)<br>    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.get(<span class="hljs-string">&quot;http://python.org&quot;</span>, proxy=<span class="hljs-string">&quot;http://some.proxy.com&quot;</span>, proxy_auth=proxy_auth) <span class="hljs-keyword">as</span> resp:<br>        <span class="hljs-built_in">print</span>(resp.status)<br></code></pre></td></tr></table></figure>
+
+<p>或者通过这种方式来验证授权：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">session.get(<span class="hljs-string">&quot;http://python.org&quot;</span>, proxy=<span class="hljs-string">&quot;http://user:pass@some.proxy.com&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="15-响应状态码-response-status-code"><a href="#15-响应状态码-response-status-code" class="headerlink" title="15.响应状态码 response status code"></a>15.响应状态码 response status code</h3><p>可以通过 resp.status来检查状态码是不是200：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.get(<span class="hljs-string">&#x27;http://httpbin.org/get&#x27;</span>) <span class="hljs-keyword">as</span> resp:<br>    <span class="hljs-keyword">assert</span> resp.status == <span class="hljs-number">200</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="16-响应头"><a href="#16-响应头" class="headerlink" title="16.响应头"></a>16.响应头</h3><p>我们可以直接使用　resp.headers 来查看响应头，得到的值类型是一个dict：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>resp.headers<br>&#123;<span class="hljs-string">&#x27;ACCESS-CONTROL-ALLOW-ORIGIN&#x27;</span>: <span class="hljs-string">&#x27;*&#x27;</span>,<br> <span class="hljs-string">&#x27;CONTENT-TYPE&#x27;</span>: <span class="hljs-string">&#x27;application/json&#x27;</span>,<br> <span class="hljs-string">&#x27;DATE&#x27;</span>: <span class="hljs-string">&#x27;Tue, 15 Jul 2014 16:49:51 GMT&#x27;</span>,<br> <span class="hljs-string">&#x27;SERVER&#x27;</span>: <span class="hljs-string">&#x27;gunicorn/18.0&#x27;</span>,<br> <span class="hljs-string">&#x27;CONTENT-LENGTH&#x27;</span>: <span class="hljs-string">&#x27;331&#x27;</span>,<br> <span class="hljs-string">&#x27;CONNECTION&#x27;</span>: <span class="hljs-string">&#x27;keep-alive&#x27;</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>或者我们可以查看原生的响应头：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>resp.raw_headers<br>((<span class="hljs-string">b&#x27;SERVER&#x27;</span>, <span class="hljs-string">b&#x27;nginx&#x27;</span>),<br> (<span class="hljs-string">b&#x27;DATE&#x27;</span>, <span class="hljs-string">b&#x27;Sat, 09 Jan 2016 20:28:40 GMT&#x27;</span>),<br> (<span class="hljs-string">b&#x27;CONTENT-TYPE&#x27;</span>, <span class="hljs-string">b&#x27;text/html; charset=utf-8&#x27;</span>),<br> (<span class="hljs-string">b&#x27;CONTENT-LENGTH&#x27;</span>, <span class="hljs-string">b&#x27;12150&#x27;</span>),<br> (<span class="hljs-string">b&#x27;CONNECTION&#x27;</span>, <span class="hljs-string">b&#x27;keep-alive&#x27;</span>))<br></code></pre></td></tr></table></figure>
+
+<h3 id="17-查看cookie"><a href="#17-查看cookie" class="headerlink" title="17.查看cookie"></a>17.查看cookie</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">url = <span class="hljs-string">&#x27;http://example.com/some/cookie/setting/url&#x27;</span><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.get(url) <span class="hljs-keyword">as</span> resp:<br>    <span class="hljs-built_in">print</span>(resp.cookies)<br></code></pre></td></tr></table></figure>
+
+<h3 id="18-重定向的响应头"><a href="#18-重定向的响应头" class="headerlink" title="18.重定向的响应头"></a><strong>18.重定向的响应头</strong></h3><p>如果一个请求被重定向了，我们依然可以查看被重定向之前的响应头信息：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>resp = <span class="hljs-keyword">await</span> session.get(<span class="hljs-string">&#x27;http://example.com/some/redirect/&#x27;</span>)<br><span class="hljs-meta">&gt;&gt;&gt; </span>resp<br>&lt;ClientResponse(http://example.com/some/other/url/) [<span class="hljs-number">200</span>]&gt;<br><span class="hljs-meta">&gt;&gt;&gt; </span>resp.history<br>(&lt;ClientResponse(http://example.com/some/redirect/) [<span class="hljs-number">301</span>]&gt;,)<br></code></pre></td></tr></table></figure>
+
+<h3 id="19-超时处理"><a href="#19-超时处理" class="headerlink" title="19.超时处理"></a>19.超时处理</h3><p>默认的IO操作都有<strong>5分钟的响应时间</strong> 我们可以通过 timeout 进行重写：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.get(<span class="hljs-string">&#x27;https://github.com&#x27;</span>, timeout=<span class="hljs-number">60</span>) <span class="hljs-keyword">as</span> r:<br>    ...<br></code></pre></td></tr></table></figure>
+
+<p>如果 timeout&#x3D;None 或者 timeout&#x3D;0 将不进行超时检查，也就是不限时长</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python/">Python</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/aiohttp/">aiohttp</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%A0%87%E5%87%86%E5%BA%93/">标准库</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/11/20/init%20%E4%B8%8E%20new%20%E6%96%B9%E6%B3%95/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">inint与 new 方法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/06/25/Mac%20osx%20%E5%AE%89%E8%A3%85%20ruby/">
+                        <span class="hidden-mobile">Mac 安装 ruby</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","appKey":"WbImCRYLaCb0AN9W178IBFBs","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
