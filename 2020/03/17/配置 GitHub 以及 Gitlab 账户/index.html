@@ -1,0 +1,595 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangweijie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="配置 GitHub 以及 Gitlab 账户1、准备工作全局配置 Git 账户 12git config --global user.name &quot;xxx&quot; &#x2F;&#x2F; 配置全局用户名，如Github上注册的用户名git config --global user.email &quot;yyy@mail.com&quot; &#x2F;&#x2F; 配置全局邮箱，如Github上配置的邮箱  这个--gl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="配置 GitHub 以及 GitLab 账户">
+<meta property="og:url" content="http://example.com/2020/03/17/%E9%85%8D%E7%BD%AE%20GitHub%20%E4%BB%A5%E5%8F%8A%20Gitlab%20%E8%B4%A6%E6%88%B7/index.html">
+<meta property="og:site_name" content="ffreedom">
+<meta property="og:description" content="配置 GitHub 以及 Gitlab 账户1、准备工作全局配置 Git 账户 12git config --global user.name &quot;xxx&quot; &#x2F;&#x2F; 配置全局用户名，如Github上注册的用户名git config --global user.email &quot;yyy@mail.com&quot; &#x2F;&#x2F; 配置全局邮箱，如Github上配置的邮箱  这个--gl">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081111553.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081111010.png">
+<meta property="article:published_time" content="2020-03-17T02:40:31.000Z">
+<meta property="article:modified_time" content="2022-03-01T09:27:55.756Z">
+<meta property="article:author" content="zhangweijie">
+<meta property="article:tag" content="GitHub">
+<meta property="article:tag" content="GitLab">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081111553.png">
+  
+  
+  <title>配置 GitHub 以及 GitLab 账户 - ffreedom</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","app_key":"WbImCRYLaCb0AN9W178IBFBs","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ffreedom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="配置 GitHub 以及 GitLab 账户">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-03-17 10:40" pubdate>
+        2020年3月17日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.8k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      24 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">配置 GitHub 以及 GitLab 账户</h1>
+            
+            <div class="markdown-body">
+              <h2 id="配置-GitHub-以及-Gitlab-账户"><a href="#配置-GitHub-以及-Gitlab-账户" class="headerlink" title="配置 GitHub 以及 Gitlab 账户"></a>配置 GitHub 以及 Gitlab 账户</h2><h3 id="1、准备工作"><a href="#1、准备工作" class="headerlink" title="1、准备工作"></a>1、准备工作</h3><p>全局配置 Git 账户</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><pre><code class="hljs stylus">git config <span class="hljs-attr">--global</span> user<span class="hljs-selector-class">.name</span> <span class="hljs-string">&quot;xxx&quot;</span> <span class="hljs-comment">// 配置全局用户名，如Github上注册的用户名</span><br>git config <span class="hljs-attr">--global</span> user<span class="hljs-selector-class">.email</span> <span class="hljs-string">&quot;yyy@mail.com&quot;</span> <span class="hljs-comment">// 配置全局邮箱，如Github上配置的邮箱</span><br></code></pre></td></tr></table></figure>
+
+<p>这个<code>--global</code>选项，是指这里配置的<code>user.name</code>和<code>user.email</code>是相对于全局进行配置的，即不同的Git仓库默认的用户名和邮箱都是这个值。由于需要管理多个账户，所以仅仅使用这个全局值是不够的，<strong>需要在每个仓库中单独配置</strong>。对此，有两种处理方法：</p>
+<p>如果之前已经使用该命令进行配置，则先使用如下命令清除</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stylus">git config <span class="hljs-attr">--global</span> <span class="hljs-attr">--unset</span> user<span class="hljs-selector-class">.name</span><br>git config <span class="hljs-attr">--global</span> <span class="hljs-attr">--unset</span> user.email<br></code></pre></td></tr></table></figure>
+
+<p>如果不确定是否已经配置过，可以使用下面的命令查看</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs lua">git <span class="hljs-built_in">config</span> <span class="hljs-comment">--global user.name</span><br>git <span class="hljs-built_in">config</span> <span class="hljs-comment">--global user.email</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2、开始配置"><a href="#2、开始配置" class="headerlink" title="2、开始配置"></a>2、开始配置</h3><h4 id="2-1-针对不同的账户生成不同的密匙"><a href="#2-1-针对不同的账户生成不同的密匙" class="headerlink" title="2.1 针对不同的账户生成不同的密匙"></a>2.1 针对不同的账户生成不同的密匙</h4><p>进入保存密匙的目录</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli"><span class="hljs-keyword">cd</span> ~<span class="hljs-string">/.ssh</span> <span class="hljs-string">//</span> 进入目录，该目录下保存生成的秘钥<br></code></pre></td></tr></table></figure>
+
+<p>然后，根据账户邮箱生成秘钥。例如我在GitHub上的邮箱是<a href="mailto:&#120;&#120;&#x78;&#x40;&#121;&#x79;&#x79;&#x2e;&#99;&#x6f;&#x6d;">&#120;&#120;&#x78;&#x40;&#121;&#x79;&#x79;&#x2e;&#99;&#x6f;&#x6d;</a>，则命令为：</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs excel">ssh-keygen -<span class="hljs-built_in">t</span> rsa -C <span class="hljs-string">&quot;xxx@yyy.com&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>输入完成后，会有如下提示：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs gradle">Generating <span class="hljs-keyword">public</span>/<span class="hljs-keyword">private</span> rsa key pair.<br>Enter <span class="hljs-keyword">file</span> in which to save the key (<span class="hljs-regexp">/Users/</span>zhangweijie<span class="hljs-regexp">/.ssh/i</span>d_rsa):<span class="hljs-regexp">/Users/</span>zhangweijie<span class="hljs-regexp">/.ssh/i</span>d_rsa_github<br></code></pre></td></tr></table></figure>
+
+<p>这里要求对秘钥进行命名，默认的文件名是<code>id_rsa</code>。为了方便区分，我这里命名为<code>id_rsa_github</code>。接下来的提示都直接进行回车，直到秘钥生成。通过<code>ls</code>命令，可以看到刚刚生成的密钥对<code>id_rsa_github</code>和<code>id_rsa_github.pub</code>。其中<code>id_rsa_github.pub</code>是公钥。</p>
+<p>同样，对于GitLab上的账户，我是用另一个邮箱注册的，按照同样的步骤生成<code>id_rsa_gitlab</code>的秘钥对。接下来的步骤，除额外说明外，两个账户的操作完全相同。</p>
+<h4 id="2-2-私匙添加到本地"><a href="#2-2-私匙添加到本地" class="headerlink" title="2.2 私匙添加到本地"></a>2.2 私匙添加到本地</h4><p>SSH协议的原理，就是在托管网站上使用公钥，在本地使用私钥，这样本地仓库就可以和远程仓库进行通信。在上一步已经生成了秘钥文件，接下来需要使用秘钥文件，首先是在本地使用秘钥文件：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">ssh-add ~<span class="hljs-regexp">/.ssh/i</span>d_rsa_github <span class="hljs-regexp">//</span> 将GitHub私钥添加到本地<br>ssh-add ~<span class="hljs-regexp">/.ssh/i</span>d_rsa_gitlab <span class="hljs-regexp">//</span> 将GitLab私钥添加到本地<br></code></pre></td></tr></table></figure>
+
+<p>为了检验本地是否添加成功，可以使用<code>ssh-add -l</code>命令进行查看</p>
+<h4 id="2-3-对本地秘钥进行配置"><a href="#2-3-对本地秘钥进行配置" class="headerlink" title="2.3  对本地秘钥进行配置"></a>2.3  对本地秘钥进行配置</h4><p>由于添加了多个密钥文件，所以需要对这多个密钥进行管理。在<code>.ssh</code>目录下新建一个config文件：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">touch config<br></code></pre></td></tr></table></figure>
+
+<p>文件中的内容如下：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs awk">Host github <span class="hljs-regexp">//</span> 网站的别名，随意取<br>HostName github.com <span class="hljs-regexp">//</span> 托管网站的域名<br>User liugui <span class="hljs-regexp">//</span> 托管网站上的用户名<br>IdentityFile ~<span class="hljs-regexp">/.ssh/i</span>d_rsa_github <span class="hljs-regexp">//</span> 使用的密钥文件<br><br><span class="hljs-regexp">//</span> GitLab的配置相同<br>Host gitlab<br>HostName gitlab.com<br>User liugui<br>IdentityFile ~<span class="hljs-regexp">/.ssh/i</span>d_rsa_gitlab<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-4-公匙添加到托管网站"><a href="#2-4-公匙添加到托管网站" class="headerlink" title="2.4 公匙添加到托管网站"></a>2.4 公匙添加到托管网站</h4><p>以GitHub为例，先在本地复制公钥。进入<code>.ssh</code>目录，使用<code>vim id_rsa_github.pub</code>查看生成的GitHub公钥，全选进行复制。</p>
+<p>登录GitHub，点击右上角头像选择<code>settings</code>，在打开的页面中选择SSH and GPG keys，</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081111553.png" srcset="/img/loading.gif" lazyload alt="图片描述"></p>
+<p>在打开的页面的Key输入框中粘贴刚刚复制的公钥，title的名字自己随便去，然后点击下方的<code>Add SSH key</code>按钮：<br><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081111010.png" srcset="/img/loading.gif" lazyload alt="图片描述"></p>
+<p>至此，托管网站的公钥添加完成。总结来说，就是针对每个托管网站分别生成一对密钥，然后分别添加到本地和托管网站。</p>
+<p>这时候，可以测试一下配置是否成功，测试命令使用别名。例如，对于GitHub，本来应该使用的测试命令是：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">ssh</span> -T git<span class="hljs-variable">@github</span>.com<br></code></pre></td></tr></table></figure>
+
+<p>在config文件中，给GitHub网站配置的别名就是github，所以直接使用别名，就是</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">ssh</span> -T git<span class="hljs-variable">@github</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3、如何使用"><a href="#3、如何使用" class="headerlink" title="3、如何使用"></a>3、如何使用</h3><p>使用有两种情况，一种情况是从远端拉取代码到本地，一种是本地已有仓库需要与远程仓库关联。</p>
+<h4 id="3-1-从远端拉取代码"><a href="#3-1-从远端拉取代码" class="headerlink" title="3.1 从远端拉取代码"></a>3.1 从远端拉取代码</h4><p>选择SSH协议的复制命令，如对于GitLab上代码库test，其复制命令为</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">git <span class="hljs-keyword">clone</span> <span class="hljs-title">git</span>@gitlab.com:liugui/test.git<br></code></pre></td></tr></table></figure>
+
+<p>由于使用了别名gitlab，所以实际使用的复制命令应当为：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs elixir">git clone git<span class="hljs-variable">@gitlab</span><span class="hljs-symbol">:liugui/test</span>.git<br></code></pre></td></tr></table></figure>
+
+<p>也可以不进行修改，git 会自己找到对应的域名</p>
+<h4 id="3-2-本地已有的仓库"><a href="#3-2-本地已有的仓库" class="headerlink" title="3.2 本地已有的仓库"></a>3.2 本地已有的仓库</h4><p>这种情况适用于本地新建的仓库需要与远端进行关联，或者之前已经使用sourceTree等图形界面软件拷贝的仓库。进入本地仓库文件夹，需要单独配置该仓库的用户名和邮箱</p>
+<figure class="highlight nsis"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nsis">git config <span class="hljs-literal">user</span>.<span class="hljs-keyword">name</span> <span class="hljs-string">&quot;xxx&quot;</span><br>git config <span class="hljs-literal">user</span>.email <span class="hljs-string">&quot;xxx@yyy.com&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>然后，进入本地仓库的git目录，打开config文件</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli"><span class="hljs-keyword">cd</span> <span class="hljs-string">.git</span> <span class="hljs-string">//</span> 该目录是隐藏的，<span class="hljs-keyword">ls</span>命令不可见，但是可以直接进入，如果是新建的文件夹需要先执行git init<br>vim config<br></code></pre></td></tr></table></figure>
+
+<p>在config文件中，修改（config文件中已有remote “origin”信息）或者添加（config文件中不包含remote “origin”信息）分支信息：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs elixir">[remote <span class="hljs-string">&quot;origin&quot;</span>]<br>        url = git<span class="hljs-variable">@gitlab</span><span class="hljs-symbol">:xxx/test</span>.git<br>        fetch = +refs/heads/*<span class="hljs-symbol">:refs/remotes/origin/*</span><br></code></pre></td></tr></table></figure>
+
+<p>主要是URL部分，原生的信息一般是<code>git@gitlab.com:xxx/test.git</code>，需要将gitlab.com使用别名gitlab代替。</p>
+<p>可以看到，仓库中的关键是要配置好用户名和邮箱，以及使用别名。使用别名的目的是为了通过别名，将本地仓库与密钥目录<code>.ssh</code>文件夹下的密钥进行管理，这样就完成了本地仓库使用的私钥与托管网站使用的公钥的配对，而用户名和邮箱是该仓库使用SSH协议时需要用到的信息</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7/">基础工具</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7/Git/">Git</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/GitHub/">GitHub</a>
+                    
+                      <a class="hover-with-bg" href="/tags/GitLab/">GitLab</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/01/21/Golang%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Golang 配置文件相关操作</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/02/06/kibana%20%E7%AE%80%E4%BB%8B/">
+                        <span class="hidden-mobile">Kibana简介</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","appKey":"WbImCRYLaCb0AN9W178IBFBs","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
