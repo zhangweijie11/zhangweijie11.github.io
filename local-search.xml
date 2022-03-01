@@ -17,6 +17,33 @@
   
   
   <entry>
+    <title>Golang 代码编译问题</title>
+    <link href="/2022/01/19/Golang%20%E4%BB%A3%E7%A0%81%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98/"/>
+    <url>/2022/01/19/Golang%20%E4%BB%A3%E7%A0%81%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Golang-代码编译问题"><a href="#Golang-代码编译问题" class="headerlink" title="Golang 代码编译问题"></a>Golang 代码编译问题</h1><ul><li>Windows</li></ul><figure class="highlight routeros"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment"># 编译代码</span><br><span class="hljs-built_in">SET</span> <span class="hljs-attribute">CGO_ENABLED</span>=0<br><span class="hljs-built_in">SET</span> <span class="hljs-attribute">GOOS</span>=darwin<br><span class="hljs-built_in">SET</span> <span class="hljs-attribute">GOARCH</span>=amd64<br>go build main.go<br><br><span class="hljs-built_in">SET</span> <span class="hljs-attribute">CGO_ENABLED</span>=0<br><span class="hljs-built_in">SET</span> <span class="hljs-attribute">GOOS</span>=linux<br><span class="hljs-built_in">SET</span> <span class="hljs-attribute">GOARCH</span>=amd64<br>go build main.go<br></code></pre></td></tr></table></figure><ul><li>Linux</li></ul><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment"># 编译代码</span><br><span class="hljs-attribute">CGO_ENABLED</span>=0 <span class="hljs-attribute">GOOS</span>=darwin <span class="hljs-attribute">GOARCH</span>=amd64 go build main.go<br><span class="hljs-attribute">CGO_ENABLED</span>=0 <span class="hljs-attribute">GOOS</span>=windows <span class="hljs-attribute">GOARCH</span>=amd64 go build main.go<br></code></pre></td></tr></table></figure><ul><li>MAC</li></ul><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment"># 编译代码</span><br><span class="hljs-attribute">CGO_ENABLED</span>=0 <span class="hljs-attribute">GOOS</span>=linux <span class="hljs-attribute">GOARCH</span>=amd64 go build main.go  # linux<br><span class="hljs-attribute">CGO_ENABLED</span>=0 <span class="hljs-attribute">GOOS</span>=windows <span class="hljs-attribute">GOARCH</span>=amd64 go build main.go  # windows<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>编程语言</category>
+      
+      <category>Golang</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Golang</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>使用 Ettercap嗅探工具进行 DNS 欺骗实验</title>
     <link href="/2021/03/01/%E4%BD%BF%E7%94%A8%20Ettercap%E5%97%85%E6%8E%A2%E5%B7%A5%E5%85%B7%E8%BF%9B%E8%A1%8C%20DNS%20%E6%AC%BA%E9%AA%97%E5%AE%9E%E9%AA%8C/"/>
     <url>/2021/03/01/%E4%BD%BF%E7%94%A8%20Ettercap%E5%97%85%E6%8E%A2%E5%B7%A5%E5%85%B7%E8%BF%9B%E8%A1%8C%20DNS%20%E6%AC%BA%E9%AA%97%E5%AE%9E%E9%AA%8C/</url>
