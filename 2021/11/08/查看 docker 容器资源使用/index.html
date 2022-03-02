@@ -1,0 +1,569 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangweijie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="查看 docker 容器资源使用在容器的使用过程中，如果能及时的掌握容器使用的系统资源，无论对开发还是运维工作都是非常有益的。幸运的是 docker 自己就提供了这样的命令：docker stats。 默认输出docker stats 命令用来显示容器使用的系统资源。不带任何选项执行 docker stats 命令： 1$ docker stats   默认情况下，stats 命令会每隔 1 秒钟">
+<meta property="og:type" content="article">
+<meta property="og:title" content="查看 Docker 容器资源使用">
+<meta property="og:url" content="http://example.com/2021/11/08/%E6%9F%A5%E7%9C%8B%20docker%20%E5%AE%B9%E5%99%A8%E8%B5%84%E6%BA%90%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="ffreedom">
+<meta property="og:description" content="查看 docker 容器资源使用在容器的使用过程中，如果能及时的掌握容器使用的系统资源，无论对开发还是运维工作都是非常有益的。幸运的是 docker 自己就提供了这样的命令：docker stats。 默认输出docker stats 命令用来显示容器使用的系统资源。不带任何选项执行 docker stats 命令： 1$ docker stats   默认情况下，stats 命令会每隔 1 秒钟">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081045935.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081045858.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081045981.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081045866.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081045213.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081045842.png">
+<meta property="article:published_time" content="2021-11-08T02:45:31.000Z">
+<meta property="article:modified_time" content="2022-03-02T13:43:53.077Z">
+<meta property="article:author" content="zhangweijie">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="容器">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081045935.png">
+  
+  
+  <title>查看 Docker 容器资源使用 - ffreedom</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","app_key":"WbImCRYLaCb0AN9W178IBFBs","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ffreedom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="查看 Docker 容器资源使用">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-11-08 10:45" pubdate>
+        2021年11月8日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.8k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">查看 Docker 容器资源使用</h1>
+            
+            <div class="markdown-body">
+              <h1 id="查看-docker-容器资源使用"><a href="#查看-docker-容器资源使用" class="headerlink" title="查看 docker 容器资源使用"></a>查看 docker 容器资源使用</h1><p>在容器的使用过程中，如果能及时的掌握容器使用的系统资源，无论对开发还是运维工作都是非常有益的。幸运的是 docker 自己就提供了这样的命令：docker stats。</p>
+<h2 id="默认输出"><a href="#默认输出" class="headerlink" title="默认输出"></a>默认输出</h2><p>docker stats 命令用来显示容器使用的系统资源。不带任何选项执行 docker stats 命令：</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs crystal"><span class="hljs-variable">$ </span>docker stats<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081045935.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>默认情况下，stats 命令会每隔 1 秒钟刷新一次输出的内容直到你按下 ctrl + c。下面是输出的主要内容：<br>[<strong>CONTAINER</strong>]：以短格式显示容器的 ID。<br>[<strong>CPU %</strong>]：CPU 的使用情况。<br>[<strong>MEM USAGE &#x2F; LIMIT</strong>]：当前使用的内存和最大可以使用的内存。<br>[<strong>MEM %</strong>]：以百分比的形式显示内存使用情况。<br>[<strong>NET I&#x2F;O</strong>]：网络 I&#x2F;O 数据。<br>[<strong>BLOCK I&#x2F;O</strong>]：磁盘 I&#x2F;O 数据。<br>[<strong>PIDS</strong>]：PID 号。</p>
+<h2 id="只返回当前的状态"><a href="#只返回当前的状态" class="headerlink" title="只返回当前的状态"></a>只返回当前的状态</h2><p>如果不想持续的监控容器使用资源的情况，可以通过 –no-stream 选项只输出当前的状态：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gams"><span class="hljs-symbol">$</span> docker stats --<span class="hljs-keyword">no</span>-stream<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081045858.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>这样输出的结果就不会变化了，看起来省劲不少。</p>
+<h2 id="只输出指定的容器"><a href="#只输出指定的容器" class="headerlink" title="只输出指定的容器"></a>只输出指定的容器</h2><p>如果我们只想查看个别容器的资源使用情况，可以为 docker stats 命令显式的指定目标容器的名称或者是 ID：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gams"><span class="hljs-symbol">$</span> docker stats --<span class="hljs-keyword">no</span>-stream registry <span class="hljs-number">1493</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081045981.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>当有很多的容器在运行时，这样的结果看起来会清爽一些。这里的 registry 和 1493 分别是容器的名称和容器的 ID。注意，多个容器的名称或者是 ID 之间需要用空格进行分割。</p>
+<p>细心的同学可能已经发现了，第一列不再显示默认的容器 ID，而是显示了我们传入的容器名称和 ID。基于此，我们可以通过简单的方式使用容器的名称替代默认输出中的容器 ID：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">$ docker stats <span class="hljs-constructor">$(<span class="hljs-params">docker</span> <span class="hljs-params">ps</span> --<span class="hljs-params">format</span>=&#123;&#123;.Names&#125;&#125;)</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081045866.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>用容器的名称替代 ID 后输出的结果是不是友好一些？</p>
+<h2 id="格式化输出的结果"><a href="#格式化输出的结果" class="headerlink" title="格式化输出的结果"></a>格式化输出的结果</h2><p>我们在前面搞了点小手段把输出中的容器 ID 替换成了名称。其实 docker stats 命令支持我们通过 –format 选项自定义输出的内容和格式：</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="language-xml">$ docker stats --format &quot;table </span><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">.Name</span>&#125;&#125;</span><span class="language-xml">\t</span><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">.CPUPerc</span>&#125;&#125;</span><span class="language-xml">\t</span><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">.MemUsage</span>&#125;&#125;</span><span class="language-xml">&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081045213.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>上面的命令中我们只输出了 Name, CPUPerc 和 Memusage 三列。下面是自定义的格式中可以使用的所有占位符：<br>.Container   根据用户指定的名称显示容器的名称或 ID。<br>.Name      容器名称。<br>.ID         容器 ID。<br>.CPUPerc    CPU 使用率。<br>.MemUsage 内存使用量。<br>.NetIO      网络 I&#x2F;O。<br>.BlockIO     磁盘 I&#x2F;O。<br>.MemPerc   内存使用率。<br>.PIDs       PID 号。<br>有了这些信息我们就可以完全按照自己的需求或者是偏好来控制 docker stats 命令输出的内容了。</p>
+<p>除了以 table 格式输出结果，还可以通过 format 选项输出 json 格式的结果：</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs lsl">$ docker stats --no-stream --format \<br>    <span class="hljs-string">&quot;&#123;<span class="hljs-subst">\&quot;</span>container<span class="hljs-subst">\&quot;</span>:<span class="hljs-subst">\&quot;</span>&#123;&#123; .Container &#125;&#125;<span class="hljs-subst">\&quot;</span>,<span class="hljs-subst">\&quot;</span>memory<span class="hljs-subst">\&quot;</span>:&#123;<span class="hljs-subst">\&quot;</span>raw<span class="hljs-subst">\&quot;</span>:<span class="hljs-subst">\&quot;</span>&#123;&#123; .MemUsage &#125;&#125;<span class="hljs-subst">\&quot;</span>,<span class="hljs-subst">\&quot;</span>percent<span class="hljs-subst">\&quot;</span>:<span class="hljs-subst">\&quot;</span>&#123;&#123; .MemPerc &#125;&#125;<span class="hljs-subst">\&quot;</span>&#125;,<span class="hljs-subst">\&quot;</span>cpu<span class="hljs-subst">\&quot;</span>:<span class="hljs-subst">\&quot;</span>&#123;&#123; .CPUPerc &#125;&#125;<span class="hljs-subst">\&quot;</span>&#125;&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081045842.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过 docker stats 命令我们可以看到容器使用系统资源的情况。这为我们进一步的约束容器可用资源或者是调查与资源相关的问题提供了依据。除了 docker 自带的命令，像 glances 等工具也已经支持查看容器使用的资源情况了，有兴趣的朋友可以去了解一下。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%AE%B9%E5%99%A8%E5%8C%96/">容器化</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%AE%B9%E5%99%A8%E5%8C%96/Docker/">Docker</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Docker/">Docker</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AE%B9%E5%99%A8/">容器</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/01/19/Golang%20%E4%BB%A3%E7%A0%81%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Golang 代码编译问题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/14/%E5%85%B3%E4%BA%8E%20docker%20%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%AE%B9%E5%99%A8%E5%90%8D%E5%AD%97%E8%BF%9B%E8%A1%8C%E5%AE%B9%E5%99%A8%E9%97%B4%E8%BF%9E%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98/">
+                        <span class="hidden-mobile">关于 Docker 无法使用容器名字进行容器间链接==连接的问题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","appKey":"WbImCRYLaCb0AN9W178IBFBs","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

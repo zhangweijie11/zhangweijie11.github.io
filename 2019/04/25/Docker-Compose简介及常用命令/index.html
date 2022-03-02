@@ -1,0 +1,660 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangweijie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Docker-Compose 简介及常用命令一. Docker-Compose 简介1. Docker-Compose 简介​        Docker-Compose项目是Docker官方的开源项目，负责实现对Docker容器集群的快速编排。  Docker-Compose将所管理的容器分为三层，分别是工程（project），服务（service）以及容器（container）。 Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker-Compose 简介及常用命令">
+<meta property="og:url" content="http://example.com/2019/04/25/Docker-Compose%E7%AE%80%E4%BB%8B%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="ffreedom">
+<meta property="og:description" content="Docker-Compose 简介及常用命令一. Docker-Compose 简介1. Docker-Compose 简介​        Docker-Compose项目是Docker官方的开源项目，负责实现对Docker容器集群的快速编排。  Docker-Compose将所管理的容器分为三层，分别是工程（project），服务（service）以及容器（container）。 Docker">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-04-25T01:15:31.000Z">
+<meta property="article:modified_time" content="2022-03-02T13:48:33.832Z">
+<meta property="article:author" content="zhangweijie">
+<meta property="article:tag" content="Docker-Compose">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>Docker-Compose 简介及常用命令 - ffreedom</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","app_key":"WbImCRYLaCb0AN9W178IBFBs","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ffreedom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Docker-Compose 简介及常用命令">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-04-25 09:15" pubdate>
+        2019年4月25日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.7k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      31 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Docker-Compose 简介及常用命令</h1>
+            
+            <div class="markdown-body">
+              <h2 id="Docker-Compose-简介及常用命令"><a href="#Docker-Compose-简介及常用命令" class="headerlink" title="Docker-Compose 简介及常用命令"></a>Docker-Compose 简介及常用命令</h2><h3 id="一-Docker-Compose-简介"><a href="#一-Docker-Compose-简介" class="headerlink" title="一. Docker-Compose 简介"></a>一. Docker-Compose 简介</h3><h4 id="1-Docker-Compose-简介"><a href="#1-Docker-Compose-简介" class="headerlink" title="1. Docker-Compose 简介"></a>1. Docker-Compose 简介</h4><p>​        Docker-Compose项目是Docker官方的开源项目，负责实现对Docker容器集群的快速编排。</p>
+<ul>
+<li>Docker-Compose将所管理的容器分为三层，分别是工程（project），服务（service）以及容器（container）。</li>
+<li>Docker-Compose运行目录下的所有文件（docker-compose.yml，extends文件或环境变量文件等）组成一个工程，若无特殊指定工程名即为当前目录名。一个工程当中可包含多个服务，每个服务中定义了容器运行的镜像，参数，依赖。一个服务当中可包括多个容器实例，Docker-Compose并没有解决负载均衡的问题，因此需要借助其它工具实现服务发现及负载均衡。<br>   Docker-Compose的工程配置文件默认为docker-compose.yml，可通过环境变量COMPOSE_FILE或-f参数自定义配置文件，其定义了多个有依赖关系的服务及每个服务运行的容器。使用一个Dockerfile模板文件，可以让用户很方便的定义一个单独的应用容器。在工作中，经常会碰到需要多个容器相互配合来完成某项任务的情况。例如要实现一个Web项目，除了Web服务容器本身，往往还需要再加上后端的数据库服务容器，甚至还包括负载均衡容器等。Docker-Compose允许用户通过一个单独的docker-compose.yml模板文件（YAML 格式）来定义一组相关联的应用容器为一个项目（project）。<br>      Docker-Compose项目由Python编写，调用Docker服务提供的API来对容器进行管理。因此，只要所操作的平台支持Docker API，就可以在其上利用Compose来进行编排管理。</li>
+</ul>
+<h4 id="2-Docker-Compose安装"><a href="#2-Docker-Compose安装" class="headerlink" title="2. Docker-Compose安装"></a>2. Docker-Compose安装</h4><p>可以直接使用pip 进行安装</p>
+<p>建议先更新pip 然后在进行安装</p>
+<p>pip 更新命令</p>
+<figure class="highlight python"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs python">pip install --upgrade pip<br></code></pre></td></tr></table></figure>
+
+<p>安装命令</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pip install docker-compose<br></code></pre></td></tr></table></figure>
+
+<p>安装过后以下命令查看是否安装成功</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">docker-compose --version<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-Docker-Compose-卸载"><a href="#3-Docker-Compose-卸载" class="headerlink" title="3. Docker-Compose 卸载"></a>3. Docker-Compose 卸载</h4><p>卸载命令</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pip uninstall docker-compose<br></code></pre></td></tr></table></figure>
+
+<h3 id="二-Docker-Compose常用命令"><a href="#二-Docker-Compose常用命令" class="headerlink" title="二. Docker-Compose常用命令"></a>二. Docker-Compose常用命令</h3><h4 id="1-Docker-Compose-命令格式"><a href="#1-Docker-Compose-命令格式" class="headerlink" title="1. Docker-Compose 命令格式"></a>1. Docker-Compose 命令格式</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">docker-compose <span class="hljs-selector-attr">[-f &lt;arg&gt;]</span> <span class="hljs-selector-attr">[options]</span><span class="hljs-selector-attr">[command]</span><span class="hljs-selector-attr">[args]</span><br></code></pre></td></tr></table></figure>
+
+<p>常用命令选项如下：</p>
+<p>-f  -file FILE 可指定Compose 模版文件，默认为 docker-compose.yml</p>
+<p>-p -project-name  NAME指定项目名称，默认将使用所在目录名称为项目名</p>
+<p>-v –version 打印版本并退出</p>
+<p>-verbose 输出调试信息</p>
+<p>-x-network-driver  使用 Docker 的可插拔网络后端特性(需要 Docker 1.9+版本，可操作性有待商榷)</p>
+<p>-x-network-deover DRIVER指定网络后端的驱动，默认为 bridge(需要 Docker 1.9+版本)</p>
+<h4 id="2-Docker-Compose-拉取服务镜像"><a href="#2-Docker-Compose-拉取服务镜像" class="headerlink" title="2. Docker-Compose 拉取服务镜像"></a>2. Docker-Compose 拉取服务镜像</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">docker-compose pull <span class="hljs-selector-attr">[options]</span> <span class="hljs-selector-attr">[SERVICE...]</span><br></code></pre></td></tr></table></figure>
+
+<p>命令选项如下：</p>
+<p>–ignore-pull-failures，忽略拉取镜像过程中的错误<br>–parallel，多个镜像同时拉取<br>–quiet，拉取镜像过程中不打印进度信息</p>
+<p>拉取服务依赖的镜像</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">docker-compose pull</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="3-Docker-Compose-构建服务"><a href="#3-Docker-Compose-构建服务" class="headerlink" title="3. Docker-Compose 构建服务"></a>3. Docker-Compose 构建服务</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">docker-compose build <span class="hljs-selector-attr">[options]</span> <span class="hljs-selector-attr">[--build-arg key=val...]</span> <span class="hljs-selector-attr">[SERVICE...]</span><br></code></pre></td></tr></table></figure>
+
+<p>命令选项包括：<br>–compress 通过gzip压缩构建上下环境<br>–force-rm 删除构建过程中的临时容器<br>–no-cache 构建镜像过程中不使用缓存<br>–pull 始终尝试通过拉取操作来获取更新版本的镜像<br>-m, –memory MEM为构建的容器设置内存大小<br>–build-arg key&#x3D;val为服务设置build-time变量<br>服务容器一旦构建后，将会带上一个标记名。可以随时在项目目录下运行docker-compose build来重新构建服务</p>
+<h4 id="4-Docker-Compose-启动容器"><a href="#4-Docker-Compose-启动容器" class="headerlink" title="4. Docker-Compose 启动容器"></a>4. Docker-Compose 启动容器</h4><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span>-compose start<span class="hljs-meta"> [SERVICE...]</span><br></code></pre></td></tr></table></figure>
+
+<p>启动已经存在的服务容器</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">docker-compose <span class="hljs-literal">start</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="5-Docker-compose-构建并启动容器"><a href="#5-Docker-compose-构建并启动容器" class="headerlink" title="5. Docker-compose  构建并启动容器"></a>5. Docker-compose  构建并启动容器</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">docker-compose up <span class="hljs-selector-attr">[option]</span><span class="hljs-selector-attr">[--scale SERVICE=NUM...]</span><span class="hljs-selector-attr">[SERVICE...]</span><br></code></pre></td></tr></table></figure>
+
+<p>常用命令选项如下：</p>
+<p>-d 在后台运行服务器</p>
+<p>-t -timeout TIMEOUT 停止容器是的超时(默认为 10 秒)</p>
+<p>-f  -file FILE 可指定Compose 模版文件，默认为 docker-compose.yml</p>
+<p>-build  在启动容器前自动构建服务镜像</p>
+<p>-no-build 不自动构建缺失的镜像</p>
+<p>常用命令实例</p>
+<p>启动所有服务</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">docker-compose up</span><br></code></pre></td></tr></table></figure>
+
+<p>在后台启动所有服务</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">docker-compose up -d</span><br></code></pre></td></tr></table></figure>
+
+<p>重新构建镜像</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">docker-compose up -d <span class="hljs-comment">--build</span><br></code></pre></td></tr></table></figure>
+
+<p>-f 使用指定的 Compose 模版文件启动服务,默认为 docker-compose.yml 文件</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">docker<span class="hljs-literal">-compose</span> <span class="hljs-operator">-f</span> docker<span class="hljs-literal">-compose</span>.yml up<br></code></pre></td></tr></table></figure>
+
+<h4 id="6-Docker-Compose-查看容器"><a href="#6-Docker-Compose-查看容器" class="headerlink" title="6. Docker-Compose 查看容器"></a>6. Docker-Compose 查看容器</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">docker-compose ps <span class="hljs-selector-attr">[options]</span><span class="hljs-selector-attr">[SERVICE...]</span><br></code></pre></td></tr></table></figure>
+
+<p>查看项目中运行中的容器</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">docker-compose ps</span><br></code></pre></td></tr></table></figure>
+
+<p>查看当前项目中的所有容器</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">docker-compose ps -<span class="hljs-selector-tag">a</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="7-Docker-Compose-停止容器"><a href="#7-Docker-Compose-停止容器" class="headerlink" title="7. Docker-Compose 停止容器"></a>7. Docker-Compose 停止容器</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">docker-compose stop <span class="hljs-selector-attr">[options]</span> <span class="hljs-selector-attr">[SERVICE...]</span><br></code></pre></td></tr></table></figure>
+
+<p>命令选项如下：</p>
+<p>-t —timeout TIMEOUT停止容器时候的超时(默认为 10 秒)</p>
+<p>停止正在运行的容器</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">docker-compose stop<br></code></pre></td></tr></table></figure>
+
+<p>可使用以下命令再次启动</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">docker-compose <span class="hljs-literal">start</span><br></code></pre></td></tr></table></figure>
+
+<p>通过发送 SIGKILL 信号强制停止服务容器</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">docker-compsoe kill <span class="hljs-selector-attr">[options]</span> <span class="hljs-selector-attr">[SERVICE]</span><br></code></pre></td></tr></table></figure>
+
+<p>命令选项如下：</p>
+<p>-s 指定发送的信号</p>
+<h4 id="8-Docker-Compose-移除容器"><a href="#8-Docker-Compose-移除容器" class="headerlink" title="8. Docker-Compose 移除容器"></a>8. Docker-Compose 移除容器</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">docker-compose rm <span class="hljs-selector-attr">[options]</span> <span class="hljs-selector-attr">[SERVICE...]</span><br></code></pre></td></tr></table></figure>
+
+<p>命令选项如下：</p>
+<p>–f, –force，强制直接删除，包括非停止状态的容器<br>-v  删除容器所挂载的数据卷</p>
+<p>先停止容器</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">docker-compose stop<br></code></pre></td></tr></table></figure>
+
+<p>删除所有停止状态下的容器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker-compose <span class="hljs-built_in">rm</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="9-Docker-Compose-停用移除所有容器以及网络相关"><a href="#9-Docker-Compose-停用移除所有容器以及网络相关" class="headerlink" title="9. Docker-Compose 停用移除所有容器以及网络相关"></a>9. Docker-Compose 停用移除所有容器以及网络相关</h4><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span>-compose down<span class="hljs-meta"> [options]</span><br></code></pre></td></tr></table></figure>
+
+<p>命令选项如下：</p>
+<p>-rmi type，删除镜像、类型必须是：all，删除 compose 文件中定义的所有镜像</p>
+<p>​                                                              local， 删除镜像名为空的镜像</p>
+<p>-v  -volumes 删除已经在 compose 文件中定义的和匿名的附在容器上的数据卷</p>
+<p>-remove-orphans  删除服务中没有在 compose 中定义的容器</p>
+<h4 id="10-Docker-Compose-查看输出日志"><a href="#10-Docker-Compose-查看输出日志" class="headerlink" title="10. Docker-Compose 查看输出日志"></a>10. Docker-Compose 查看输出日志</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">docker-compose logs <span class="hljs-selector-attr">[options]</span><span class="hljs-selector-attr">[SERVICE...]</span><br></code></pre></td></tr></table></figure>
+
+<p>默认情况下，docker-compsoe 将对不同的服务输出使用不同的颜色用以区分，但是可以通过-no-color 关闭颜色</p>
+<p>查看服务容器的输出</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">docker-compose logs</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="11-Docker-Compose-重启服务"><a href="#11-Docker-Compose-重启服务" class="headerlink" title="11. Docker-Compose 重启服务"></a>11. Docker-Compose 重启服务</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">docker-compose restart <span class="hljs-selector-attr">[options]</span> <span class="hljs-selector-attr">[SERVICE...]</span><br></code></pre></td></tr></table></figure>
+
+<p>命令选项如下：</p>
+<p>-t  –timeout TIMEOUT 指定重启前停止容器的超时（默认为10秒）</p>
+<p>重启项目服务</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">docker-compose restart</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="12-Docker-Compose-暂停、恢复容器"><a href="#12-Docker-Compose-暂停、恢复容器" class="headerlink" title="12. Docker-Compose 暂停、恢复容器"></a>12. Docker-Compose 暂停、恢复容器</h4><p>暂停容器</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">docker-compose <span class="hljs-attribute">pause</span> <span class="hljs-selector-attr">[SERVICE...]</span><br></code></pre></td></tr></table></figure>
+
+<p>恢复处于暂停状态的容器</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span>-compsoe unpause<span class="hljs-meta"> [SERVICE...]</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="13-Docker-Compose-执行命令"><a href="#13-Docker-Compose-执行命令" class="headerlink" title="13. Docker-Compose 执行命令"></a>13. Docker-Compose 执行命令</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">docker-compose run <span class="hljs-selector-attr">[options]</span> <span class="hljs-selector-attr">[-v VOLUME...]</span> <span class="hljs-selector-attr">[-p PORT...]</span> <span class="hljs-selector-attr">[-e KEY=VAL...]</span> SERVICE <span class="hljs-selector-attr">[COMMAND]</span> <span class="hljs-selector-attr">[ARGS...]</span><br></code></pre></td></tr></table></figure>
+
+<p>在指定容器执行 ping 命令</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">docker-compose <span class="hljs-built_in">run</span> Ubuntu<span class="hljs-built_in"> ping </span>www.baidu.com<br></code></pre></td></tr></table></figure>
+
+<h4 id="14-Docker-Compose-指定运行容器数量"><a href="#14-Docker-Compose-指定运行容器数量" class="headerlink" title="14. Docker-Compose 指定运行容器数量"></a>14. Docker-Compose 指定运行容器数量</h4><p>设置指定服务运行的容器个数</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">docker-compose scale <span class="hljs-attribute">web</span>=3 <span class="hljs-attribute">db</span>=2<br></code></pre></td></tr></table></figure>
+
+<h4 id="15-Docker-Compose-推送镜像"><a href="#15-Docker-Compose-推送镜像" class="headerlink" title="15. Docker-Compose 推送镜像"></a>15. Docker-Compose 推送镜像</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">docker-compsoe push <span class="hljs-selector-attr">[options]</span><span class="hljs-selector-attr">[SERVICE...]</span><br></code></pre></td></tr></table></figure>
+
+<p>命令选项如下：</p>
+<p>–ignore-push-failures 忽略推送镜像过程中的错误</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%AE%B9%E5%99%A8%E5%8C%96/">容器化</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%AE%B9%E5%99%A8%E5%8C%96/Docker/">Docker</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Docker-Compose/">Docker-Compose</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Docker/">Docker</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/06/24/web%20%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB%E6%9D%82%E8%AE%BA/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">web 指纹识别杂论</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","appKey":"WbImCRYLaCb0AN9W178IBFBs","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
