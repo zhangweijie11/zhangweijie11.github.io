@@ -18,21 +18,25 @@
   <meta name="author" content="zhangweijie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Git 常见错误及解决办法 收录使用 Git 过程中遇到的问题  [TOC] 1、fatal: refusing to merge unrelated histories问题描述：这种错误在两个分支合并或者git pull以及git push 都会出现，这个是因为两个分支没有去的关系，或者远程分支没有和本地分支关联 解决办法：在操作命令后添加--allow-unrelated-history 2、">
+    <meta name="description" content="内核态和用户态解析 首先需要明确用户态和内核态分别是什么，然后再去想为什么需要有这两个事物。  CPU 指令集权限在说用户态和内核态之前，有必要说一下 CPU 指令集。指令集是值 CPU 实现软件指挥硬件执行的媒介，具体来说就是每一条汇编语句都对应了一条 CPU 指令，非常多的 CPU 指令组合在一起，就是一个或者多个指令的集合，这就是指令集。 存在指令集以后我们可以直接通过 CPU 指令去操作硬">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Git 常见错误及解决办法">
-<meta property="og:url" content="http://example.com/2022/01/19/Git%20%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/index.html">
+<meta property="og:title" content="内核态和用户态解析">
+<meta property="og:url" content="http://example.com/2022/01/27/%E5%86%85%E6%A0%B8%E6%80%81%E5%92%8C%E7%94%A8%E6%88%B7%E6%80%81%E8%A7%A3%E6%9E%90/index.html">
 <meta property="og:site_name" content="ffreedom">
-<meta property="og:description" content="Git 常见错误及解决办法 收录使用 Git 过程中遇到的问题  [TOC] 1、fatal: refusing to merge unrelated histories问题描述：这种错误在两个分支合并或者git pull以及git push 都会出现，这个是因为两个分支没有去的关系，或者远程分支没有和本地分支关联 解决办法：在操作命令后添加--allow-unrelated-history 2、">
+<meta property="og:description" content="内核态和用户态解析 首先需要明确用户态和内核态分别是什么，然后再去想为什么需要有这两个事物。  CPU 指令集权限在说用户态和内核态之前，有必要说一下 CPU 指令集。指令集是值 CPU 实现软件指挥硬件执行的媒介，具体来说就是每一条汇编语句都对应了一条 CPU 指令，非常多的 CPU 指令组合在一起，就是一个或者多个指令的集合，这就是指令集。 存在指令集以后我们可以直接通过 CPU 指令去操作硬">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-01-19T07:13:31.000Z">
-<meta property="article:modified_time" content="2022-03-01T09:31:45.460Z">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202201271447730.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202201271457284.png">
+<meta property="article:published_time" content="2022-01-27T06:58:31.000Z">
+<meta property="article:modified_time" content="2022-03-02T14:27:18.360Z">
 <meta property="article:author" content="zhangweijie">
-<meta property="article:tag" content="Git">
+<meta property="article:tag" content="操作系统">
+<meta property="article:tag" content="网络知识">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202201271447730.png">
   
   
-  <title>Git 常见错误及解决办法 - ffreedom</title>
+  <title>内核态和用户态解析 - ffreedom</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -178,7 +182,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Git 常见错误及解决办法">
+            <span class="h2" id="subtitle" title="内核态和用户态解析">
               
             </span>
 
@@ -188,8 +192,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-01-19 15:13" pubdate>
-        2022年1月19日 下午
+      <time datetime="2022-01-27 14:58" pubdate>
+        2022年1月27日 下午
       </time>
     </span>
   
@@ -199,7 +203,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      703 字
+      2.3k 字
     </span>
   
 
@@ -208,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      6 分钟
+      20 分钟
     </span>
   
 
@@ -245,26 +249,85 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Git 常见错误及解决办法</h1>
+            <h1 style="display: none">内核态和用户态解析</h1>
             
             <div class="markdown-body">
-              <h1 id="Git-常见错误及解决办法"><a href="#Git-常见错误及解决办法" class="headerlink" title="Git 常见错误及解决办法"></a>Git 常见错误及解决办法</h1><blockquote>
-<p>收录使用 Git 过程中遇到的问题</p>
+              <h1 id="内核态和用户态解析"><a href="#内核态和用户态解析" class="headerlink" title="内核态和用户态解析"></a>内核态和用户态解析</h1><blockquote>
+<p>首先需要明确用户态和内核态分别是什么，然后再去想为什么需要有这两个事物。</p>
 </blockquote>
-<p>[TOC]</p>
-<h2 id="1、fatal-refusing-to-merge-unrelated-histories"><a href="#1、fatal-refusing-to-merge-unrelated-histories" class="headerlink" title="1、fatal: refusing to merge unrelated histories"></a>1、<code>fatal: refusing to merge unrelated histories</code></h2><h3 id="问题描述："><a href="#问题描述：" class="headerlink" title="问题描述："></a>问题描述：</h3><p>这种错误在两个分支合并或者<code>git pull</code>以及<code>git push </code>都会出现，这个是因为两个分支没有去的关系，或者远程分支没有和本地分支关联</p>
-<h3 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h3><p>在操作命令后添加<code>--allow-unrelated-history</code></p>
-<h2 id="2、Could-not-read-from-remote-repository"><a href="#2、Could-not-read-from-remote-repository" class="headerlink" title="2、Could not read from remote repository."></a>2、<code>Could not read from remote repository.</code></h2><h3 id="问题描述：-1"><a href="#问题描述：-1" class="headerlink" title="问题描述："></a>问题描述：</h3><p><code>git push</code>过程中出现错误，是因为<code> ssh-key</code> 的问题，本地没有正确配置 <code>ssh-key</code></p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><pre><code class="hljs livecodeserver">git@github.com: Permission denied (publickey).<br>fatal: Could <span class="hljs-keyword">not</span> <span class="hljs-built_in">read</span> <span class="hljs-built_in">from</span> remote repository.<br><br>Please make sure you have <span class="hljs-keyword">the</span> correct access rights<br><span class="hljs-keyword">and</span> <span class="hljs-keyword">the</span> repository exists.<br></code></pre></td></tr></table></figure>
-
-<h3 id="解决办法：-1"><a href="#解决办法：-1" class="headerlink" title="解决办法："></a>解决办法：</h3><p>首先查看是否有 ssh 数据   <code>ssh-add -l</code></p>
-<p>如果不存在的话会出现 <code>The agent has no identities.</code></p>
-<p>需要添加<code>ssh-key</code>:</p>
-<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs arcade">ssh-add ~<span class="hljs-regexp">/.ssh/i</span>d_rsa_github<br>ssh-add ~<span class="hljs-regexp">/.ssh/i</span>d_rsa_github<br></code></pre></td></tr></table></figure>
-
-<p>添加完毕以后再次验证 <code>ssh-add -l</code></p>
-<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">2048 </span>SHA256:izQU3fcuygtE2jr8KLFhujoS6c/bB46k09uyu/VCRzk xxx@email (RSA)<br><span class="hljs-symbol">2048 </span>SHA256:jH+IeruPI+si++vSWPrr/e14ZDT+flI4xGioGQXF+gc xxx@email (RSA)<br></code></pre></td></tr></table></figure>
-
+<h2 id="CPU-指令集权限"><a href="#CPU-指令集权限" class="headerlink" title="CPU 指令集权限"></a>CPU 指令集权限</h2><p>在说用户态和内核态之前，有必要说一下 CPU 指令集。指令集是值 CPU 实现软件指挥硬件执行的媒介，具体来说就是每一条汇编语句都对应了一条 CPU 指令，非常多的 CPU 指令组合在一起，就是一个或者多个指令的集合，这就是指令集。</p>
+<p>存在指令集以后我们可以直接通过 CPU 指令去操作硬件了，但是可能出现指令操作不规范或者一些其他原因出现指令错误直接导致整个机器都崩溃。这是因为能直接操作 CPU 指令集这个事情的权限太大了，所以需要针对程序员开发人员去收回大部分权限，在 CPU 指令集之上再次抽象封装一层，既可以隐藏CPU 指令集，又可以让程序开发者关注逻辑业务的实现，而不需要去关注底层指令的执行。</p>
+<p>针对上边的情况，硬件设备商直接提供硬件级别的支持，对 CPU 指令设置了权限，不同的权限可以使用不同的 CPU 指令集，以 intel 为例，CPU指令集操作的权限被分为四层：</p>
+<ul>
+<li>ring 0</li>
+<li>ring 1</li>
+<li>ring 2</li>
+<li>ring 3</li>
+</ul>
+<p>其中 ring 0 权限最高，可以使用所有的 CPU 指令集去操作所有硬件设备。ring 3权限最低，仅能使用常规的 CPU 指令集，不能使用操作硬件资源的指令集，例如网卡访问，申请内存，硬盘访问等。</p>
+<p><strong>注意：Linux 仅仅采用 ring 0 和 ring 3这两个权限级别</strong></p>
+<h2 id="内核态和用户态"><a href="#内核态和用户态" class="headerlink" title="内核态和用户态"></a>内核态和用户态</h2><ul>
+<li>内核态</li>
+</ul>
+<p>ring 0 就是内核态，完全在操作系统中运行。执行内核空间的代码，拥有 ring 0 的保护级别，拥有对硬件资源的全部操作权限，可以执行全部的 CPU指令集，访问任何地址的内存。在内核模式下运行的任何异常都是灾难级别的，将会导致整台机器崩溃。</p>
+<ul>
+<li>用户态</li>
+</ul>
+<p>ring 3 就是用户态，在用户模式下，拥有 ring 3 的保护级别。代码美欧对硬件的直接控制权限，也不能直接访问地址的内存，需要调用系统接口来达到访问硬件和内存的目的。在这种保护模式下，即使程序发生崩溃也是可以恢复的，大部分电脑都是在用户模式下运行的。</p>
+<ul>
+<li>两者区别</li>
+</ul>
+<p>用户态和内核态概念其实就是 CPU 指令集权限的区别，进程中需要读写 IO，必然会涉及到 ring 0 级别的指令集，但此时只有 ring 3 级别，所以为了能够操作 ring 0 级别的指令集，CPU 需要切换指令集操作权限到 ring 0 级别，然后再执行相应的 ring 0 级别的 CPU 指令集（内核代码），执行的内核代码会使用当前进程的内核栈。</p>
+<p><strong>每个进程都有两个栈，分别是内核栈和用户栈，对用内核态和用户态使用。</strong></p>
+<ul>
+<li>内存空间使用</li>
+</ul>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202201271447730.png" srcset="/img/loading.gif" lazyload alt="image-20220127144738388"></p>
+<p>用户态：只能操作 0-3G 范围的地位虚拟空间地址</p>
+<p>内核态：0-4G 范围的虚拟空间地址都可以操作，尤其是 3-4G 的高位虚拟空间地址只能由内核态去操作</p>
+<p>3-4G 的高位虚拟空间地址是共享的，所有的进程的内核态逻辑地址都是同一块内存地址，这里存放整个内核的代码和所有的内核模块，以及内核维护的数据。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>通过指令集权限区分内核态和用户态，还限制了内存资源的使用，操作系统为内核态和用户态划分了两块内存空间，让那对应的指令集使用。</p>
+<h2 id="内核态和用户态切换"><a href="#内核态和用户态切换" class="headerlink" title="内核态和用户态切换"></a>内核态和用户态切换</h2><h3 id="内核态和用户态切换的需要做什么？"><a href="#内核态和用户态切换的需要做什么？" class="headerlink" title="内核态和用户态切换的需要做什么？"></a>内核态和用户态切换的需要做什么？</h3><ul>
+<li>保留用户态现场（上下文、寄存器、用户栈等）</li>
+<li>复制用户态参数，用户栈切换到内核栈，进入内核态</li>
+<li>额外的检查（内核代码对于用户不信任）</li>
+<li>执行内核态代码</li>
+<li>复制内核态代码执行结果，返回用户态</li>
+<li>恢复用户态现场（上下文、寄存器、用户栈等）</li>
+</ul>
+<p><strong>一图说明一切</strong></p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202201271457284.png" srcset="/img/loading.gif" lazyload alt="image-20220127145658628"></p>
+<h3 id="什么时候切换？"><a href="#什么时候切换？" class="headerlink" title="什么时候切换？"></a>什么时候切换？</h3><ol>
+<li>系统调用：用户态进程主动切换到内核态的方式，用户态进程通过系统调用向操作系统申请资源完成工作，例如 <code>fork()</code> 就是一个创建新进程的系统调用，系统调用的机制核心使用了操作系统为用户特别开放的一个中断来实现，如 Linux 的 int 80h 中断，也可以称为软中断</li>
+<li>异常：当 CPU 在执行用户态的进程时，发生了一些没有预知的异常，这时当前运行进程会切换到处理此异常的内核相关进程中，也就是切换到了内核态，如缺页异常</li>
+<li>中断：当 CPU 在执行用户态的进程时，外围设备完成用户请求的操作后，会向 CPU 发出相应的中断信号，这时 CPU 会暂停执行下一条即将要执行的指令，转到与中断信号对应的处理程序去执行，也就是切换到了内核态。如硬盘读写操作完成，系统会切换到硬盘读写的中断处理程序中执行后边的操作等。</li>
+</ol>
+<h3 id="为什么开销大？"><a href="#为什么开销大？" class="headerlink" title="为什么开销大？"></a>为什么开销大？</h3><p>其实就是来回复制数据，另外保留恢复现场需要的时间和资源比较多！</p>
+<h2 id="用户态线程"><a href="#用户态线程" class="headerlink" title="用户态线程"></a>用户态线程</h2><p>用户态线程也叫做用户级线程，操作系统不知道它的存在，它完全是在用户空间中创建的。</p>
+<p>用户态线程优势：</p>
+<ul>
+<li><strong>管理开销小</strong>：创建、销毁不需要系统调用</li>
+<li><strong>切换成本低</strong>：用户空间程序可以自己维护，不需要走操作系统调度</li>
+</ul>
+<p>用户态线程劣势：</p>
+<ul>
+<li><strong>与内核协作成本高</strong>：线程完全在用户空间程序管理，一旦需要进行 I&#x2F;O 操作的时候无法利用到内核的优势，需要频繁的进行用户态到内核态的切换</li>
+<li><strong>线程间协作成本高</strong>：例如两个线程进行通信的时候，需要进行 I&#x2F;O，而 I&#x2F;O需要进行系统调用，所以需要负担系统调用的资源消耗</li>
+<li><strong>无法利用多核优势</strong>：操作系统进行调度的时候始终是调度线程所属的进程，所以不论每一个进程有多少用户态的线程，都只能被并发调用一个线程执行</li>
+<li><strong>操作系统无法针对线程调度进行优化</strong>：当一个进程的一个用户态线程阻塞后，操作系统无法及时发现和处理阻塞问题，不会调度其他的线程去执行</li>
+</ul>
+<h2 id="内核态线程"><a href="#内核态线程" class="headerlink" title="内核态线程"></a>内核态线程</h2><p>内核态线程也叫做内核级线程，在内核态中执行，通过系统调用可以创建一个内核态线程</p>
+<p>内核态线程优势：</p>
+<ul>
+<li><strong>可以利用多核 CPU</strong>：内核由操作系统调度，可以在多个 CPU 核上执行</li>
+<li><strong>操作系统级优化</strong>：内核中的线程操作 I&#x2F;O 不需要进行系统调用，一个线程阻塞了，可以立刻调度另外一个线程执行</li>
+</ul>
+<p>内核态线程劣势：</p>
+<ul>
+<li><strong>创建成本高</strong>：创建的时候需要进行系统调用，也就是切换到内核态</li>
+<li><strong>扩展性差</strong>：一个内核程序管理，数量不多</li>
+<li><strong>切换成本高</strong>：切换的时候在内核中操作，需要切换到内核态</li>
+</ul>
 
             </div>
             <hr>
@@ -274,9 +337,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7/">基础工具</a>
-                    
-                      <a class="hover-with-bg" href="/categories/%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7/Git/">Git</a>
+                      <a class="hover-with-bg" href="/categories/%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86/">网络知识</a>
                     
                   </div>
                 
@@ -284,7 +345,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Git/">Git</a>
+                      <a class="hover-with-bg" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86/">网络知识</a>
                     
                   </div>
                 
@@ -301,9 +364,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/01/26/OSI%20%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B/">
+                      <a href="/2022/01/27/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">OSI 七层模型</span>
+                        <span class="hidden-mobile">缓存穿透、缓存击穿、缓存雪崩</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -311,8 +374,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/01/19/Git%20%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%85%B3%E8%81%94%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93/">
-                        <span class="hidden-mobile">Git本地仓库关联远程仓库</span>
+                      <a href="/2022/01/26/OSI%20%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B/">
+                        <span class="hidden-mobile">OSI 七层模型</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
