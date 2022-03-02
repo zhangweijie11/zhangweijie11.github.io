@@ -1,0 +1,625 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangweijie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Sentry 入门前言​        错误日志监控也可称为业务逻辑监控，旨在对业务系统运行过程中产生的错误日志进行收集收纳和监控告警。Sentry 所做的就是收集应用底层代码的崩溃信息，便于我们排除代码异常。 既有方案 单台服务器上每个系统服务自己维护自己的日志，方便自己查看 同台服务器上多个日志集中存放到同个目录，方便集中管理 使用 ELK 系统，将所有日志输出到 ELK 系统，使用 GUI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sentry 入门">
+<meta property="og:url" content="http://example.com/2019/10/18/Sentry%20%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="ffreedom">
+<meta property="og:description" content="Sentry 入门前言​        错误日志监控也可称为业务逻辑监控，旨在对业务系统运行过程中产生的错误日志进行收集收纳和监控告警。Sentry 所做的就是收集应用底层代码的崩溃信息，便于我们排除代码异常。 既有方案 单台服务器上每个系统服务自己维护自己的日志，方便自己查看 同台服务器上多个日志集中存放到同个目录，方便集中管理 使用 ELK 系统，将所有日志输出到 ELK 系统，使用 GUI">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081129977.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081129682.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081129297.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081129370.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081129961.png">
+<meta property="article:published_time" content="2019-10-18T06:29:31.000Z">
+<meta property="article:modified_time" content="2022-03-02T13:28:19.794Z">
+<meta property="article:author" content="zhangweijie">
+<meta property="article:tag" content="Sentry">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081129977.png">
+  
+  
+  <title>Sentry 入门 - ffreedom</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","app_key":"WbImCRYLaCb0AN9W178IBFBs","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ffreedom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Sentry 入门">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-10-18 14:29" pubdate>
+        2019年10月18日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      34 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Sentry 入门</h1>
+            
+            <div class="markdown-body">
+              <h2 id="Sentry-入门"><a href="#Sentry-入门" class="headerlink" title="Sentry 入门"></a>Sentry 入门</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>​        错误日志监控也可称为业务逻辑监控，旨在对业务系统运行过程中产生的错误日志进行收集收纳和监控告警。Sentry 所做的就是收集应用底层代码的崩溃信息，便于我们排除代码异常。</p>
+<h3 id="既有方案"><a href="#既有方案" class="headerlink" title="既有方案"></a>既有方案</h3><ol>
+<li>单台服务器上每个系统服务自己维护自己的日志，方便自己查看</li>
+<li>同台服务器上多个日志集中存放到同个目录，方便集中管理</li>
+<li>使用 ELK 系统，将所有日志输出到 ELK 系统，使用 GUI 进行管理展示</li>
+</ol>
+<h3 id="存在问题"><a href="#存在问题" class="headerlink" title="存在问题"></a>存在问题</h3><ol>
+<li><p>无法第一时间感知错误</p>
+<p>脚本日志的拉取不是实时的，web端用户的反馈也存在滞后的问题，从出现问题到解决问题周期会很长，容易是工作陷入被动</p>
+</li>
+<li><p>错误信息的获取比较低效</p>
+<p>用户反馈的信息及可能有的邮件报警信息都非常有限且不够准确，最终开发人员还是得在日志文件中大量的翻看上下文查看关联信息。更困难的是错误不能重现的话，还需要不断埋点测试去获取变量数据，十分难以定位问题。</p>
+</li>
+<li><p>日志处理方式不够灵活</p>
+<p>通常来说，除了程序运行出错，我们也比较关心其他异常情况，比如数据污染，非法请求，第三方 API 调用异常等等。如果将辞了等同错误全部记录下来，很容易就会使告警信息泛滥，无法及时获得有效信息。但是如果不处理此类异常，迟早会导致严重问题。所以我们需要对不同的日志内容有不同的处理方式，相同的日志内容也可以根据不同的业务场景进行不同的处理。</p>
+</li>
+<li><p>监控覆盖面有限</p>
+<p>完整的监控应该是包含脚本，前端以及后端的，但是当前后端分离以后，很多前端的问题无法被统一记录下来</p>
+</li>
+</ol>
+<h3 id="Sentry-基本介绍"><a href="#Sentry-基本介绍" class="headerlink" title="Sentry 基本介绍"></a>Sentry 基本介绍</h3><p>Sentry 是一个现代化的错误日志记录以及聚合平台。支持几乎所有的主流开发语言及平台，并提供现代化 UI。</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081129977.png" srcset="/img/loading.gif" lazyload alt="image-20191017165847184"></p>
+<ol>
+<li><p>优势</p>
+<p>接入 Sentry 前；</p>
+<ul>
+<li>用户A: 发布功能用不了</li>
+<li>开发者A: 哪个页面? 截个图</li>
+<li>用户A: (发截图)</li>
+<li>开发者A发现bug可以重现, 登录服务器查看错误日志, 确认程序逻辑无问题, 查看数据库数据, 发现有脏数据. 联系开发者B检查负责更新数据的python脚本C.py.</li>
+<li>开发者B登录服务器查看错误日志, 发现一个逻辑错误导致脚本罢工, 已持续了一个小时. 影响了数千条数据</li>
+</ul>
+<p>接入 Sentry 后：</p>
+<ul>
+<li>开发者A,B同时收到邮件告警, 一分钟前脚本C.py异常退出.</li>
+<li>开发者B进入sentry后台查看错误信息, 定位问题并将其修复, 再清理受影响的数十条数据.</li>
+<li>在此过程中没有用户受到影响, 无需开发者A介入</li>
+</ul>
+</li>
+<li><p>概念</p>
+<ul>
+<li><p>event</p>
+<p>可操作数据的基本单位，每一次日志输出就会产生一个 event。event并不一定是错误，如果日志级别设置的很低，那么后台就会产生非常多的 event，所以正确的设置日志的级别 非常的重要。</p>
+</li>
+<li><p>issue</p>
+<p>同意类 event 的聚合，某一个错误可能因为重复执行而被记录多次，在 sentry系统会自动聚合到一起，方便处理，通常我们操作的对象也就是 issue。</p>
+</li>
+<li><p>DNS</p>
+<p>DNS 及时客户端密匙，用来进行客户端和服务端的通信。DNS 是一个 URL，包含一个公匙，一个私匙，项目标记及服务器地址（<a target="_blank" rel="noopener" href="https://facc2ededdfa45ba955dca1eb485915a@sentry.socmap.org/7%EF%BC%89">https://facc2ededdfa45ba955dca1eb485915a@sentry.socmap.org/7）</a></p>
+</li>
+<li><p>raven</p>
+<p>整个错误日志监控系统包含客户端和服务端，Sentry 是服务端的名称，客户端名称为 Raven，需要两者配合才能工作。</p>
+</li>
+</ul>
+</li>
+<li><p>创建项目流程</p>
+<ol>
+<li><p>登录 Sentry 系统</p>
+<img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081129682.png" srcset="/img/loading.gif" lazyload alt="image-20191024093908660" style="zoom:50%;" />
+</li>
+<li><p>点击创建项目</p>
+<img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081129297.png" srcset="/img/loading.gif" lazyload alt="image-20191024094042431" style="zoom:50%;" />
+</li>
+<li><p>选择框架</p>
+<img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081129370.png" srcset="/img/loading.gif" lazyload alt="image-20191024094257179" style="zoom:50%;" />
+</li>
+<li><p>根据指示下载安装包并进行配置</p>
+<img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081129961.png" srcset="/img/loading.gif" lazyload alt="image-20191024095325581" style="zoom:50%;" /></li>
+</ol>
+<p>在 flask 中的配置有两种方式，可以自由选择</p>
+<p>第一种：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><pre><code class="hljs reasonml">from raven.contrib.flask import Sentry<br>sentry = <span class="hljs-constructor">Sentry()</span><br>sentry.init<span class="hljs-constructor">_app(<span class="hljs-params">app</span>,<span class="hljs-params">dsn</span>=<span class="hljs-string">&quot;https://facc2ededdfa45ba955dca1eb485915a@sentry.socmap.org/7&quot;</span>,<span class="hljs-params">logging</span>=True, <span class="hljs-params">level</span>=<span class="hljs-params">logging</span>.ERROR)</span><br></code></pre></td></tr></table></figure>
+
+<p>第二种：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs angelscript"><span class="hljs-keyword">import</span> sentry_sdk<br><span class="hljs-keyword">from</span> sentry_sdk.<span class="hljs-built_in">int</span>egrations.flask <span class="hljs-keyword">import</span> FlaskIntegration<br>sentry_sdk.init(dsn=<span class="hljs-string">&quot;https://facc2ededdfa45ba955dca1eb485915a@sentry.socmap.org/7&quot;</span>,<br><span class="hljs-built_in">int</span>egrations=[FlaskIntegration()])<br></code></pre></td></tr></table></figure>
+
+<h3 id="gunicorn-与-Sentry-结合配置"><a href="#gunicorn-与-Sentry-结合配置" class="headerlink" title="gunicorn 与 Sentry 结合配置"></a>gunicorn 与 Sentry 结合配置</h3><p>使用 yaml 文件进行 logging 配置</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-comment"># Logging configuration</span><br><br><span class="hljs-section">[loggers]</span><br><span class="hljs-attr">keys</span> = root, gunicorn.access, gunicorn.error<br><br><span class="hljs-section">[handlers]</span><br><span class="hljs-attr">keys</span> = access, error, sentry<br><br><span class="hljs-section">[formatters]</span><br><span class="hljs-attr">keys</span> = json, generic<br><br><span class="hljs-comment"># Root logger</span><br><span class="hljs-comment"># The root logger sends messages to the console and to Sentry.</span><br><span class="hljs-section">[logger_root]</span><br><span class="hljs-attr">handlers</span> = error, sentry<br><br><span class="hljs-comment"># Gunicorn loggers</span><br><span class="hljs-comment"># Gunicorn logging is configured with two loggers: &#x27;gunicorn.access&#x27; and &#x27;gunicorn.error&#x27;.</span><br><span class="hljs-comment"># The access log is sent to stdout and the error log is sent to stderr, both without propagation.</span><br><span class="hljs-comment"># Only the critical logger has a handler to send messages to Sentry.</span><br><br><span class="hljs-section">[logger_gunicorn.access]</span><br><span class="hljs-attr">handlers</span> = access<br><span class="hljs-attr">qualname</span> = gunicorn.access<br><span class="hljs-attr">level</span> = INFO<br><span class="hljs-attr">propagate</span> = <span class="hljs-number">0</span><br><br><span class="hljs-section">[logger_gunicorn.error]</span><br><span class="hljs-attr">handlers</span> = error, sentry<br><span class="hljs-attr">qualname</span> = gunicorn.error<br><span class="hljs-attr">level</span> = ERROR<br><span class="hljs-attr">propagate</span> = <span class="hljs-number">0</span><br><br><span class="hljs-section">[handler_access]</span><br><span class="hljs-attr">class</span> = StreamHandler<br><span class="hljs-attr">formatter</span> = json<br><span class="hljs-attr">args</span> = (sys.stdout,)<br><br><span class="hljs-section">[handler_error]</span><br><span class="hljs-attr">class</span> = StreamHandler<br><span class="hljs-attr">formatter</span> = json<br><span class="hljs-attr">args</span> = (sys.stderr,)<br><br><span class="hljs-section">[handler_sentry]</span><br><span class="hljs-attr">class</span> = raven.handlers.logging.SentryHandler<br><span class="hljs-attr">level</span> = CRITICAL<br><span class="hljs-attr">formatter</span> = generic<br><span class="hljs-attr">args</span> = (<span class="hljs-string">&quot;https://facc2ededdfa45ba955dca1eb485915a@sentry.socmap.org/7&quot;</span>,)<br><br><span class="hljs-section">[formatter_generic]</span><br><span class="hljs-attr">format</span> = [bs-whatweb][%(levelname)s] [%(name)s]: %(message)s<br><span class="hljs-section">[formatter_json]</span><br><span class="hljs-attr">class</span> = project.api.utils.logger.JSONFormatter<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="Docker-部署"><a href="#Docker-部署" class="headerlink" title="Docker 部署"></a>Docker 部署</h3><p>Sentry 官方还提供了 Docker 镜像以及<a target="_blank" rel="noopener" href="https://github.com/docker-library/docs/blob/master/sentry/variant-onbuild.md">部署方案</a>，用起来非常方便。</p>
+<ol>
+<li>首先安装并启动 Docker 服务，然后拉取最新的 Sentry 镜像：<code>docker pull sentry</code>。</li>
+<li>启动一个 redis 服务作为消息 broker：<code>docker run -d --name sentry-redis redis</code></li>
+<li>设置数据库密码作为环境变量，之后的命令都会用到：<code>export DBPW=&#39;&lt;your-postgres-db-password&gt;&#39;</code></li>
+<li>启动一个 Postgres 数据库服务作为存储数据库：<code>docker run -d --name sentry-postgres -e POSTGRES_PASSWORD=&#39;$(DBPW)&#39; -e POSTGRES_USER=sentry postgres</code>，这里推荐使用 Volume 将数据库文件单独挂载出来。</li>
+<li>migrate 数据库结构至最新：<code>docker run -it --rm -e SENTRY_SECRET_KEY=&#39;$(DBPW)&#39; --link sentry-postgres:postgres --link sentry-redis:redis sentry upgrade</code></li>
+<li>启动 Sentry 服务并链接以上服务: <code>docker run -d --name sentry-app -e SENTRY_SECRET_KEY=&#39;$(DBPW)&#39; --link sentry-redis:redis --link sentry-postgres:postgres -p 8080:9000 sentry</code></li>
+<li>运行一个 cron 容器用于定时任务：<code>docker run -d --name sentry-cron -e SENTRY_SECRET_KEY=&#39;$(DBPW)&#39; --link sentry-postgres:postgres --link sentry-redis:redis sentry run cron</code></li>
+<li>运行一个 worker 容器用于后台任务：<code>docker run -d --name sentry-worker-1 -e SENTRY_SECRET_KEY=&#39;$(DBPW)&#39; --link sentry-postgres:postgres --link sentry-redis:redis sentry run worker</code></li>
+</ol>
+<p>如果没有什么错误发生，使用 <code>docker ps</code> 命令将会得到 <code>sentry-app</code>、<code>sentry-posgres</code>、<code>sentry-redis</code>、<code>sentry-cron</code>、<code>sentry-worker-1</code> 5 个正在运行的容器。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%9B%91%E6%8E%A7%E9%A2%84%E8%AD%A6/">监控预警</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%9B%91%E6%8E%A7%E9%A2%84%E8%AD%A6/Sentry/">Sentry</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Sentry/">Sentry</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/11/05/OAuth%20%E7%AE%80%E4%BB%8B/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">OAuth 简介</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/07/31/Anaconda/">
+                        <span class="hidden-mobile">Anaconda 安装</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","appKey":"WbImCRYLaCb0AN9W178IBFBs","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

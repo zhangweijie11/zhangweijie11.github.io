@@ -1,0 +1,677 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangweijie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="OAuth 简介1、前言​        OAuth2 是一个授权框架或者说是授权标准，它可以使第三方应用程序或者客户端获得对 HTTP服务上（例如 Google，GitHub 等）用户账户信息的有限访问权限。OAuth2 通过将用户身份验证委派给托管用户账户的服务以及授权客户端访问用户账户进行工作。综上，OAuth2 可以为 web 应用和桌面应用以及移动应用提供授权流程。 2、角色​">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OAuth 简介">
+<meta property="og:url" content="http://example.com/2019/11/05/OAuth%20%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:site_name" content="ffreedom">
+<meta property="og:description" content="OAuth 简介1、前言​        OAuth2 是一个授权框架或者说是授权标准，它可以使第三方应用程序或者客户端获得对 HTTP服务上（例如 Google，GitHub 等）用户账户信息的有限访问权限。OAuth2 通过将用户身份验证委派给托管用户账户的服务以及授权客户端访问用户账户进行工作。综上，OAuth2 可以为 web 应用和桌面应用以及移动应用提供授权流程。 2、角色​">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081120366.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081121073.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081121100.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081122114.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081122619.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081122939.png">
+<meta property="article:published_time" content="2019-11-05T08:31:31.000Z">
+<meta property="article:modified_time" content="2022-03-02T13:32:42.594Z">
+<meta property="article:author" content="zhangweijie">
+<meta property="article:tag" content="OAuth">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081120366.png">
+  
+  
+  <title>OAuth 简介 - ffreedom</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","app_key":"WbImCRYLaCb0AN9W178IBFBs","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ffreedom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="OAuth 简介">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-11-05 16:31" pubdate>
+        2019年11月5日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      9.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      76 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">OAuth 简介</h1>
+            
+            <div class="markdown-body">
+              <h2 id="OAuth-简介"><a href="#OAuth-简介" class="headerlink" title="OAuth 简介"></a>OAuth 简介</h2><h3 id="1、前言"><a href="#1、前言" class="headerlink" title="1、前言"></a>1、前言</h3><p>​        OAuth2 是一个授权框架或者说是授权标准，它可以使第三方应用程序或者客户端获得对 HTTP服务上（例如 Google，GitHub 等）用户账户信息的有限访问权限。OAuth2 通过将用户身份验证委派给托管用户账户的服务以及授权客户端访问用户账户进行工作。综上，OAuth2 可以为 web 应用和桌面应用以及移动应用提供授权流程。</p>
+<h3 id="2、角色"><a href="#2、角色" class="headerlink" title="2、角色"></a>2、角色</h3><p>​        首先介绍 OAuth2 协议中的角色，整个授权协议的流程都是围绕着这些角色：</p>
+<ul>
+<li><p>resource owner：资源所有者，能够允许访问瘦保护资源的实体，如果是个人则被称为 end-user</p>
+</li>
+<li><p>resource server：资源服务器，托管受保护资源的服务器</p>
+</li>
+<li><p>client：客户端，使用资源所有者的授权代表资源所有者发起对受保护资源的请求的应用程序。例如 web 应用及移动程序等</p>
+</li>
+<li><p>authorization server：授权服务器，能够向客户端颁发令牌</p>
+</li>
+<li><p>user-agent：用户代理，帮助资源所有者与客户端沟通的工具，一般为 web 浏览器、移动 APP 等</p>
+</li>
+</ul>
+<p>举例说明：</p>
+<p>我想在 CSDN网站看到一篇文章想进行评论和留言，但是评论的时候发现必须要登录以后才能留言。此时有两个选项，第一是在 CSDN注册一个新的账号然后登录去留言，第二是使用 GitHub 的账号登录然后评论留言。如果我们现在选择使用 GitHub 登录那么 OAuth2 的认证流程就开始了。此时 CSDN 相对于 GitHub 就是一个客户端，而我们使用的浏览器就是一个用户代理。当从 GitHub 授权服务器获得 token 后，CSDN 需要请求 GitHub 的张哈票信息，请求的地址就是 GitHub 的资源服务器</p>
+<h3 id="3、授权流程"><a href="#3、授权流程" class="headerlink" title="3、授权流程"></a>3、授权流程</h3><p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081120366.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<ol>
+<li>Authrization Request<br>客户端向用户请求对资源服务器的<code>authorization grant</code>。</li>
+<li>Authorization Grant（Get）<br>如果用户授权该次请求，客户端将收到一个<code>authorization grant</code>。</li>
+<li>Authorization Grant（Post）<br>客户端向授权服务器发送它自己的客户端身份标识和上一步中的<code>authorization grant</code>，请求访问令牌。</li>
+<li>Access Token（Get）<br>如果客户端身份被认证，并且<code>authorization grant</code>也被验证通过，授权服务器将为客户端派发<code>access token</code>。授权阶段至此全部结束。</li>
+<li>Access Token（Post &amp;&amp; Validate）<br>客户端向资源服务器发送<code>access token</code>用于验证并请求资源信息。</li>
+<li>Protected Resource（Get）<br>如果<code>access token</code>验证通过，资源服务器将向客户端返回资源信息。</li>
+</ol>
+<h3 id="4、客户端应用注册"><a href="#4、客户端应用注册" class="headerlink" title="4、客户端应用注册"></a>4、客户端应用注册</h3><p>在应用 OAuth 2 之前，你必须在授权方服务中注册你的应用。如 <a target="_blank" rel="noopener" href="https://developers.google.com/identity/">Google Identity Platform</a> 或者 <a target="_blank" rel="noopener" href="https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/">Github OAuth Setting</a>，诸如此类 OAuth 实现平台中一般都要求开发者提供如下所示的授权设置项。</p>
+<ul>
+<li>应用名称</li>
+<li>应用网站</li>
+<li>重定向URI或回调URL</li>
+</ul>
+<p>重定向URI是授权方服务在用户授权（或拒绝）应用程序之后重定向供用户访问的地址，因此也是用于处理授权码或访问令牌的应用程序的一部分。</p>
+<h4 id="4-1-Client-ID-和-Client-Secret"><a href="#4-1-Client-ID-和-Client-Secret" class="headerlink" title="4.1 Client ID 和 Client Secret"></a>4.1 Client ID 和 Client Secret</h4><p>一旦你的应用注册成功，授权方服务将以<code>client id</code>和<code>client secret</code>的形式为应用发布<code>client credentials</code>（客户端凭证）。<code>client id</code>是公开透明的字符串，授权方服务使用该字符串来标识应用程序，并且还用于构建呈现给用户的授权 url 。当应用请求访问用户的帐户时，<code>client secret</code>用于验证应用身份，并且必须在客户端和服务之间保持私有性。</p>
+<h3 id="5、授权许可（Authorization-Grant）"><a href="#5、授权许可（Authorization-Grant）" class="headerlink" title="5、授权许可（Authorization Grant）"></a>5、授权许可（Authorization Grant）</h3><p>如上文的抽象授权流程图所示，前四个阶段包含了获取<code>authorization grant</code>和<code>access token</code>的动作。授权许可类型取决于应用请求授权的方式和授权方服务支持的 Grant Type。OAuth 2 定义了四种 Grant Type，每一种都有适用的应用场景。</p>
+<ul>
+<li>Authorization Code<br>结合普通服务器端应用使用。</li>
+<li>Implicit<br>结合移动应用或 Web App 使用。</li>
+<li>Resource Owner Password Credentials<br>适用于受信任客户端应用，例如同个组织的内部或外部应用。</li>
+<li>Client Credentials<br>适用于客户端调用主服务API型应用（比如百度API Store）</li>
+</ul>
+<p>以下将分别介绍这四种许可类型的相关授权流程。</p>
+<h4 id="5-1-授权码模式（Authorization-Code-Flow）"><a href="#5-1-授权码模式（Authorization-Code-Flow）" class="headerlink" title="5.1 授权码模式（Authorization Code Flow）"></a>5.1 授权码模式（Authorization Code Flow）</h4><p><code>Authorization Code</code> 是最常使用的一种授权许可类型，它适用于第三方应用类型为<code>server-side</code>型应用的场景。<code>Authorization Code</code>授权流程基于重定向跳转，客户端必须能够与<code>User-agent</code>（即用户的 Web 浏览器）交互并接收通过<code>User-agent</code>路由发送的实际<code>authorization code</code>值。</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081121073.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h4 id="1-User-Authorization-Request"><a href="#1-User-Authorization-Request" class="headerlink" title="1. User Authorization Request"></a>1. User Authorization Request</h4><p>首先，客户端构造了一个用于请求<code>authorization code</code>的URL并引导<code>User-agent</code>跳转访问。</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">https:</span><span class="hljs-comment">//authorization-server.com/auth</span><br> ?response_<span class="hljs-attr">type</span><span class="hljs-operator">=</span>code<br> <span class="hljs-variable">&amp;client_id</span>=<span class="hljs-number">29352915982374239857</span><br> <span class="hljs-variable">&amp;redirect_uri</span>=https%<span class="hljs-number">3</span>A%<span class="hljs-number">2F</span>%<span class="hljs-number">2F</span>example-client.com%<span class="hljs-number">2F</span>callback<br> <span class="hljs-variable">&amp;scope</span>=create+delete<br> <span class="hljs-variable">&amp;state</span>=xcoiv98y2kd22vusuye3kch<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>response_type&#x3D;code<br>此参数和参数值用于提示授权服务器当前客户端正在进行<code>Authorization Code</code>授权流程。</li>
+<li>client_id<br>客户端身份标识。</li>
+<li>redirect_uri<br>标识授权服务器接收客户端请求后返回给<code>User-agent</code>的跳转访问地址。</li>
+<li>scope<br>指定客户端请求的访问级别。</li>
+<li>state<br>由客户端生成的随机字符串，步骤2中用户进行授权客户端的请求时也会携带此字符串用于比较，这是为了防止<code>CSRF</code>攻击。</li>
+</ul>
+<h4 id="2-User-Authorizes-Applcation"><a href="#2-User-Authorizes-Applcation" class="headerlink" title="2. User Authorizes Applcation"></a>2. User Authorizes Applcation</h4><p>当用户点击上文中的示例链接时，用户必须已经在授权服务中进行登录（否则将会跳转到登录界面，<strong>不过 OAuth 2 并不关心认证过程</strong>），然后授权服务会提示用户授权或拒绝应用程序访问其帐户。以下是授权应用程序的示例：</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081121100.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h4 id="3-Authorization-Code-Grant"><a href="#3-Authorization-Code-Grant" class="headerlink" title="3. Authorization Code Grant"></a>3. Authorization Code Grant</h4><p>如果用户确认授权，授权服务器将重定向<code>User-agent</code>至之前客户端提供的指向客户端的<code>redirect_uri</code>地址，并附带<code>code</code>和<code>state</code>参数（由之前客户端提供），于是客户端便能直接读取到<code>authorization code</code>值。</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pf">https://example-client.com/redirect<br> ?code=g0ZGZmNjVmOWIjNTk2NTk4ZTYyZGI3<br> &amp;<span class="hljs-keyword">state</span>=xcoiv98y2kd22vusuye3kch<br></code></pre></td></tr></table></figure>
+
+<p><code>state</code>值将与客户端在请求中最初设置的值相同。客户端将检查重定向中的状态值是否与最初设置的状态值相匹配。这可以防止CSRF和其他相关攻击。</p>
+<p><code>code</code>是授权服务器生成的<code>authorization code</code>值。<code>code</code>相对较短，通常持续1到10分钟，具体取决于授权服务器设置。</p>
+<h4 id="4-Access-Token-Request"><a href="#4-Access-Token-Request" class="headerlink" title="4. Access Token Request"></a>4. Access Token Request</h4><p>现在客户端已经拥有了服务器派发的<code>authorization code</code>，接下来便可以使用<code>authorization code</code>和其他参数向服务器请求<code>access token</code>（POST方式）。其他相关参数如下：</p>
+<ul>
+<li>grant_type&#x3D;authorization_code - 这告诉服务器当前客户端正在使用<code>Authorization Code</code>授权流程。</li>
+<li>code - 应用程序包含它在重定向中给出的授权码。</li>
+<li>redirect_uri - 与请求<code>authorization code</code>时使用的<code>redirect_uri</code>相同。某些资源（API）不需要此参数。</li>
+<li>client_id - 客户端标识。</li>
+<li>client_secret - 应用程序的客户端密钥。这确保了获取<code>access token</code>的请求只能从客户端发出，而不能从可能截获<code>authorization code</code>的攻击者发出。</li>
+</ul>
+<h4 id="5-Access-Token-Grant"><a href="#5-Access-Token-Grant" class="headerlink" title="5. Access Token Grant"></a>5. Access Token Grant</h4><p>服务器将会验证第4步中的请求参数，当验证通过后（校验<code>authorization code</code>是否过期，<code>client id</code>和<code>client secret</code>是否匹配等），服务器将向客户端返回<code>access token</code>。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;access_token&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;token_type&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;bearer&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;expires_in&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-number">3600</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;refresh_token&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;scope&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;create delete&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>至此，授权流程全部结束。直到<code>access token</code> 过期或失效之前，客户端可以通过资源服务器API访问用户的帐户，并具备<code>scope</code>中给定的操作权限。</p>
+<h4 id="5-2-Implicit-Flow"><a href="#5-2-Implicit-Flow" class="headerlink" title="5.2 Implicit Flow"></a>5.2 Implicit Flow</h4><p><code>Implicit</code>授权流程和<code>Authorization Code</code>基于重定向跳转的授权流程十分相似，但它适用于移动应用和 Web App，这些应用与普通服务器端应用相比有个特点，即<code>client secret</code>不能有效保存和信任。</p>
+<p>相比<code>Authorization Code</code>授权流程，<code>Implicit</code>去除了请求和获得<code>authorization code</code>的过程，而用户点击授权后，授权服务器也会直接把<code>access token</code>放在<code>redirect_uri</code>中发送给<code>User-agent</code>（浏览器）。 同时第1步构造请求用户授权 url 中的<code>response_type</code>参数值也由 <em>code</em> 更改为 <em>token</em> 或 <em>id_token</em> 。</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081122114.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h4 id="1-User-Authorization-Request-1"><a href="#1-User-Authorization-Request-1" class="headerlink" title="1. User Authorization Request"></a>1. User Authorization Request</h4><p>客户端构造的URL如下所示：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">https</span>://&#123;yourOktaDomain&#125;.com/oauth2/default/v1/authorize?client_id=<span class="hljs-number">0</span>oabv6kx4qq6<br><span class="hljs-attribute">h1U5l0h7</span>&amp;response_type=token&amp;redirect_uri=http%<span class="hljs-number">3</span>A%<span class="hljs-number">2</span>F%<span class="hljs-number">2</span>Flocalhost%<span class="hljs-number">3</span><br><span class="hljs-attribute">A8080</span>&amp;state=state-<span class="hljs-number">296</span>bc9a0-a2a2-<span class="hljs-number">4</span>a57-be1a-d0e2fd9bb601&amp;nonce=foo&#x27;<br></code></pre></td></tr></table></figure>
+
+<p><em>response_type</em>的<code>response_type</code>参数值为 <em>token</em> 或 <em>id_token</em> 。其他请求参数与<code>Authorization Code</code>授权流程相比没有并什么变化。</p>
+<h4 id="2-User-Authorizes-Application（略）"><a href="#2-User-Authorizes-Application（略）" class="headerlink" title="2. User Authorizes Application（略）"></a>2. User Authorizes Application（略）</h4><h4 id="3-Redirect-URI-With-Access-Token-In-Fragment"><a href="#3-Redirect-URI-With-Access-Token-In-Fragment" class="headerlink" title="3. Redirect URI With Access Token In Fragment"></a>3. Redirect URI With Access Token In Fragment</h4><p>假设用户授予访问权限，授权服务器将<code>User-agent</code>（浏览器） 重定向回客户端使用之前提供的<code>redirect_uri</code>。并在 uri 的 #fragment 部分添加<code>access_token</code>键值对。如下所示：</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-link">http://localhost:8080/#access_token=eyJhb</span>[<span class="hljs-string">...</span>]<span class="hljs-link">erw&amp;token_type=Bearer&amp;expires_in=3600&amp;scope=openid&amp;state=state-296bc9a0-a2a2-4a57-be1a-d0e2fd9bb601</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>token_type - 当且仅当<code>response_type</code>设置为 <em>token</em> 时返回，值恒为 <em>Bearer</em>。</li>
+</ul>
+<blockquote>
+<p>注意在<code>Implicit</code>流程中，<code>access_token</code>值放在了 URI 的 #fragment 部分，而不是作为 ?query 参数。</p>
+</blockquote>
+<h4 id="4-User-agent-Follows-the-Redirect-URI"><a href="#4-User-agent-Follows-the-Redirect-URI" class="headerlink" title="4. User-agent Follows the Redirect URI"></a>4. User-agent Follows the Redirect URI</h4><p><code>User-agent</code>（浏览器）遵循重定向指令，请求<code>redirect_uri</code>标识的客户端地址，<strong>并在本地保留 uri 的 #fragment 部分的<code>access_token</code>信息</strong>。</p>
+<h4 id="5-Application-Sends-Access-Token-Extraction-Script"><a href="#5-Application-Sends-Access-Token-Extraction-Script" class="headerlink" title="5. Application Sends Access Token Extraction Script"></a>5. Application Sends Access Token Extraction Script</h4><p>客户端生成一个包含 token 解构脚本的 Html 页面，这个页面被发送给<code>User-agent</code>（浏览器），执行脚本解构完整的<code>redirect_uri</code>并提取其中的<code>access_token</code>（<code>access token</code>信息在第4步中已经被<code>User-agent</code>保存）。</p>
+<h4 id="6-Access-Token-Passed-to-Application"><a href="#6-Access-Token-Passed-to-Application" class="headerlink" title="6. Access Token Passed to Application"></a>6. Access Token Passed to Application</h4><p><code>User-agent</code>（浏览器）向客户端发送解构提取的<code>access token</code>。</p>
+<p>至此，授权流程全部结束。直到<code>access token</code> 过期或失效之前，客户端可以通过资源服务器API访问用户的帐户，并具备<code>scope</code>中给定的操作权限。</p>
+<h4 id="5-3-Resource-Owner-Password-Credentials-Flow"><a href="#5-3-Resource-Owner-Password-Credentials-Flow" class="headerlink" title="5.3 Resource Owner Password Credentials Flow"></a>5.3 Resource Owner Password Credentials Flow</h4><p><code>Resource Owner Password Credentials</code>授权流程适用于用户与客户端具有信任关系的情况，例如设备操作系统或同一组织的内部及外部应用。用户与应用交互表现形式往往体现为客户端能够直接获取用户凭据（用户名和密码，通常使用交互表单）。</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081122619.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h4 id="1-Resource-Owner-Password-Credentials-From-User-Input"><a href="#1-Resource-Owner-Password-Credentials-From-User-Input" class="headerlink" title="1. Resource Owner Password Credentials From User Input"></a>1. Resource Owner Password Credentials From User Input</h4><p>用户向客户端提供用户名与密码作为授权凭据。</p>
+<h4 id="2-Resource-Owner-Password-Credentials-From-Client-To-Server"><a href="#2-Resource-Owner-Password-Credentials-From-Client-To-Server" class="headerlink" title="2. Resource Owner Password Credentials From Client To Server"></a>2. Resource Owner Password Credentials From Client To Server</h4><p>客户端向授权服务器发送用户输入的授权凭据以请求 <code>access token</code>。客户端必须已经在服务器端进行注册。</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-keyword">POST</span> <span class="hljs-string">/token</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>server.example.com<br><span class="hljs-attribute">Authorization</span><span class="hljs-punctuation">: </span>Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/x-www-form-urlencoded<br><br><span class="language-dts">grant_<span class="hljs-attr">type</span><span class="hljs-operator">=</span>password<span class="hljs-variable">&amp;username</span>=johndoe<span class="hljs-variable">&amp;password</span>=A3ddj3w</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>grant_type - 必选项，值恒为 <em>password</em></li>
+</ul>
+<h4 id="3-Access-Token-Passed-to-Application"><a href="#3-Access-Token-Passed-to-Application" class="headerlink" title="3. Access Token Passed to Application"></a>3. Access Token Passed to Application</h4><p>授权服务器对客户端进行认证并检验用户凭据的合法性，如果检验通过，将向客户端派发 <code>access token</code>&gt;</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;access_token&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;2YotnFZFEjr1zCsicMWpAA&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;token_type&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;example&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;expires_in&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-number">3600</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;refresh_token&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;tGzv3JOkF0XG5Qx2TlKWIA&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;example_parameter&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;example_value&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="5-4-Client-Credentials-Flow"><a href="#5-4-Client-Credentials-Flow" class="headerlink" title="5.4 Client Credentials Flow"></a>5.4 Client Credentials Flow</h4><p><code>Client Credential</code>是最简单的一种授权流程。客户端可以直接使用它的<code>client credentials</code>或其他有效认证信息向授权服务器发起获取<code>access token</code>的请求。</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081122939.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>两步中的请求体和返回体分别如下：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-keyword">POST</span> <span class="hljs-string">/token</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>server.example.com<br><span class="hljs-attribute">Authorization</span><span class="hljs-punctuation">: </span>Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/x-www-form-urlencoded<br><br><span class="language-ini"><span class="hljs-attr">grant_type</span>=client_credentials</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>grant_type - 必选项，值恒为 <em>client_credentials</em></li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>       <span class="hljs-attr">&quot;access_token&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;2YotnFZFEjr1zCsicMWpAA&quot;</span><span class="hljs-punctuation">,</span><br>       <span class="hljs-attr">&quot;token_type&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;example&quot;</span><span class="hljs-punctuation">,</span><br>       <span class="hljs-attr">&quot;expires_in&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-number">3600</span><span class="hljs-punctuation">,</span><br>       <span class="hljs-attr">&quot;example_parameter&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;example_value&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>首先我们需要明确的是，即使用户刚登录过 GitHub，CSDN 也不可能向 GitHub 随便发一个请求就能拿到访客信息，这显然是不安全的。就算用户允许你获取他在 GitHub 上的信息，但是 GitHub 为了保护用户的信息安全，也不会让你随意获取。所以在操作之前，CSDN 与 GitHub 之间需要有一个协商。</p>
+<p>####3.1 网站和 GitHub 之间的协商</p>
+<p>GitHub 会对用户的权限进行分类，比如读取仓库信息的权限，写入仓库的权限，读取用户信息的权限，修改用户信息的权限等。如果我想获取用户的信息，GitHub 会要求我现在他的平台上注册一个应用，在申请的时候标明需要获取用户的哪些权限，用多少就申请多少，并且在申请的时候填写你的网站域名，GitHub 只会允许在这个域名中获取用户信息。</p>
+<p>此时 CSDN 已经和 GitHub 之间达成了共识，GitHub 也会发给 CSDN 两张门票，一张是clientID，另一张是clientSecrect</p>
+<h4 id="3-2-用户与-GitHub-之间的协商"><a href="#3-2-用户与-GitHub-之间的协商" class="headerlink" title="3.2 用户与 GitHub 之间的协商"></a>3.2 用户与 GitHub 之间的协商</h4><p>用户进入网站后，点击 GitHub 登录按钮的时候，CSDN 会将第一步拿到的 clientID 交给用户，让他进入到 GitHub 的授权页面，GitHub 看到用户手中的 clientID 会知道CSDN 是被允许获取信息的，于是 GitHub 将 CSDN 想要获取的权限罗列出来，并询问用户是否允许 CSDN 获取这些权限</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">//</span> 用户登录 github，协商<br>GET https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/login/</span>oauth/authorize<br><br><span class="hljs-regexp">//</span> 协商凭证<br>params = &#123;<br>  client_id: <span class="hljs-string">&quot;xxxx&quot;</span>,<br>  redirect_uri: <span class="hljs-string">&quot;http://my-website.com&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如果用户觉得 CSDN 网站想要的权限太多了，或者用户压根就不想让 CSDN 获取信息，选择了拒绝的话，整个 OAuth2的认证就结束了，认证也以失败告终。如果用户觉得 OK 的话，在授权页面点击确认授权后，页面就会跳转到我预先设定的’redirect_url’并附带一个盖了章的门票 code</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">//</span> 协商成功后带着盖了章的 code<br>Location: http:<span class="hljs-regexp">//my</span>-website.com?code=xxx<br></code></pre></td></tr></table></figure>
+
+<p>这个时候用户和 GitHub 之间的协商也就完成了，GitHub 会在自己的系统中记录此次协商，标识该用户已经允许在GitHub 进行访问、操作和使用关于用户的部分资源</p>
+<h4 id="3-3-告诉-GitHub，CSDN-要来拜访了"><a href="#3-3-告诉-GitHub，CSDN-要来拜访了" class="headerlink" title="3.3 告诉 GitHub，CSDN 要来拜访了"></a>3.3 告诉 GitHub，CSDN 要来拜访了</h4><p>在第二步中，CSDN 已经拿到了盖过章的门票code，但是这个 code 只能表明，用户允许 CSDN 从 GitHub 上获取用户的数据，如果我直接拿这个 code 去 GitHub 访问数据一定会被拒绝，因为任何人都可以持有 code，GitHub 不知道 code 持有方就是 CSDN</p>
+<p>还记得之前申请应用的时候 GitHub给的两张门票，clientID 已经使用过了，接下来就轮到 clientSecrect</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">//</span> 网站和 github 之间的协商<br>POST https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/login/</span>oauth/access_token<br><br><span class="hljs-regexp">//</span> 协商凭证包括 github 给用户盖的章和 github 发给我的门票<br>params = &#123;<br>  code: <span class="hljs-string">&quot;xxx&quot;</span>,<br>  client_id: <span class="hljs-string">&quot;xxx&quot;</span>,<br>  client_secret: <span class="hljs-string">&quot;xxx&quot;</span>,<br>  redirect_uri: <span class="hljs-string">&quot;http://my-website.com&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>拿着用户盖过章的 code 和能够标识个人身份的 clientID、clientSecrect 去拜访 GitHub，拿到最后的绿卡 access_token</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-comment">// 拿到最后的绿卡</span><br><span class="hljs-attr">response</span> <span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><br><span class="hljs-symbol">  access_token:</span> <span class="hljs-string">&quot;e72e16c7e42f292c6912e7710c838347ae178b4a&quot;</span><br><span class="hljs-symbol">  scope:</span> <span class="hljs-string">&quot;user,gist&quot;</span><br><span class="hljs-symbol">  token_type:</span> <span class="hljs-string">&quot;bearer&quot;</span>,<br><span class="hljs-symbol">  refresh_token:</span> <span class="hljs-string">&quot;xxxx&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="3-4-用户使用-GitHub-在-CSDN-留言"><a href="#3-4-用户使用-GitHub-在-CSDN-留言" class="headerlink" title="3.4 用户使用 GitHub 在 CSDN 留言"></a>3.4 用户使用 GitHub 在 CSDN 留言</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">//</span> 访问用户数据<br>GET https:<span class="hljs-regexp">//</span>api.github.com/user<br>?access_token=e72e16c7e42f292c6912e7710c838347ae178b4a<br></code></pre></td></tr></table></figure>
+
+<p>上一步 github 已经把最后的绿卡 access_token 给我了，通过 github 提供的 API 加绿卡就能够访问用户的信息了，能获取用户的哪些权限在 response 中也给了明确的说明，scope 为 user 和 gist，也就是只能获取 user 组和 gist 组两个小组的权限，user 组中就包含了用户的名字和邮箱等信息了。</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-comment">// 告诉我用户的名字和邮箱</span><br><span class="hljs-attr">response</span> <span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><br><span class="hljs-symbol">  username:</span> <span class="hljs-string">&quot;barretlee&quot;</span>,<br><span class="hljs-symbol">  email:</span> <span class="hljs-string">&quot;barret.china@gmail.com&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>值得一看的文章：</p>
+<p><a target="_blank" rel="noopener" href="https://learnku.com/articles/20082">https://learnku.com/articles/20082</a></p>
+<p><a target="_blank" rel="noopener" href="https://learnku.com/articles/20031">https://learnku.com/articles/20031</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%AE%A4%E8%AF%81%E6%8E%88%E6%9D%83/">认证授权</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/OAuth/">OAuth</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/11/06/aiohttp%20%E6%A8%A1%E5%9D%97%E8%AF%A6%E8%A7%A3.md/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">aiohttp 模块详解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/10/18/Sentry%20%E5%85%A5%E9%97%A8/">
+                        <span class="hidden-mobile">Sentry 入门</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","appKey":"WbImCRYLaCb0AN9W178IBFBs","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

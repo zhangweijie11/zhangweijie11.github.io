@@ -1,0 +1,965 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangweijie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Kong 网关简介及简单使用1、kong 网关简介Kong是在客户端和微服务端转发 API 通信的 API 网关，可以通过插件扩展功能。Kong 主要有两个重要的的组件：  Kong Server：基于 nginx 的服务器，用来接收 API 请求 Apache Cassandra：用于存储操作数据  我们可以通过增加更多的 Kong Server服务器对 Kong 服务进行水平扩展，通过前置的负">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kONG 网关简介及简单使用">
+<meta property="og:url" content="http://example.com/2020/02/07/Kong%20%E7%BD%91%E5%85%B3%E7%AE%80%E4%BB%8B%E5%8F%8A%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="ffreedom">
+<meta property="og:description" content="Kong 网关简介及简单使用1、kong 网关简介Kong是在客户端和微服务端转发 API 通信的 API 网关，可以通过插件扩展功能。Kong 主要有两个重要的的组件：  Kong Server：基于 nginx 的服务器，用来接收 API 请求 Apache Cassandra：用于存储操作数据  我们可以通过增加更多的 Kong Server服务器对 Kong 服务进行水平扩展，通过前置的负">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-07T08:01:31.000Z">
+<meta property="article:modified_time" content="2022-03-02T13:31:37.717Z">
+<meta property="article:author" content="zhangweijie">
+<meta property="article:tag" content="Kong">
+<meta property="article:tag" content="网关">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>kONG 网关简介及简单使用 - ffreedom</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","app_key":"WbImCRYLaCb0AN9W178IBFBs","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ffreedom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="kONG 网关简介及简单使用">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-02-07 16:01" pubdate>
+        2020年2月7日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      11k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      91 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">kONG 网关简介及简单使用</h1>
+            
+            <div class="markdown-body">
+              <h2 id="Kong-网关简介及简单使用"><a href="#Kong-网关简介及简单使用" class="headerlink" title="Kong 网关简介及简单使用"></a>Kong 网关简介及简单使用</h2><h3 id="1、kong-网关简介"><a href="#1、kong-网关简介" class="headerlink" title="1、kong 网关简介"></a>1、kong 网关简介</h3><p>Kong是在客户端和微服务端转发 API 通信的 API 网关，可以通过插件扩展功能。Kong 主要有两个重要的的组件：</p>
+<ul>
+<li>Kong Server：基于 nginx 的服务器，用来接收 API 请求</li>
+<li>Apache Cassandra：用于存储操作数据</li>
+</ul>
+<p>我们可以通过增加更多的 Kong Server服务器对 Kong 服务进行水平扩展，通过前置的负载均衡器向这些机器发送分发请求。根据文档描述，两个 Cassandra 节点就足以支撑绝大多数情况，但如果网络非常拥挤，可以适当考虑增加更多的节点。</p>
+<p>对于我们来说，Kong 中最为重要的一个特性就是可以通过插件扩展已有功能，这些插件在 API 请求响应循环的生命周期内被执行。插件使用 Lua 编写，而且 Kong 还有如下几个基础功能：</p>
+<p>HTTP 基本认证，密匙认证，CORS（Cross-origin Resource Sharing，跨域资源共享），TCP，UDP，文件日志，API请求限流，请求转发及 Nginx 监控等等</p>
+<h3 id="2、docker-部署-kong"><a href="#2、docker-部署-kong" class="headerlink" title="2、docker 部署 kong"></a>2、docker 部署 kong</h3><p>官方文档：<a target="_blank" rel="noopener" href="https://hub.docker.com/_/kong/">https://hub.docker.com/_/kong/</a></p>
+<p>设置网络</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs dos">docker network create kong-<span class="hljs-built_in">net</span><br></code></pre></td></tr></table></figure>
+
+<p>安装数据库， PostgreSQL and Cassandra，推荐使用 postgres（版本号可自由选择）</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">docker run -d --name kong-database \<br>              --network=kong-net \<br>              -p <span class="hljs-number">5432</span>:<span class="hljs-number">5432</span> \<br>              -e <span class="hljs-string">&quot;POSTGRES_USER=kong&quot;</span> \<br>              -e <span class="hljs-string">&quot;POSTGRES_DB=kong&quot;</span> \<br>              postgres:<span class="hljs-number">11</span>.<span class="hljs-number">1</span>-alpine<br></code></pre></td></tr></table></figure>
+
+<p>准备 kong 数据</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs livescript">docker run --rm <span class="hljs-string">\</span><br>    --network=kong-net <span class="hljs-string">\</span><br>    -e <span class="hljs-string">&quot;KONG_DATABASE=postgres&quot;</span> <span class="hljs-string">\</span><br>    -e <span class="hljs-string">&quot;KONG_PG_HOST=kong-database&quot;</span> <span class="hljs-string">\</span><br>    -e <span class="hljs-string">&quot;KONG_CASSANDRA_CONTACT_POINTS=kong-database&quot;</span> <span class="hljs-string">\</span><br>    kong:latest kong migrations bootstrap<br></code></pre></td></tr></table></figure>
+
+<p>启动kong，设置postgres 数据库</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs livescript">docker run -d --name kong <span class="hljs-string">\</span><br>    --network=kong-net <span class="hljs-string">\</span><br>    -e <span class="hljs-string">&quot;KONG_DATABASE=postgres&quot;</span> <span class="hljs-string">\</span><br>    -e <span class="hljs-string">&quot;KONG_PG_HOST=kong-database&quot;</span> <span class="hljs-string">\</span><br>    -e <span class="hljs-string">&quot;KONG_CASSANDRA_CONTACT_POINTS=kong-database&quot;</span> <span class="hljs-string">\</span><br>    -e <span class="hljs-string">&quot;KONG_PROXY_ACCESS_LOG=/dev/stdout&quot;</span> <span class="hljs-string">\</span><br>    -e <span class="hljs-string">&quot;KONG_ADMIN_ACCESS_LOG=/dev/stdout&quot;</span> <span class="hljs-string">\</span><br>    -e <span class="hljs-string">&quot;KONG_PROXY_ERROR_LOG=/dev/stderr&quot;</span> <span class="hljs-string">\</span><br>    -e <span class="hljs-string">&quot;KONG_ADMIN_ERROR_LOG=/dev/stderr&quot;</span> <span class="hljs-string">\</span><br>    -e <span class="hljs-string">&quot;KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl&quot;</span> <span class="hljs-string">\</span><br>    -p <span class="hljs-number">8000</span>:<span class="hljs-number">8000</span> <span class="hljs-string">\</span><br>    -p <span class="hljs-number">8443</span>:<span class="hljs-number">8443</span> <span class="hljs-string">\</span><br>    -p <span class="hljs-number">8001</span>:<span class="hljs-number">8001</span> <span class="hljs-string">\</span><br>    -p <span class="hljs-number">8444</span>:<span class="hljs-number">8444</span> <span class="hljs-string">\</span><br>    kong:latest<br></code></pre></td></tr></table></figure>
+
+<p>：8000 Kong 在该端口上侦听来自客户端的传入 HTTP 流量，并将其转发到上游服务</p>
+<p>：8443 Kong 在其上侦听传入的 HTTPS 流量。此端口具有与端口 8000 类似的行为，不过他仅支持 HTTPS通信，可以通过配置文件禁用此端口</p>
+<p>：8001 用于配置 Kong 侦听的 admin api</p>
+<p>：8444 admin api 在其上侦听 HTTPS 流量</p>
+<p>检查 kong 是否正常运行</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">curl -i http:<span class="hljs-regexp">//</span>localhost:<span class="hljs-number">8001</span>/<br></code></pre></td></tr></table></figure>
+
+<p>安装图形化界面</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs applescript">docker <span class="hljs-built_in">run</span> -d <span class="hljs-comment">--name kong-dashboard \</span><br>    <span class="hljs-comment">--network=kong-net \</span><br>    <span class="hljs-comment">--link kong:kong \</span><br>    -p <span class="hljs-number">8081</span>:<span class="hljs-number">8080</span> \<br>    pgbi/kong-dashboard:v2 migrations up<br></code></pre></td></tr></table></figure>
+
+<h3 id="3、配置服务"><a href="#3、配置服务" class="headerlink" title="3、配置服务"></a>3、配置服务</h3><p>向 kong添加 API，我们需要先添加一个 service，即使用 kong 用来指代其管理的上游 API 和微服务的名称</p>
+<p>我们将创建一个指向<a target="_blank" rel="noopener" href="https://mockbin.com/">Mockbin API的服务</a>。Mockbin是一个“回声”类型的公共网站，它将返回的请求返回给请求者，作为响应。这有助于了解Kong如何代理您的API请求。</p>
+<p>在开始对服务提出请求之前，需要为其添加一条<em>路由</em>。路线指定到达香港后如何（以及<em>是否</em>）将请求发送到其服务。单个服务可以具有多个路由。</p>
+<p>配置服务和路线后，您将可以使用它们通过Kong发出请求。</p>
+<p>Kong 在port上公开了<a target="_blank" rel="noopener" href="https://docs.konghq.com/2.0.x/admin-api">RESTful Admin API</a><code>:8001</code>。Kong的配置（包括添加服务和路由）是通过该API上的请求进行的。</p>
+<h4 id="1）使用-admin-api添加服务"><a href="#1）使用-admin-api添加服务" class="headerlink" title="1）使用 admin api添加服务"></a>1）使用 admin api添加服务</h4><p>发出以下cURL请求以将您的第一个服务（指向<a target="_blank" rel="noopener" href="https://mockbin.com/">Mockbin API</a>）添加到Kong：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs stylus">curl -<span class="hljs-selector-tag">i</span> -X POST \<br>  <span class="hljs-attr">--url</span> http:<span class="hljs-comment">//localhost:8001/services/ \</span><br>  <span class="hljs-attr">--data</span> <span class="hljs-string">&#x27;name=example-service&#x27;</span> \<br>  <span class="hljs-attr">--data</span> <span class="hljs-string">&#x27;url=http://mockbin.org&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>内容回复：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-meta">HTTP/1.1</span> <span class="hljs-number">201</span> Created<br><span class="hljs-attribute">Date</span><span class="hljs-punctuation">: </span>Fri, 07 Feb 2020 09:04:51 GMT<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/json; charset=utf-8<br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>keep-alive<br><span class="hljs-attribute">Access-Control-Allow-Origin</span><span class="hljs-punctuation">: </span>*<br><span class="hljs-attribute">Server</span><span class="hljs-punctuation">: </span>kong/2.0.1<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>296<br><span class="hljs-attribute">X-Kong-Admin-Latency</span><span class="hljs-punctuation">: </span>210<br><br><span class="language-1c">&#123;<span class="hljs-string">&quot;host&quot;</span>:<span class="hljs-string">&quot;mockbin.org&quot;</span>,<span class="hljs-string">&quot;created_at&quot;</span>:<span class="hljs-number">1581066291</span>,<span class="hljs-string">&quot;connect_timeout&quot;</span>:<span class="hljs-number">60000</span>,<span class="hljs-string">&quot;id&quot;</span>:<span class="hljs-string">&quot;1148d98c-2eeb-4988-af84-d3173080bdd9&quot;</span>,<span class="hljs-string">&quot;protocol&quot;</span>:<span class="hljs-string">&quot;http&quot;</span>,<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;example-service&quot;</span>,<span class="hljs-string">&quot;read_timeout&quot;</span>:<span class="hljs-number">60000</span>,<span class="hljs-string">&quot;port&quot;</span>:<span class="hljs-number">80</span>,<span class="hljs-string">&quot;path&quot;</span>:<span class="hljs-literal">null</span>,<span class="hljs-string">&quot;updated_at&quot;</span>:<span class="hljs-number">1581066291</span>,<span class="hljs-string">&quot;retries&quot;</span>:<span class="hljs-number">5</span>,<span class="hljs-string">&quot;write_timeout&quot;</span>:<span class="hljs-number">60000</span>,<span class="hljs-string">&quot;tags&quot;</span>:<span class="hljs-literal">null</span>,<span class="hljs-string">&quot;client_certificate&quot;</span>:<span class="hljs-literal">null</span>&#125;%</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="SERVICES-API详解"><a href="#SERVICES-API详解" class="headerlink" title="SERVICES API详解"></a>SERVICES API详解</h4><h4 id="1、添加-services"><a href="#1、添加-services" class="headerlink" title="1、添加 services"></a>1、添加 services</h4><p>请求地址：&#x2F;service&#x2F;</p>
+<p>请求方法：POST</p>
+<p>请求主体：</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">name（可选）</td>
+<td align="left">服务名称.</td>
+</tr>
+<tr>
+<td align="left">protocol</td>
+<td align="left">该协议用于与upstream通信。它可以是http（默认）或https。</td>
+</tr>
+<tr>
+<td align="left">host</td>
+<td align="left">upstream服务器的主机。</td>
+</tr>
+<tr>
+<td align="left">port</td>
+<td align="left">upstream服务器端口。默认为80</td>
+</tr>
+<tr>
+<td align="left">path（可选）</td>
+<td align="left">在向upstream服务器请求中使用的路径。默认为空。</td>
+</tr>
+<tr>
+<td align="left">retries（可选）</td>
+<td align="left">在代理失败的情况下执行的重试次数。默认值是5。</td>
+</tr>
+<tr>
+<td align="left">connect_timeout（可选）</td>
+<td align="left">建立到upstream服务器的连接的超时时间。默认为60000。</td>
+</tr>
+<tr>
+<td align="left">write_timeout（可选）</td>
+<td align="left">将请求发送到upstream服务器的两个连续写操作之间的超时时间。默认为60000。</td>
+</tr>
+<tr>
+<td align="left">read_timeout（可选）</td>
+<td align="left">将请求发送到upstream服务器的两个连续读取操作之间的超时时间。默认为60000。</td>
+</tr>
+<tr>
+<td align="left">url（简写属性）</td>
+<td align="left">将协议、主机、端口和路径立即设置成简短的属性。这个属性是只写的（管理API从来不“返回”url）。</td>
+</tr>
+</tbody></table>
+<h4 id="2、查找-service"><a href="#2、查找-service" class="headerlink" title="2、查找 service"></a>2、查找 service</h4><p>请求地址：&#x2F;services&#x2F;{name or id}</p>
+<p>请求方法：GET</p>
+<p>请求主体：</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">name or id（必填）</td>
+<td align="left">检索的唯一标识符或服务名称。</td>
+</tr>
+</tbody></table>
+<p>请求地址：&#x2F;routes&#x2F;{route id}&#x2F;service</p>
+<p>请求方法：GET</p>
+<p>请求主体：</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">route id（必填）</td>
+<td align="left">属于要检索的服务的路由的唯一标识符。</td>
+</tr>
+</tbody></table>
+<h4 id="3、查找-service-列表"><a href="#3、查找-service-列表" class="headerlink" title="3、查找 service 列表"></a>3、查找 service 列表</h4><p>请求地址：&#x2F;services&#x2F;</p>
+<p>请求方法：GET</p>
+<p>请求主体：</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">offset（可选）</td>
+<td align="left">用于分页的游标。偏移量是定义列表中的位置的对象标识符。</td>
+</tr>
+<tr>
+<td align="left">size（可选，默认是100 max是1000）</td>
+<td align="left">每个页面返回的对象数量的限制。</td>
+</tr>
+</tbody></table>
+<h4 id="4、更新-service"><a href="#4、更新-service" class="headerlink" title="4、更新 service"></a>4、更新 service</h4><p>请求地址：&#x2F;service&#x2F;{name or id}</p>
+<p>请求方法：PATCH</p>
+<p>请求主体：</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">name or id（必填）</td>
+<td align="left">要更新的服务的id或name属性。</td>
+</tr>
+</tbody></table>
+<p>请求地址：&#x2F;routes&#x2F;{route id}&#x2F;service</p>
+<p>请求方法：PATCH</p>
+<p>请求主体：</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">route id（必填）</td>
+<td align="left">要更新服务的路由的id属性。</td>
+</tr>
+</tbody></table>
+<h4 id="5、删除-service"><a href="#5、删除-service" class="headerlink" title="5、删除 service"></a>5、删除 service</h4><p>请求地址：&#x2F;services&#x2F;{name or id}</p>
+<p>请求方法：DELETE</p>
+<p>请求主体：</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">name or id（必填）</td>
+<td align="left">要删除的服务的id或name属性。</td>
+</tr>
+</tbody></table>
+<h4 id="2）添加服务路线"><a href="#2）添加服务路线" class="headerlink" title="2）添加服务路线"></a>2）添加服务路线</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">curl -i -X POST \<br>  --url http:<span class="hljs-regexp">//</span>localhost:<span class="hljs-number">8001</span><span class="hljs-regexp">/services/</span>example-service/routes \<br>  --data <span class="hljs-string">&#x27;hosts[]=example.com&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>内容回复：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-meta">HTTP/1.1</span> <span class="hljs-number">201</span> Created<br><span class="hljs-attribute">Date</span><span class="hljs-punctuation">: </span>Fri, 07 Feb 2020 09:05:40 GMT<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/json; charset=utf-8<br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>keep-alive<br><span class="hljs-attribute">Access-Control-Allow-Origin</span><span class="hljs-punctuation">: </span>*<br><span class="hljs-attribute">Server</span><span class="hljs-punctuation">: </span>kong/2.0.1<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>429<br><span class="hljs-attribute">X-Kong-Admin-Latency</span><span class="hljs-punctuation">: </span>26<br><br><span class="language-elixir">&#123;<span class="hljs-string">&quot;id&quot;</span><span class="hljs-symbol">:<span class="hljs-string">&quot;535592c2-c8b5-4f40-9a37-22f1dae115b8&quot;</span></span>,<span class="hljs-string">&quot;path_handling&quot;</span><span class="hljs-symbol">:<span class="hljs-string">&quot;v0&quot;</span></span>,<span class="hljs-string">&quot;paths&quot;</span><span class="hljs-symbol">:null</span>,<span class="hljs-string">&quot;destinations&quot;</span><span class="hljs-symbol">:null</span>,<span class="hljs-string">&quot;headers&quot;</span><span class="hljs-symbol">:null</span>,<span class="hljs-string">&quot;protocols&quot;</span><span class="hljs-symbol">:</span>[<span class="hljs-string">&quot;http&quot;</span>,<span class="hljs-string">&quot;https&quot;</span>],<span class="hljs-string">&quot;methods&quot;</span><span class="hljs-symbol">:null</span>,<span class="hljs-string">&quot;snis&quot;</span><span class="hljs-symbol">:null</span>,<span class="hljs-string">&quot;service&quot;</span><span class="hljs-symbol">:</span>&#123;<span class="hljs-string">&quot;id&quot;</span><span class="hljs-symbol">:<span class="hljs-string">&quot;1148d98c-2eeb-4988-af84-d3173080bdd9&quot;</span></span>&#125;,<span class="hljs-string">&quot;name&quot;</span><span class="hljs-symbol">:null</span>,<span class="hljs-string">&quot;strip_path&quot;</span><span class="hljs-symbol">:true</span>,<span class="hljs-string">&quot;preserve_host&quot;</span><span class="hljs-symbol">:false</span>,<span class="hljs-string">&quot;regex_priority&quot;</span><span class="hljs-symbol">:</span><span class="hljs-number">0</span>,<span class="hljs-string">&quot;updated_at&quot;</span><span class="hljs-symbol">:</span><span class="hljs-number">1581066340</span>,<span class="hljs-string">&quot;sources&quot;</span><span class="hljs-symbol">:null</span>,<span class="hljs-string">&quot;hosts&quot;</span><span class="hljs-symbol">:</span>[<span class="hljs-string">&quot;example.com&quot;</span>],<span class="hljs-string">&quot;https_redirect_status_code&quot;</span><span class="hljs-symbol">:</span><span class="hljs-number">426</span>,<span class="hljs-string">&quot;tags&quot;</span><span class="hljs-symbol">:null</span>,<span class="hljs-string">&quot;created_at&quot;</span><span class="hljs-symbol">:</span><span class="hljs-number">1581066340</span>&#125;%</span><br></code></pre></td></tr></table></figure>
+
+<p>kong 现在知道服务名称，并准备代理请求</p>
+<h4 id="ROUTE-API详解"><a href="#ROUTE-API详解" class="headerlink" title="ROUTE API详解"></a>ROUTE API详解</h4><h4 id="1、添加-route"><a href="#1、添加-route" class="headerlink" title="1、添加 route"></a>1、添加 route</h4><p>请求地址：&#x2F;routes&#x2F;</p>
+<p>请求方法：POST</p>
+<p>请求主体：</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">protocols</td>
+<td align="left">这条路线应该允许的协议列表。默认情况下，它是“http”、“https”，这意味着路由接受这两种方式。当设置为“HTTPS”时，HTTP请求会被请求升级到HTTPS。通过表单编码，符号是协议&#x3D;http&amp;协议&#x3D;https。使用JSON，使用数组。</td>
+</tr>
+<tr>
+<td align="left">methods(半可选)</td>
+<td align="left">与此路由相匹配的HTTP方法列表。例如: [“GET”, “POST”].至少有一个主机、路径或方法必须被设置。用表单编码参数是methods[]&#x3D;GET&amp;methods[]&#x3D;OPTIONS。使用JSON，使用数组。</td>
+</tr>
+<tr>
+<td align="left">hosts(半可选)</td>
+<td align="left">与此路径匹配的域名列表。例如:example.com. 至少有一个主机、路径或方法必须被设置。用表单编码参数是 hosts[]&#x3D;foo.com&amp;hosts[]&#x3D;bar.com。使用JSON，使用数组。</td>
+</tr>
+<tr>
+<td align="left">paths(半可选)</td>
+<td align="left">与此路径相匹配的路径列表。例如: &#x2F;my-path.至少有一个主机、路径或方法必须被设置。用表单编码参数是 paths[]&#x3D;&#x2F;foo&amp;paths[]&#x3D;&#x2F;bar. 使用JSON，使用数组。</td>
+</tr>
+<tr>
+<td align="left">strip_path(可选)</td>
+<td align="left">当通过一条路径匹配一条路径时，从upstream请求URL中剥离匹配的前缀。默认值为true。</td>
+</tr>
+<tr>
+<td align="left">preserve_host(可选)</td>
+<td align="left">当通过一个主机域名匹配一条路由时，在upstream请求头中使用请求主机头。默认设置为false，upstream主机头将是服务主机的主机头。</td>
+</tr>
+<tr>
+<td align="left">service</td>
+<td align="left">这条路线的服务是相关的。这是路由代理通信的地方。用表单编码参数是service.id&#x3D;<service_id>。如果是JSON，则使用”service”:{“id”:”<service_id>“}</td>
+</tr>
+</tbody></table>
+<h4 id="2、查找-route"><a href="#2、查找-route" class="headerlink" title="2、查找 route"></a>2、查找 route</h4><p>请求地址：&#x2F;routes&#x2F;{id}</p>
+<p>请求方法：GET</p>
+<p>请求主体：</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">id（必填）</td>
+<td align="left">检索路由的id属性。</td>
+</tr>
+</tbody></table>
+<h4 id="3、查找-route-列表"><a href="#3、查找-route-列表" class="headerlink" title="3、查找 route 列表"></a>3、查找 route 列表</h4><p>请求地址：&#x2F;routes&#x2F;</p>
+<p>请求方法：GET</p>
+<p>请求主体：</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">offset（可选）</td>
+<td align="left">用于分页的游标。偏移量是定义列表中的位置的对象标识符。</td>
+</tr>
+<tr>
+<td align="left">size（可选，默认是100 max是1000）</td>
+<td align="left">每个页面返回的对象数量的限制。</td>
+</tr>
+</tbody></table>
+<h4 id="4、更新-route"><a href="#4、更新-route" class="headerlink" title="4、更新 route"></a>4、更新 route</h4><p>请求地址：&#x2F;routes&#x2F;{id}</p>
+<p>请求方法：PATCH</p>
+<p>请求主体：</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">id（必填）</td>
+<td align="left">更新路由的id属性。</td>
+</tr>
+</tbody></table>
+<h4 id="5、删除-route"><a href="#5、删除-route" class="headerlink" title="5、删除 route"></a>5、删除 route</h4><p>请求地址：&#x2F;route&#x2F;{ id}</p>
+<p>请求方法：DELETE</p>
+<p>请求主体：</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">id（必填）</td>
+<td align="left">删除路由的id属性。</td>
+</tr>
+</tbody></table>
+<h4 id="6、列出与-service-相关的-route"><a href="#6、列出与-service-相关的-route" class="headerlink" title="6、列出与 service 相关的 route"></a>6、列出与 service 相关的 route</h4><p>请求地址：&#x2F;services&#x2F;{service name or id}&#x2F;routes</p>
+<p>请求方法：GET</p>
+<p>请求主体：</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">service name or id（必填）</td>
+<td align="left">要检索路由的服务的id或name属性。当使用这个API时，只有属于指定服务的路由才会被列出。</td>
+</tr>
+</tbody></table>
+<h4 id="3）通过-kong-转发请求"><a href="#3）通过-kong-转发请求" class="headerlink" title="3）通过 kong 转发请求"></a>3）通过 kong 转发请求</h4><p>发出以下cURL请求，以验证Kong是否正确地将请求转发到您的服务。请注意，<a target="_blank" rel="noopener" href="https://docs.konghq.com/2.0.x/configuration/#nginx-section">默认情况下，</a> Kong在port上处理代理请求<code>:8000</code>：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs stylus">curl -<span class="hljs-selector-tag">i</span> -X GET \<br>  <span class="hljs-attr">--url</span> http:<span class="hljs-comment">//localhost:8000/ \</span><br>  <span class="hljs-attr">--header</span> <span class="hljs-string">&#x27;Host: example.com&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>如果成功响应，表示 kong 已经成功转发我们的请求，转发 url 地址为步骤 1 中的地址</p>
+<h3 id="4、启用插件"><a href="#4、启用插件" class="headerlink" title="4、启用插件"></a>4、启用插件</h3><p>Kong的核心原则之一是其通过<a target="_blank" rel="noopener" href="https://docs.konghq.com/plugins">插件的</a>可扩展性。插件使我们可以轻松地向服务中添加新功能或使其更易于管理。</p>
+<p>在下面的步骤中，将配置<a target="_blank" rel="noopener" href="https://docs.konghq.com/plugins/key-authentication">key-auth</a>插件以向服务添加身份验证。在添加此插件之前， 对服务的<strong>所有</strong>请求都将在上游被代理。添加并配置此插件后，<strong>只会</strong>代理具有正确密钥的请求-Kong将拒绝所有其他请求，从而保护上游服务免遭未经授权的使用。</p>
+<h4 id="1）配置密匙身份验证插件"><a href="#1）配置密匙身份验证插件" class="headerlink" title="1）配置密匙身份验证插件"></a>1）配置密匙身份验证插件</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">curl -i -X POST \<br>  --url http:<span class="hljs-regexp">//</span>localhost:<span class="hljs-number">8001</span><span class="hljs-regexp">/services/</span>example-service<span class="hljs-regexp">/plugins/</span> \<br>  --data <span class="hljs-string">&#x27;name=key-auth&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong>此插件还接受一个<code>config.key_names</code>参数，默认为<code>[&#39;apikey&#39;]</code>。它是应该在请求期间包含apikey的标头和参数名称（均受支持）的列表。</p>
+<p>内容回复：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-meta">HTTP/1.1</span> <span class="hljs-number">201</span> Created<br><span class="hljs-attribute">Date</span><span class="hljs-punctuation">: </span>Fri, 07 Feb 2020 09:15:07 GMT<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/json; charset=utf-8<br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>keep-alive<br><span class="hljs-attribute">Access-Control-Allow-Origin</span><span class="hljs-punctuation">: </span>*<br><span class="hljs-attribute">Server</span><span class="hljs-punctuation">: </span>kong/2.0.1<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>363<br><span class="hljs-attribute">X-Kong-Admin-Latency</span><span class="hljs-punctuation">: </span>52<br><br><span class="language-actionscript">&#123;<span class="hljs-string">&quot;created_at&quot;</span>:<span class="hljs-number">1581066907</span>,<span class="hljs-string">&quot;config&quot;</span>:&#123;<span class="hljs-string">&quot;key_names&quot;</span>:[<span class="hljs-string">&quot;apikey&quot;</span>],<span class="hljs-string">&quot;run_on_preflight&quot;</span>:<span class="hljs-literal">true</span>,<span class="hljs-string">&quot;anonymous&quot;</span>:<span class="hljs-literal">null</span>,<span class="hljs-string">&quot;hide_credentials&quot;</span>:<span class="hljs-literal">false</span>,<span class="hljs-string">&quot;key_in_body&quot;</span>:<span class="hljs-literal">false</span>&#125;,<span class="hljs-string">&quot;id&quot;</span>:<span class="hljs-string">&quot;c032c177-dac4-435b-a3b6-b39edd9c11fe&quot;</span>,<span class="hljs-string">&quot;service&quot;</span>:&#123;<span class="hljs-string">&quot;id&quot;</span>:<span class="hljs-string">&quot;1148d98c-2eeb-4988-af84-d3173080bdd9&quot;</span>&#125;,<span class="hljs-string">&quot;enabled&quot;</span>:<span class="hljs-literal">true</span>,<span class="hljs-string">&quot;protocols&quot;</span>:[<span class="hljs-string">&quot;grpc&quot;</span>,<span class="hljs-string">&quot;grpcs&quot;</span>,<span class="hljs-string">&quot;http&quot;</span>,<span class="hljs-string">&quot;https&quot;</span>],<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;key-auth&quot;</span>,<span class="hljs-string">&quot;consumer&quot;</span>:<span class="hljs-literal">null</span>,<span class="hljs-string">&quot;route&quot;</span>:<span class="hljs-literal">null</span>,<span class="hljs-string">&quot;tags&quot;</span>:<span class="hljs-literal">null</span>&#125;%</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="2）确认插件配置正确"><a href="#2）确认插件配置正确" class="headerlink" title="2）确认插件配置正确"></a>2）确认插件配置正确</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs stylus">curl -<span class="hljs-selector-tag">i</span> -X GET \<br>  <span class="hljs-attr">--url</span> http:<span class="hljs-comment">//localhost:8000/ \</span><br>  <span class="hljs-attr">--header</span> <span class="hljs-string">&#x27;Host: example.com&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>由于未指定所需的apikey 标题或者参数，因此响应应为 401authorized</p>
+<p>内容回复：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-meta">HTTP/1.1</span> <span class="hljs-number">401</span> Unauthorized<br><span class="hljs-attribute">Date</span><span class="hljs-punctuation">: </span>Fri, 07 Feb 2020 09:15:28 GMT<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/json; charset=utf-8<br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>keep-alive<br><span class="hljs-attribute">WWW-Authenticate</span><span class="hljs-punctuation">: </span>Key realm=&quot;kong&quot;<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>41<br><span class="hljs-attribute">X-Kong-Response-Latency</span><span class="hljs-punctuation">: </span>14<br><span class="hljs-attribute">Server</span><span class="hljs-punctuation">: </span>kong/2.0.1<br><br><span class="language-erlang-repl">&#123;<span class="hljs-string">&quot;message&quot;</span>:<span class="hljs-string">&quot;No API key found in request&quot;</span>&#125;<span class="hljs-comment">%</span></span><br></code></pre></td></tr></table></figure>
+
+<h3 id="5、添加消费者"><a href="#5、添加消费者" class="headerlink" title="5、添加消费者"></a>5、添加消费者</h3><h4 id="通过-restful-api-创建消费者"><a href="#通过-restful-api-创建消费者" class="headerlink" title="通过 restful api 创建消费者"></a>通过 restful api 创建消费者</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">curl -i -X POST \<br>  --url http:<span class="hljs-regexp">//</span>localhost:<span class="hljs-number">8001</span><span class="hljs-regexp">/consumers/</span> \<br>  --data <span class="hljs-string">&quot;username=Jason&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>内容回复：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-meta">HTTP/1.1</span> <span class="hljs-number">201</span> Created<br><span class="hljs-attribute">Date</span><span class="hljs-punctuation">: </span>Fri, 07 Feb 2020 09:22:44 GMT<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/json; charset=utf-8<br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>keep-alive<br><span class="hljs-attribute">Access-Control-Allow-Origin</span><span class="hljs-punctuation">: </span>*<br><span class="hljs-attribute">Server</span><span class="hljs-punctuation">: </span>kong/2.0.1<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>117<br><span class="hljs-attribute">X-Kong-Admin-Latency</span><span class="hljs-punctuation">: </span>46<br><br><span class="language-1c">&#123;<span class="hljs-string">&quot;custom_id&quot;</span>:<span class="hljs-literal">null</span>,<span class="hljs-string">&quot;created_at&quot;</span>:<span class="hljs-number">1581067364</span>,<span class="hljs-string">&quot;id&quot;</span>:<span class="hljs-string">&quot;947b5a94-f0d1-4955-9903-d5d489be4015&quot;</span>,<span class="hljs-string">&quot;tags&quot;</span>:<span class="hljs-literal">null</span>,<span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&quot;Jason&quot;</span>&#125;%</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong><code>custom_id</code>在<a target="_blank" rel="noopener" href="https://docs.konghq.com/2.0.x/admin-api#create-consumer">创建使用者</a>以将使用者与现有用户数据库相关联时，Kong还接受参数。</p>
+<p>CONSUMER API 详解：</p>
+<h4 id="1、创建Consumer"><a href="#1、创建Consumer" class="headerlink" title="1、创建Consumer"></a>1、创建Consumer</h4><p>请求地址：*&#x2F;consumers&#x2F;*<br>请求方法：<em>POST</em><br>请求主体：</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">username（半可选）</td>
+<td align="left">用户的唯一用户名。<code>username</code>或<code>custom_id</code>二选一。</td>
+</tr>
+<tr>
+<td align="left">custom_id（半可选）</td>
+<td align="left">消费者存储唯一ID - 用于现有数据库中的用户进行映射。<code>username</code>或<code>custom_id</code>二选一。</td>
+</tr>
+</tbody></table>
+<h4 id="2、检索Consumer"><a href="#2、检索Consumer" class="headerlink" title="2、检索Consumer"></a>2、检索Consumer</h4><p>请求地址：*&#x2F;consumers&#x2F;{username or id}*<br>请求方法：<em>GET</em><br>请求主体：</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">username or id（必选）</td>
+<td align="left">要检索的消费者的唯一标识符或用户名。</td>
+</tr>
+</tbody></table>
+<h4 id="3、Consumer列表"><a href="#3、Consumer列表" class="headerlink" title="3、Consumer列表"></a>3、Consumer列表</h4><p>请求地址：*&#x2F;consumers&#x2F;*<br>请求方法：<em>GET</em><br>请求主体：</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">id（可选）</td>
+<td align="left">基于消费者<code>id</code>字段的过滤器。</td>
+</tr>
+<tr>
+<td align="left">custom_id（可选）</td>
+<td align="left">基于消费者<code>custom_id</code>字段的过滤器。</td>
+</tr>
+<tr>
+<td align="left">username（可选）</td>
+<td align="left">基于消费者<code>username</code>字段的过滤器。</td>
+</tr>
+<tr>
+<td align="left">offset（可选）</td>
+<td align="left">用于分页的游标。偏移量是定义列表中的位置的对象标识符。</td>
+</tr>
+<tr>
+<td align="left">size（可选，默认是100）</td>
+<td align="left">每个页面返回的对象数量的限制。</td>
+</tr>
+</tbody></table>
+<h4 id="4、更新Consumer"><a href="#4、更新Consumer" class="headerlink" title="4、更新Consumer"></a>4、更新Consumer</h4><p>请求地址：*&#x2F;consumers&#x2F;{username or id}*<br>请求方法：<em>PATCH</em><br>请求主体：</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">username or id（必选）</td>
+<td align="left">更新的唯一标识符或用户名。</td>
+</tr>
+</tbody></table>
+<p>请求主体：同1、添加Consumer</p>
+<h4 id="5、更新或创建Consumer"><a href="#5、更新或创建Consumer" class="headerlink" title="5、更新或创建Consumer"></a>5、更新或创建Consumer</h4><p>请求地址：*&#x2F;consumers&#x2F;*<br>请求方法：<em>PUT</em><br>请求主体：同1、添加Consumer</p>
+<h4 id="6、删除Consumer"><a href="#6、删除Consumer" class="headerlink" title="6、删除Consumer"></a>6、删除Consumer</h4><p>请求地址：*&#x2F;consumers&#x2F;{username or id}*<br>请求方法：<em>DELETE</em><br>请求主体：</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">username or id（必选）</td>
+<td align="left">更新的唯一标识符或用户名。</td>
+</tr>
+</tbody></table>
+<h4 id="2）为消费者提供关键凭证"><a href="#2）为消费者提供关键凭证" class="headerlink" title="2）为消费者提供关键凭证"></a>2）为消费者提供关键凭证</h4><p>现在，我们可以<code>Jason</code>通过发出以下请求为我们最近创建的使用者创建密钥：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">curl -i -X POST \<br>  --url http:<span class="hljs-regexp">//</span>localhost:<span class="hljs-number">8001</span><span class="hljs-regexp">/consumers/</span>Jason<span class="hljs-regexp">/key-auth/</span> \<br>  --data <span class="hljs-string">&#x27;key=ENTER_KEY_HERE&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>内容回复：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-meta">HTTP/1.1</span> <span class="hljs-number">201</span> Created<br><span class="hljs-attribute">Date</span><span class="hljs-punctuation">: </span>Fri, 07 Feb 2020 09:27:40 GMT<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/json; charset=utf-8<br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>keep-alive<br><span class="hljs-attribute">Access-Control-Allow-Origin</span><span class="hljs-punctuation">: </span>*<br><span class="hljs-attribute">Server</span><span class="hljs-punctuation">: </span>kong/2.0.1<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>172<br><span class="hljs-attribute">X-Kong-Admin-Latency</span><span class="hljs-punctuation">: </span>56<br><br><span class="language-1c">&#123;<span class="hljs-string">&quot;created_at&quot;</span>:<span class="hljs-number">1581067660</span>,<span class="hljs-string">&quot;consumer&quot;</span>:&#123;<span class="hljs-string">&quot;id&quot;</span>:<span class="hljs-string">&quot;947b5a94-f0d1-4955-9903-d5d489be4015&quot;</span>&#125;,<span class="hljs-string">&quot;id&quot;</span>:<span class="hljs-string">&quot;6b59a5e1-fa04-4d4b-b3b1-2e044b9c0605&quot;</span>,<span class="hljs-string">&quot;tags&quot;</span>:<span class="hljs-literal">null</span>,<span class="hljs-string">&quot;ttl&quot;</span>:<span class="hljs-literal">null</span>,<span class="hljs-string">&quot;key&quot;</span>:<span class="hljs-string">&quot;ENTER_KEY_HERE&quot;</span>&#125;%</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="3）验证消费者凭证有效"><a href="#3）验证消费者凭证有效" class="headerlink" title="3）验证消费者凭证有效"></a>3）验证消费者凭证有效</h4><p>现在，我们可以发出以下请求来验证我们的<code>Jason</code>消费者凭证是否有效：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs stylus">curl -<span class="hljs-selector-tag">i</span> -X GET \<br>  <span class="hljs-attr">--url</span> http:<span class="hljs-comment">//localhost:8001 \</span><br>  <span class="hljs-attr">--header</span> <span class="hljs-string">&quot;Host: example.com&quot;</span> \<br>  <span class="hljs-attr">--header</span> <span class="hljs-string">&quot;apikey: ENTER_KEY_HERE&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>内容回复：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-meta">HTTP/1.1</span> <span class="hljs-number">200</span> OK<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>text/html; charset=utf-8<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>10695<br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>keep-alive<br><span class="hljs-attribute">Server</span><span class="hljs-punctuation">: </span>Cowboy<br><span class="hljs-attribute">Etag</span><span class="hljs-punctuation">: </span>W/&quot;29c7-XG+PICJmz/J+UYWt5gkKqqAUXjc&quot;<br><span class="hljs-attribute">Vary</span><span class="hljs-punctuation">: </span>Accept-Encoding<br><span class="hljs-attribute">Date</span><span class="hljs-punctuation">: </span>Fri, 07 Feb 2020 09:28:04 GMT<br><span class="hljs-attribute">Via</span><span class="hljs-punctuation">: </span>kong/2.0.1<br><span class="hljs-attribute">X-Kong-Upstream-Status</span><span class="hljs-punctuation">: </span>200<br><span class="hljs-attribute">X-Kong-Upstream-Latency</span><span class="hljs-punctuation">: </span>746<br><span class="hljs-attribute">X-Kong-Proxy-Latency</span><span class="hljs-punctuation">: </span>1523<br><span class="hljs-attribute">Kong-Cloud-Request-ID</span><span class="hljs-punctuation">: </span>3a1112d6c34f47aeb5df4ba2435b0f70<br></code></pre></td></tr></table></figure>
+
+<p>如果正常响应表示该消费者请求被kong成功转发并返回数据</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%AE%A4%E8%AF%81%E6%8E%88%E6%9D%83/">认证授权</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Kong/">Kong</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BD%91%E5%85%B3/">网关</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/03/17/%E9%85%8D%E7%BD%AE%20GitHub%20%E4%BB%A5%E5%8F%8A%20Gitlab%20%E8%B4%A6%E6%88%B7/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">配置 GitHub 以及 GitLab 账户</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/02/06/kibana%20%E7%AE%80%E4%BB%8B/">
+                        <span class="hidden-mobile">Kibana简介</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","appKey":"WbImCRYLaCb0AN9W178IBFBs","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

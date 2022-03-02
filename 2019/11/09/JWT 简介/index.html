@@ -1,0 +1,627 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangweijie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="JWT（JSON Web Token）入门教程1、跨域认证问题互联网服务离不开用户认证。一般流程是下面这样。  1、用户向服务器发送用户名和密码。 2、服务器验证通过后，在当前对话（session）里面保存相关数据，比如用户角色、登录时间等等。 3、服务器向用户返回一个 session_id，写入用户的 Cookie。 4、用户随后的每一次请求，都会通过 Cookie，将 session_id 传">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JWT 简介">
+<meta property="og:url" content="http://example.com/2019/11/09/JWT%20%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:site_name" content="ffreedom">
+<meta property="og:description" content="JWT（JSON Web Token）入门教程1、跨域认证问题互联网服务离不开用户认证。一般流程是下面这样。  1、用户向服务器发送用户名和密码。 2、服务器验证通过后，在当前对话（session）里面保存相关数据，比如用户角色、登录时间等等。 3、服务器向用户返回一个 session_id，写入用户的 Cookie。 4、用户随后的每一次请求，都会通过 Cookie，将 session_id 传">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.wangbase.com/blogimg/asset/201807/bg2018072304.jpg">
+<meta property="og:image" content="https://www.wangbase.com/blogimg/asset/201807/bg2018072303.jpg">
+<meta property="article:published_time" content="2019-11-09T03:50:31.000Z">
+<meta property="article:modified_time" content="2022-03-02T13:30:01.838Z">
+<meta property="article:author" content="zhangweijie">
+<meta property="article:tag" content="JWT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.wangbase.com/blogimg/asset/201807/bg2018072304.jpg">
+  
+  
+  <title>JWT 简介 - ffreedom</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","app_key":"WbImCRYLaCb0AN9W178IBFBs","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ffreedom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="JWT 简介">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-11-09 11:50" pubdate>
+        2019年11月9日 中午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.2k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      36 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JWT 简介</h1>
+            
+            <div class="markdown-body">
+              <h1 id="JWT（JSON-Web-Token）入门教程"><a href="#JWT（JSON-Web-Token）入门教程" class="headerlink" title="JWT（JSON Web Token）入门教程"></a>JWT（JSON Web Token）入门教程</h1><h2 id="1、跨域认证问题"><a href="#1、跨域认证问题" class="headerlink" title="1、跨域认证问题"></a>1、跨域认证问题</h2><p>互联网服务离不开用户认证。一般流程是下面这样。</p>
+<blockquote>
+<p>1、用户向服务器发送用户名和密码。</p>
+<p>2、服务器验证通过后，在当前对话（session）里面保存相关数据，比如用户角色、登录时间等等。</p>
+<p>3、服务器向用户返回一个 session_id，写入用户的 Cookie。</p>
+<p>4、用户随后的每一次请求，都会通过 Cookie，将 session_id 传回服务器。</p>
+<p>5、服务器收到 session_id，找到前期保存的数据，由此得知用户的身份。</p>
+</blockquote>
+<p>这种模式的问题在于，扩展性（scaling）不好。单机当然没有问题，如果是服务器集群，或者是跨域的服务导向架构，就要求 session 数据共享，每台服务器都能够读取 session。</p>
+<h3 id="1-1-传统的session-问题"><a href="#1-1-传统的session-问题" class="headerlink" title="1.1 传统的session 问题"></a>1.1 传统的session 问题</h3><p> 我们知道，http 协议本身是一种无状态协议，而这就意味着如果用户向我们的应用提供了用户名和密码来进行用户认证，那么下一次发起请求的时候用户还是需要再次进行用户认证才可以，因为根据 http 协议我们并不知道是哪个用户发出的请求，所以为了让我们的应用能够识别是哪个用户发起的请求，我们只能在服务器存储一份用户登录的信息，这份登录信息会在响应的时候传递给浏览器，告诉其保存为 cookies，以便下次请求时发送给我们的应用。这样我们的应用就可以识别请求来自哪个用户，这就是传统的基于 session 的认证。</p>
+<p>但是这种基于 session 的认证是应用本身很难得到扩展，随着不同客户端用户的增加，独立的服务器已无法承载更多的用户，而这个时候基于 session 认证应用的问题就会暴露出来。</p>
+<h3 id="1-2-基于-session-认证所显露的问题"><a href="#1-2-基于-session-认证所显露的问题" class="headerlink" title="1.2 基于 session 认证所显露的问题"></a>1.2 基于 session 认证所显露的问题</h3><ul>
+<li><p>session：每个用户经过我们的应用认证之后，都需要在服务端进行记录，以方便用户下次请求的鉴别。通常而言session 都是保存在内存总的，而随着认证用户的增多，服务端的开销会明显增大。</p>
+</li>
+<li><p>扩展性：用户认证以后，服务端做认证记录，如果认证记录被保存在内存中，这意味着用户下次请求还必须要在这台服务器上，这样才能拿到授权的资源。而这样的方式在分布式应用上就会相应的限制了负载均衡的能力，也就意味着限制了应用的扩展能力。</p>
+</li>
+<li><p>CSRF：因为是基于cookies 进行用户识别的，cookies 如果被截获了，用户很容易受到跨站请求伪造的攻击。</p>
+</li>
+</ul>
+<p>举例来说，A 网站和 B 网站是同一家公司的关联服务。现在要求，用户只要在其中一个网站登录，再访问另一个网站就会自动登录，请问怎么实现？</p>
+<p>一种解决方案是 session 数据持久化，写入数据库或别的持久层。各种服务收到请求后，都向持久层请求数据。这种方案的优点是架构清晰，缺点是工程量比较大。另外，持久层万一挂了，就会单点失败。</p>
+<p>另一种方案是服务器索性不保存 session 数据了，所有数据都保存在客户端，每次请求都发回服务器。JWT 就是这种方案的一个代表。</p>
+<h2 id="2、JWT-原理"><a href="#2、JWT-原理" class="headerlink" title="2、JWT 原理"></a>2、JWT 原理</h2><p>JWT 的原理是，服务器认证以后，生成一个 JSON 对象，发回给用户</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><pre><code class="hljs javascript">&#123;<br>  <span class="hljs-string">&quot;姓名&quot;</span>: <span class="hljs-string">&quot;张三&quot;</span>,<br>  <span class="hljs-string">&quot;角色&quot;</span>: <span class="hljs-string">&quot;管理员&quot;</span>,<br>  <span class="hljs-string">&quot;到期时间&quot;</span>: <span class="hljs-string">&quot;2018年7月1日0点0分&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>以后，用户与服务端通信的时候，都要发回这个 JSON 对象。服务器完全只靠这个对象认定用户身份。为了防止用户篡改数据，服务器在生成这个对象的时候，会加上签名（详见后文）。</p>
+<p>服务器就不保存任何 session 数据了，也就是说，服务器变成无状态了，从而比较容易实现扩展。</p>
+<h2 id="3、JWT-数据结构"><a href="#3、JWT-数据结构" class="headerlink" title="3、JWT 数据结构"></a>3、JWT 数据结构</h2><p>实际的 JWT 的数据结构</p>
+<p><img src="https://www.wangbase.com/blogimg/asset/201807/bg2018072304.jpg" srcset="/img/loading.gif" lazyload alt="bg2018072304"></p>
+<p>它是一个很长的字符串，中间用点（<code>.</code>）分隔成三个部分。注意，JWT 内部是没有换行的，这里只是为了便于展示，将它写成了几行。</p>
+<p>JWT 的三个部分：</p>
+<blockquote>
+<ul>
+<li>Header（头部）</li>
+<li>Payload（负载）</li>
+<li>Signature（签名）</li>
+</ul>
+</blockquote>
+<p><img src="https://www.wangbase.com/blogimg/asset/201807/bg2018072303.jpg" srcset="/img/loading.gif" lazyload alt="bg2018072303"></p>
+<h3 id="3-1-Header"><a href="#3-1-Header" class="headerlink" title="3.1 Header"></a>3.1 Header</h3><p>Header部分是一个 JSON对象，描述 JWT 元数据</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;alg&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;HS256&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;typ&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;JWT&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>上面代码中，<code>alg</code>属性表示签名的算法（algorithm），默认是 HMAC SHA256（写成 HS256）；<code>typ</code>属性表示这个令牌（token）的类型（type），JWT 令牌统一写为<code>JWT</code>。</p>
+<p>最后，将上面的 JSON 对象使用 Base64URL 算法（详见后文）转成字符串。</p>
+<h3 id="3-2-Payload"><a href="#3-2-Payload" class="headerlink" title="3.2 Payload"></a>3.2 Payload</h3><p>Payload 部分也是一个 JSON 对象，用来存放实际需要传递的数据。JWT 规定了7个官方字段，供选用。</p>
+<blockquote>
+<ul>
+<li>iss (issuer)：签发人</li>
+<li>exp (expiration time)：过期时间</li>
+<li>sub (subject)：主题</li>
+<li>aud (audience)：受众</li>
+<li>nbf (Not Before)：生效时间</li>
+<li>iat (Issued At)：签发时间</li>
+<li>jti (JWT ID)：编号</li>
+</ul>
+</blockquote>
+<p>除了官方字段，你还可以在这个部分定义私有字段，下面就是一个例子。</p>
+<blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript">&#123;<br>  <span class="hljs-string">&quot;sub&quot;</span>: <span class="hljs-string">&quot;1234567890&quot;</span>,<br>  <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;John Doe&quot;</span>,<br>  <span class="hljs-string">&quot;admin&quot;</span>: <span class="hljs-literal">true</span><br>&#125;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<p>注意，JWT 默认是不加密的，任何人都可以读到，所以不要把秘密信息放在这个部分。</p>
+<p>这个 JSON 对象也要使用 Base64URL 算法转成字符串。</p>
+<h3 id="3-3-Signature"><a href="#3-3-Signature" class="headerlink" title="3.3 Signature"></a>3.3 Signature</h3><p>Signature 部分是对前两部分的签名，防止数据篡改。</p>
+<p>首先，需要指定一个密钥（secret）。这个密钥只有服务器才知道，不能泄露给用户。然后，使用 Header 里面指定的签名算法（默认是 HMAC SHA256），按照下面的公式产生签名。</p>
+<blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-title class_">HMACSHA256</span>(<br>  <span class="hljs-title function_">base64UrlEncode</span>(header) + <span class="hljs-string">&quot;.&quot;</span> +<br>  <span class="hljs-title function_">base64UrlEncode</span>(payload),<br>  secret)<br></code></pre></td></tr></table></figure>
+</blockquote>
+<p>算出签名以后，把 Header、Payload、Signature 三个部分拼成一个字符串，每个部分之间用”点”（<code>.</code>）分隔，就可以返回给用户。</p>
+<h3 id="3-4-Base64URL"><a href="#3-4-Base64URL" class="headerlink" title="3.4 Base64URL"></a>3.4 Base64URL</h3><p>前面提到，Header 和 Payload 串型化的算法是 Base64URL。这个算法跟 Base64 算法基本类似，但有一些小的不同。</p>
+<p>JWT 作为一个令牌（token），有些场合可能会放到 URL（比如 api.example.com&#x2F;?token&#x3D;xxx）。Base64 有三个字符<code>+</code>、<code>/</code>和<code>=</code>，在 URL 里面有特殊含义，所以要被替换掉：<code>=</code>被省略、<code>+</code>替换成<code>-</code>，<code>/</code>替换成<code>_</code> 。这就是 Base64URL 算法。</p>
+<h3 id="3-5-生成过程"><a href="#3-5-生成过程" class="headerlink" title="3.5 生成过程"></a>3.5 生成过程</h3><p>头信息指定了该JWT使用的签名算法:</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">header</span> = &#x27;&#123;<span class="hljs-string">&quot;alg&quot;</span>:<span class="hljs-string">&quot;HS256&quot;</span>,<span class="hljs-string">&quot;typ&quot;</span>:<span class="hljs-string">&quot;JWT&quot;</span>&#125;&#x27;<br></code></pre></td></tr></table></figure>
+
+<p><code>HS256</code> 表示使用了 HMAC-SHA256 来生成签名。</p>
+<p>消息体包含了JWT的意图：</p>
+<figure class="highlight scilab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scilab">payload = <span class="hljs-string">&#x27;&#123;&quot;</span>loggedInAs<span class="hljs-string">&quot;:&quot;</span>admin<span class="hljs-string">&quot;,&quot;</span>iat<span class="hljs-string">&quot;:1422779638&#125;&#x27;</span><span class="hljs-comment">//iat表示令牌生成的时间</span><br></code></pre></td></tr></table></figure>
+
+<p>未签名的令牌由<code>base64url</code>编码的头信息和消息体拼接而成（使用”.”分隔），签名则通过私有的key计算而成：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">key</span> = <span class="hljs-string">&#x27;secretkey&#x27;</span>  <br><span class="hljs-attr">unsignedToken</span> = encodeBase64(header) + <span class="hljs-string">&#x27;.&#x27;</span> + encodeBase64(payload)  <br><span class="hljs-attr">signature</span> = HMAC-SHA256(key, unsignedToken)<br></code></pre></td></tr></table></figure>
+
+<p>最后在未签名的令牌尾部拼接上<code>base64url</code>编码的签名（同样使用”.”分隔）就是JWT了：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">token = encode<span class="hljs-constructor">Base64(<span class="hljs-params">header</span>)</span> + <span class="hljs-character">&#x27;.&#x27;</span> + encode<span class="hljs-constructor">Base64(<span class="hljs-params">payload</span>)</span> + <span class="hljs-character">&#x27;.&#x27;</span> + encode<span class="hljs-constructor">Base64(<span class="hljs-params">signature</span>)</span> <br><br># token看起来像这样: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dnZWRJbkFzIjoiYWRtaW4iLCJpYXQiOjE0MjI3Nzk2Mzh9.gzSraSYS8EXBxLN_oWnFSRgCzcmJmMjLiuyu5CSpyHI<br></code></pre></td></tr></table></figure>
+
+<p>JWT常常被用作保护服务端的资源（resource），客户端通常将JWT通过HTTP的<code>Authorization</code> header发送给服务端，服务端使用自己保存的key计算、验证签名以判断该JWT是否可信：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">Authorization: Bearer eyJhbGci*<span class="hljs-string">...</span>&lt;snip&gt;<span class="hljs-string">...</span>*yu5CSpyHI<br></code></pre></td></tr></table></figure>
+
+<h2 id="4、JWT-的使用方式"><a href="#4、JWT-的使用方式" class="headerlink" title="4、JWT 的使用方式"></a>4、JWT 的使用方式</h2><p>客户端收到服务器返回的 JWT，可以储存在 Cookie 里面，也可以储存在 localStorage。</p>
+<p>此后，客户端每次与服务器通信，都要带上这个 JWT。你可以把它放在 Cookie 里面自动发送，但是这样不能跨域，所以更好的做法是放在 HTTP 请求的头信息<code>Authorization</code>字段里面。</p>
+<blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-title class_">Authorization</span>: <span class="hljs-title class_">Bearer</span> &lt;token&gt;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<p>另一种做法是，跨域的时候，JWT 就放在 POST 请求的数据体里面。</p>
+<h2 id="5、JWT的几个特点"><a href="#5、JWT的几个特点" class="headerlink" title="5、JWT的几个特点"></a>5、JWT的几个特点</h2><p>（1）JWT 默认是不加密，但也是可以加密的。生成原始 Token 以后，可以用密钥再加密一次。</p>
+<p>（2）JWT 不加密的情况下，不能将秘密数据写入 JWT。</p>
+<p>（3）JWT 不仅可以用于认证，也可以用于交换信息。有效使用 JWT，可以降低服务器查询数据库的次数。</p>
+<p>（4）JWT 的最大缺点是，由于服务器不保存 session 状态，因此无法在使用过程中废止某个 token，或者更改 token 的权限。也就是说，一旦 JWT 签发了，在到期之前就会始终有效，除非服务器部署额外的逻辑。</p>
+<p>（5）JWT 本身包含了认证信息，一旦泄露，任何人都可以获得该令牌的所有权限。为了减少盗用，JWT 的有效期应该设置得比较短。对于一些比较重要的权限，使用时应该再次对用户进行认证。</p>
+<p>（6）为了减少盗用，JWT 不应该使用 HTTP 协议明码传输，要使用 HTTPS 协议传输。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%AE%A4%E8%AF%81%E6%8E%88%E6%9D%83/">认证授权</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/JWT/">JWT</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/11/20/init%20%E4%B8%8E%20new%20%E6%96%B9%E6%B3%95/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">inint与 new 方法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/11/06/aiohttp%20%E6%A8%A1%E5%9D%97%E8%AF%A6%E8%A7%A3.md/">
+                        <span class="hidden-mobile">aiohttp 模块详解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","appKey":"WbImCRYLaCb0AN9W178IBFBs","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
