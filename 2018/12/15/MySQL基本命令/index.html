@@ -1,0 +1,537 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangweijie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="进入数据库：MySQL -u root -p查看数据库：show databases创建库：create database 库名称使用数据库:use 数据库名字查看正在使用的数据库：select database（）查看表：show tables 创建表：create table 表名称（各字段及其类型和属性）更改表的名字：alter table 表原名称 rename to 表新名称插入数据：i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 基础命令">
+<meta property="og:url" content="http://example.com/2018/12/15/MySQL%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="ffreedom">
+<meta property="og:description" content="进入数据库：MySQL -u root -p查看数据库：show databases创建库：create database 库名称使用数据库:use 数据库名字查看正在使用的数据库：select database（）查看表：show tables 创建表：create table 表名称（各字段及其类型和属性）更改表的名字：alter table 表原名称 rename to 表新名称插入数据：i">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-12-15T02:43:31.000Z">
+<meta property="article:modified_time" content="2022-03-02T14:15:43.284Z">
+<meta property="article:author" content="zhangweijie">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>MySQL 基础命令 - ffreedom</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","app_key":"WbImCRYLaCb0AN9W178IBFBs","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ffreedom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="MySQL 基础命令">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2018-12-15 10:43" pubdate>
+        2018年12月15日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      30 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">MySQL 基础命令</h1>
+            
+            <div class="markdown-body">
+              <p>进入数据库：MySQL -u root -p<br>查看数据库：show databases<br>创建库：create database 库名称<br>使用数据库:use 数据库名字<br>查看正在使用的数据库：select database（）<br>查看表：show tables</p>
+<p>创建表：create table 表名称（各字段及其类型和属性）<br>更改表的名字：alter table 表原名称 rename to 表新名称<br>插入数据：insert into 表名称（） values（数据）<br>查看表的创建信息：show create table 表名称<br>查看表的构造：desc 表名称<br>查看表的全部信息：select * from表名称</p>
+<p>修改字段值：update 表名称 set 字段值&#x3D;新值 where 字段值&#x3D;旧值<br>删除字段值：delete from 表名称 where 字段值&#x3D;更新条件<br>增加字段：alter table 表名称 add 字段 字段类型 字段属性<br>删除字段：alter table 表名称 drop 字段<br>修改字段：alter table 表名称 change 字段旧名 字段新名 字段类型 字段属性<br>调整字段的顺序：alter table 表名称 modify 字段 字段类型 after 定位字段</p>
+<p>字符集全部命令：<br>查看服务器支持的字符集：show character set<br>查看字符集的校对规则：show collation like ‘utf8’<br>查看当前库的字符集：show variables like ‘character%’<br>查看当前库的校对规则：show variables  like “collation%”<br>创建表的时候直接分配字符集和表类型：create table 表名称（各字段及其类型和属性）                        engine&#x3D;innodb defaultcharacter set gbk<br>修改库的字符集：alter database 库名称 default character set 新的字符集<br>修改表的字符集：alter table 表名称 convert to character set 新的字符集<br>修改字段的字符集：alter table 表名称 modify 字段 字段属性 character set 新的字符集</p>
+<p>select全部命令：<br>查看表的全部信息：select * from 表名称<br>精确查询表的一个字段：select * from 表名称 where 定位信息<br>精确查询表的多个字段：select * from 表名称 where 字段 in 定位信息<br>精确显示和查询表的多个字段：select 列1，列2 from 表名称 where 字段 in 定位信息<br>运算符和逻辑查询:slect * from 表名称 where （ID&gt;1或者ID&#x3D;1+1或者ID&gt;2 and id&lt;10或者ID&gt;2 or ID&lt;10)<br>模糊查询：select * from  表名称 where 列 like 值（name like ‘%_’）<br>聚合查询：select (count（<em>）或者sum（<em>）或者max（</em>）或者min（<em>）或者avg（</em>））from 表名称<br>分组查询：select 展现的列 from 表名称 group by 参考列<br>      select name count（name）from 表名称 group by name<br>条件显示分组查询：select name count（name） from 表名称 group by name having count（name）&gt;5<br>顺序排列：select name count（</em>） from 表名称 group by name order by name asc<br>逆序排列：select name count（*） from 表名称 group by name order by name desc<br>左外连接：select 表1.列，表2.列  from 表名称 表1 left join 表2 on 表1.列&#x3D;表2.列<br>右外连接：select 表1.列，表2.列  from 表名称 表1 right join 表2 on 表1.列&#x3D;表2.列</p>
+<p>添加外键约束<br>create table student（id int(100）not null primary key auto_increment,name char(100) not null default ‘’,age int not null default 0,birthday date not null default ‘2018-09-29’,address varchar(100) not null default ‘China’,salary double not null default 0.00,body text not null,foreign key student(sid) references school(id) ）</p>
+<p>终极创建表：<br>create table student（id int(100）not null primary key auto_increment,name char(100) not null default ‘’,age int not null default 0,birthday date not null default ‘2018-09-29’,address varchar(100) not null default ‘China’,salary double not null default 0.00,body text not null,constarint w_key foreign key student(sid) references school(id) on delete cascade on update cascade）engine&#x3D;innodb default characset&#x3D;gbk;</p>
+<p>创建唯一索引：create table 表名称（列，列属性，unique）<br>建表后添加唯一索引：create unique index 索引名 on 表名称（列）<br>建表后添加约束：alter table 表名称 add constraint 索引名 unique（列）from<br>创建普通索引：create index 索引名 on 表名称（列）<br>查看索引：show index from 表名称<br>删除索引：drop index 索引名 on 表名称<br>外键约束：foreign key（外键名） references 表名称（主键）</p>
+<p>关闭自动提交：set autocommit&#x3D;1（默认）将1改成0  如果想手动彻底提交，commit<br>回滚：rollback    支持innodb表类型</p>
+<p>用户管理：<br>进去mysql：use mysql<br>查看用户：select user，host，password from user<br>创建用户：create user 用户名@主机名（‘admin’@’localhost’） identified by 密码（‘admin’）<br>赋予权限：grant 权限（insert，update，delete，select） on （*.*或者库名称.<em>或者库名称.    表    名称）to 用户名@主机名（‘admin’@’localhost’）<br>修改收回权限：revoke 权限（insert，update，delete，select） on （</em>.*或者库名称.*或者库名称.    表名称） from  用户名@主机名（‘admin’@’localhost’）<br>设置密码：set password for 用户名@主机名（‘admin’@’localhost’）&#x3D;PASSWORD（‘新密码’）<br>修改密码：update 表名称 set password&#x3D;PASSWORD(‘admin’) where user&#x3D;’admin’ &amp;&amp;     host&#x3D;’localhost’<br>删除用户：delete from user where user&#x3D;‘admin’&amp;&amp; host&#x3D;‘localhost’<br>      drop user 用户名@主机名（‘admin’@’localhost’）</p>
+<p>视图：<br>创建视图：create view 视图名（select_view） as 语句（select * from table）<br>查询视图：show create view 视图名（select_view）<br>创建具有外键约束的视图：create view see_view as select student.id,student.name,scores.python,scores.liuix from             student join scores on student.id&#x3D;scores.sid<br>删除视图：drop view 视图名（select_view）<br>使用视图：select * from 视图名（select_view）</p>
+<p>备份数据库：mysqldump -u root -p 数据库（python）&gt;d:0806.sql<br>恢复数据库：mysql -u root -p 数据库（python）&lt;d:&#x2F;0806.sql</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/04/25/Docker-Compose%E7%AE%80%E4%BB%8B%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Docker-Compose 简介及常用命令</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","appKey":"WbImCRYLaCb0AN9W178IBFBs","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,625 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangweijie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="深究 sqlalchemy 中表关系table relationships为什么需要定义Relationships在相关联的表中，我们可以不创建表关联的定义，而只是单纯互相引用id即可。但是，查询和使用起来就要麻烦很多： 1234567＃给定参数User.name,获取该user的addresses# 参考知乎：https:&#x2F;&#x2F;www.zhihu.com&#x2F;question&#x2F;38456789&#x2F;ans">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深究 sqlalchemy 中表关系table relationships">
+<meta property="og:url" content="http://example.com/2019/12/12/%E6%B7%B1%E7%A9%B6%20sqlalchemy%20%E4%B8%AD%E8%A1%A8%E5%85%B3%E7%B3%BBtable%20relationships/index.html">
+<meta property="og:site_name" content="ffreedom">
+<meta property="og:description" content="深究 sqlalchemy 中表关系table relationships为什么需要定义Relationships在相关联的表中，我们可以不创建表关联的定义，而只是单纯互相引用id即可。但是，查询和使用起来就要麻烦很多： 1234567＃给定参数User.name,获取该user的addresses# 参考知乎：https:&#x2F;&#x2F;www.zhihu.com&#x2F;question&#x2F;38456789&#x2F;ans">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081130360.png">
+<meta property="article:published_time" content="2019-12-12T08:36:31.000Z">
+<meta property="article:modified_time" content="2022-03-02T14:22:53.619Z">
+<meta property="article:author" content="zhangweijie">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="sqlalchemy">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081130360.png">
+  
+  
+  <title>深究 sqlalchemy 中表关系table relationships - ffreedom</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","app_key":"WbImCRYLaCb0AN9W178IBFBs","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ffreedom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="深究 sqlalchemy 中表关系table relationships">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-12-12 16:36" pubdate>
+        2019年12月12日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      54 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">深究 sqlalchemy 中表关系table relationships</h1>
+            
+            <div class="markdown-body">
+              <h2 id="深究-sqlalchemy-中表关系table-relationships"><a href="#深究-sqlalchemy-中表关系table-relationships" class="headerlink" title="深究 sqlalchemy 中表关系table relationships"></a>深究 sqlalchemy 中表关系table relationships</h2><h2 id="为什么需要定义Relationships"><a href="#为什么需要定义Relationships" class="headerlink" title="为什么需要定义Relationships"></a>为什么需要定义Relationships</h2><p>在相关联的表中，我们可以不创建表关联的定义，而只是单纯互相引用id即可。但是，查询和使用起来就要麻烦很多：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><pre><code class="hljs pgsql">＃给定参数<span class="hljs-keyword">User</span>.name,获取该<span class="hljs-keyword">user</span>的addresses<br># 参考知乎：https://www.zhihu.com/question/<span class="hljs-number">38456789</span>/answer/<span class="hljs-number">90470689</span><br><br>def get_addresses_from_user(user_name):<br>    <span class="hljs-keyword">user</span> = <span class="hljs-keyword">session</span>.query(<span class="hljs-keyword">User</span>).filter_by(<span class="hljs-type">name</span>=user_name).first()<br>    addresses = <span class="hljs-keyword">session</span>.query(Address).filter_by(user_id=<span class="hljs-keyword">user</span>.id).<span class="hljs-keyword">all</span>()<br>    <span class="hljs-keyword">return</span> addresses<br></code></pre></td></tr></table></figure>
+
+<p>可以看到，这样的效率非常低。<br>好在原生的SQL就有relationship设置，SQLAlchemy将其引入到了ORM模型中。</p>
+<p><strong>它可以让我们只在表中声明表之间的关系，之后每次使用就完全无需手动<code>交叉搜索</code>，而是像对待一个表中的数据一样直接使用。</strong></p>
+<h2 id="为什么不需要定义relationships？"><a href="#为什么不需要定义relationships？" class="headerlink" title="为什么不需要定义relationships？"></a>为什么不需要定义relationships？</h2><p>经过实践返回来加的这一节：实践中的SQLAlchemy的”relationship”在一定程度上反而导致了整体表关联关系的极大复杂化，还有效率的极其低下。</p>
+<p>如果你的数据库只有两个表的话，那么relationship随便定义随便用。如果只有几百条数据的话，那么也请随便玩。</p>
+<p>但是，当数据库中有数十个表以上，单个关联层级就多过三个表以上层层关联，而且各个数据量以万为单位。那么，”relationship”会把整个人都搞垮，简直还不如手写SQL语句清晰好理解，并且效率也差在了秒级与毫秒级的区别上。</p>
+<blockquote>
+<p>SQLAlchemy只能很轻松handle <code>Many to Many</code>，但是如果是常见的<code>Many to Many to Many</code>，或者是<code>Many to Many to Many to Many</code>，那简直就是噩梦。</p>
+</blockquote>
+<p>但是，我们都知道，项目做到一定程度，都会摆脱不了ORM。无论是自己造轮子还是用别人的，无论起点是不是纯SQL，终点都是ORM。<br>那么该怎么办呢？</p>
+<p>网友的建议是：<br><strong>用SQLAlchemy建立各种ORM类对象，不要用内置的关联，直接在查询的时候手动SQL语句！</strong></p>
+<p>经过实践，我的建议是：</p>
+<ul>
+<li>容易SQL-Injection注入的地方，用SQLAlchemy的<code>query</code></li>
+<li>创建ORM对象时候，用SQLAlchemy</li>
+<li><strong>多层关联的时候，不要用SQLAlchemy</strong></li>
+<li>查询的时候，用SQL</li>
+<li>插入数据的时候，不要用SQLAlchemy。（官方都说明了插入百万级的时候，和SQL插件是秒级的）</li>
+</ul>
+<h2 id="relationship-函数"><a href="#relationship-函数" class="headerlink" title="relationship() 函数"></a>relationship() 函数</h2><p><a target="_blank" rel="noopener" href="https://docs.sqlalchemy.org/en/rel_1_0/orm/backref.html#relationships-backref">参考官方文档：Linking Relationships with Backref</a></p>
+<p>SQLAlchemy创建表关联时，使用的是<code>relationshi()</code>这个函数。<br>它返回的是一个类的属性，比如father类的<code>children</code>属性。但是，它实际上并没有在father表中创建任何叫children的列，而是自动帮你到相关联的children表中去找数据，让你用起来感觉没有差别而已。<br>这是非常方便的！</p>
+<p><code>relationship()</code>这个函数的参数非常多，每一个参数都有很多内容需要理解。因为所有的表关联的形态，都是在这个函数里面定义的。<br>以下分别讲解。</p>
+<h2 id="Reference-正向引用"><a href="#Reference-正向引用" class="headerlink" title="Reference 正向引用"></a>Reference 正向引用</h2><p>传统的方法，是在父类中定义一个<code>关系 relationship</code>或叫<code>正向引用 Reference</code>，子类只需定义一个外键。比如：</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs haskell"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-type">Father</span>(..): </span><br><span class="hljs-class">    id = <span class="hljs-type">Column</span>(..)</span><br><span class="hljs-class">    children = relationship(&#x27;<span class="hljs-type">Child</span>&#x27;)</span><br><span class="hljs-class"></span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-type">Child</span>(..):</span><br><span class="hljs-class">    father_id = <span class="hljs-type">Column</span>( <span class="hljs-type">Integer</span>, <span class="hljs-type">ForeignKey</span>(&#x27;<span class="hljs-title">father</span>.<span class="hljs-title">id&#x27;</span>) )</span><br><span class="hljs-class"></span><br><span class="hljs-class"># 添加数据</span><br><span class="hljs-class">daddy = <span class="hljs-type">Father</span>()</span><br><span class="hljs-class">jason = <span class="hljs-type">Child</span>()</span><br><span class="hljs-class">emma = <span class="hljs-type">Child</span>()</span><br><span class="hljs-class"></span><br><span class="hljs-class"># 将孩子挂到父亲名下</span><br><span class="hljs-class">daddy.children.append(<span class="hljs-title">jason</span>)</span><br><span class="hljs-class">daddy.children.append(<span class="hljs-title">emma</span>)</span><br></code></pre></td></tr></table></figure>
+
+<p>这样当每次我们使用<code>father.children</code>的时候，就会自动返回与这个father相关联的所有children了。</p>
+<h2 id="Back-Reference-反向引用"><a href="#Back-Reference-反向引用" class="headerlink" title="Back Reference 反向引用"></a>Back Reference 反向引用</h2><p>单纯定义的<code>relationship(&#39;子类名&#39;)</code>只是一个正向引用，也就是只能让父类调用子对象。反过来，如果要问children他们的父亲是谁，就不行了。</p>
+<p><strong>所以，我们还需要一个<code>反向引用 (Back Reference)</code>的声明，让子对象能够知道父对象是谁。</strong></p>
+<p>定义方式是在父类的relationship(..)中加一个参数<code>backref</code>：</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs axapta"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Father</span>(..): <br>    children = relationship( <span class="hljs-string">&#x27;Child&#x27;</span>, backref=<span class="hljs-string">&#x27;parent&#x27;</span> )<br></code></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ol>
+<li>backref参数里面使用的随便写，主要用于之后子类的引用。</li>
+<li>backref参数是<code>双向性</code>的，意思是，只需要在父类中声明一次，那么<code>父⇄子</code>的双向关系就确立了，不用再去子类中写一遍。</li>
+</ol>
+<p>这时候，我们在添加就可以这样互相调用了：</p>
+<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs isbl">&gt;&gt;&gt; <span class="hljs-variable">Jason</span> = <span class="hljs-function"><span class="hljs-title">Child</span>()</span><br>&gt;&gt;&gt; <span class="hljs-function"><span class="hljs-title">print</span>( <span class="hljs-variable">Jason.parent</span> )</span><br> &lt;<span class="hljs-variable">__main__.Father</span> <span class="hljs-variable"><span class="hljs-class">object</span></span> <span class="hljs-variable">at</span> <span class="hljs-number">0</span><span class="hljs-variable">x10222f860</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<h2 id="Bidirectional-amp-Unidirectional-Back-Reference-双向和单向的反向引用"><a href="#Bidirectional-amp-Unidirectional-Back-Reference-双向和单向的反向引用" class="headerlink" title="Bidirectional &amp; Unidirectional Back Reference 双向和单向的反向引用"></a>Bidirectional &amp; Unidirectional Back Reference 双向和单向的反向引用</h2><p>后来，SQLAlchemy发现这种只在一边定义双向性<code>backref</code>的方法有点不太直观，所以又添加了另一个参数<code>back_populates</code>参数，而这个back_populates参数是单向性的，也就是说：<br>你要确立双方向关系就必须在两边的类中都声明一遍。这样比较直观。</p>
+<blockquote>
+<p>可以把<code>backref</code>和<code>back_populates</code>都读为”as”，这样就好记忆了。</p>
+</blockquote>
+<p>比如：</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs haskell"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-type">Father</span>(..): </span><br><span class="hljs-class">    id = <span class="hljs-type">Column</span>(..)</span><br><span class="hljs-class">    children = relationship( &#x27;<span class="hljs-type">Child</span>&#x27;, <span class="hljs-title">back_populates</span>=&#x27;<span class="hljs-title">parent&#x27;</span> )</span><br><span class="hljs-class"></span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-type">Child</span>(..):</span><br><span class="hljs-class">    father_id = <span class="hljs-type">Column</span>( <span class="hljs-type">Integer</span>, <span class="hljs-type">ForeignKey</span>(&#x27;<span class="hljs-title">father</span>.<span class="hljs-title">id&#x27;</span>) )</span><br><span class="hljs-class">    parent = relationship( &#x27;<span class="hljs-type">Father</span>&#x27;, <span class="hljs-title">back_populates</span>=&#x27;<span class="hljs-title">children&#x27;</span> )</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>注意：<code>back_populates</code>要求父类子类的关系名称必须严格“对称”：</strong></p>
+<ul>
+<li>父类的relationship属性名<code>children</code>，必须对应子类的关系中的<code>back_populates</code>中的值</li>
+<li>子类的relationship属性名<code>parent</code>，必须对应父类的关系中的<code>back_populates</code>中的值</li>
+</ul>
+<p>这样一来利用<code>反向引用</code>参数创建的关系就确立了。但是注意，<br>无论用<code>backref</code>还是<code>back_populates</code>创建的关联，如果我们必须要为父子对象添加对象间的关联才能引用，否则谁也不知道谁是谁的父亲、儿子：</p>
+<figure class="highlight python-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python-repl"><span class="hljs-meta">&gt;&gt;&gt;</span> <span class="language-python">daddy = Father()</span><br><span class="hljs-meta">&gt;&gt;&gt;</span> <span class="language-python">son = Child()</span><br><span class="hljs-meta">&gt;&gt;&gt;</span> <span class="language-python">daughter = Child()</span><br><br><span class="hljs-meta">&gt;&gt;&gt;</span> <span class="language-python">daddy.children</span><br>[]<br><span class="hljs-meta">&gt;&gt;&gt;</span> <span class="language-python">son.parent</span><br>None<br><br><span class="hljs-meta">&gt;&gt;&gt;</span> <span class="language-python">daddy.children.append( son )</span><br><span class="hljs-meta">&gt;&gt;&gt;</span> <span class="language-python">daddy.children.append( daughter )</span><br><br><span class="hljs-meta">&gt;&gt;&gt;</span> <span class="language-python">daddy.children</span><br>[ &lt;Child ...&gt;, &lt;Child ...&gt; ]<br><br><span class="hljs-meta">&gt;&gt;&gt;</span> <span class="language-python">son.parent</span><br>&lt;Father ...&gt;<br></code></pre></td></tr></table></figure>
+
+<p>另外：上面添加父子关系的时候，不光可以用<code>daddy.children.append</code>，<br>还可以在声明子对象的时候确定：<code>son = Child( parent=daddy )</code></p>
+<p><code>反向引用</code>参数对比：</p>
+<ul>
+<li><code>backref</code>参数：双方向。在父类中定义即可。只能通过<code>daddy.children.append()</code>方式添加子对象关联。</li>
+<li><code>back_populates</code>参数：单方向。必须在父子类中都定义，且属性名称必须严格对称。还可以通过<code>Child(parent=daddy)</code>的方式添加父对象关联。</li>
+</ul>
+<h2 id="SQL中的表关系"><a href="#SQL中的表关系" class="headerlink" title="SQL中的表关系"></a>SQL中的表关系</h2><p>对应关系：</p>
+<ul>
+<li>One to Many 一对多：</li>
+<li>Many to One 多对一：</li>
+<li>Many to Many 多对多：</li>
+</ul>
+<h3 id="One-to-Many-一对多"><a href="#One-to-Many-一对多" class="headerlink" title="One to Many 一对多"></a>One to Many 一对多</h3><p>建立一个<code>One-to-Many</code>的多表关联：</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs haskell"><span class="hljs-meta"># ...</span><br><span class="hljs-class"></span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-type">Person</span>(<span class="hljs-type">Base</span>):</span><br><span class="hljs-class">    id = <span class="hljs-type">Column</span>(...)</span><br><span class="hljs-class">    name = <span class="hljs-type">Column</span>(...)</span><br><span class="hljs-class">    pets = relationship(&#x27;<span class="hljs-type">Pet</span>&#x27;, <span class="hljs-title">backref</span>=&#x27;<span class="hljs-title">owner&#x27;</span>)</span><br><span class="hljs-class">    # 上面这句是添加一关联，而不是实际的列</span><br><span class="hljs-class">    # 注意：1. &#x27;<span class="hljs-type">Pet&#x27;</span>是大写开头，因为指向了<span class="hljs-type">Python</span>类，而不是数据库中表</span><br><span class="hljs-class">    # 2. backref是指建立一个不存在于数据库的“假列”，</span><br><span class="hljs-class">    # 用于添加数据时候指认关联对象，代替传统id指定</span><br><span class="hljs-class"></span><br><span class="hljs-class"></span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-type">Pet</span>(<span class="hljs-type">Base</span>):</span><br><span class="hljs-class">    id = <span class="hljs-type">Column</span>(...)</span><br><span class="hljs-class">    name = <span class="hljs-type">Column</span>(...)</span><br><span class="hljs-class">    owner_id = <span class="hljs-type">Column</span>(<span class="hljs-type">Integer</span>, <span class="hljs-type">ForeignKey</span>(&#x27;<span class="hljs-title">person</span>.<span class="hljs-title">id&#x27;</span>)</span><br><span class="hljs-class">    # 上面这句添加了一个外键，</span><br><span class="hljs-class">    # 注意外键的&#x27;person&#x27;是数据库中的表名，而不是<span class="hljs-keyword">class</span>类名，所以用小写以区分</span><br></code></pre></td></tr></table></figure>
+
+<p>创建好关联的表以后，我们就可以直接插入数据了。注意，插入带关联的数据也和SQL插入有些不同：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment">#...</span><br><br><span class="hljs-comment"># 添加主人</span><br>andy = Person(<span class="hljs-attribute">name</span>=<span class="hljs-string">&#x27;Andrew&#x27;</span>)<br>session.<span class="hljs-built_in">add</span>( andy )<br>seession.commit()<br><br><span class="hljs-comment"># 添加狗</span><br>pp01 = Pet(<span class="hljs-attribute">name</span>=<span class="hljs-string">&#x27;Puppy&#x27;</span>, <span class="hljs-attribute">owner</span>=andy)<br>pp02 = Pet(<span class="hljs-attribute">name</span>=<span class="hljs-string">&#x27;Puppy&#x27;</span>, <span class="hljs-attribute">owner</span>=andy)<br><span class="hljs-comment"># 注意这句话中，owner是刚才主表中注册relationship中的backref指定的参数名，</span><br><span class="hljs-comment"># 传给owner的是主表的一个Python实例化对象，而不是什么id</span><br><span class="hljs-comment"># 看起来复杂，实际上sqlalchemy可以自动取出object的id然后匹配副表中的foreignkey。</span><br><br>session.<span class="hljs-built_in">add</span>(pp01)<br>session.<span class="hljs-built_in">add</span>(pp02)<br>session.commit()<br><br><span class="hljs-built_in">print</span>( andy.pets )<br><span class="hljs-comment"># &gt;&gt;&gt; [&lt;Pet 1&gt;, &lt;Pet, 2&gt;]</span><br><span class="hljs-comment"># 返回的是两个Pet对象</span><br><br><span class="hljs-built_in">print</span>( pp01.owner )<br><span class="hljs-comment"># &gt;&gt;&gt; &lt;Person &#x27;Andrew&#x27;&gt;</span><br><span class="hljs-comment"># 同样，副表中利用owner这个backref定义的假列，返回的是Person对象。</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Many-to-One-多对一"><a href="#Many-to-One-多对一" class="headerlink" title="Many to One 多对一"></a>Many to One 多对一</h3><p>比如职工和公司的关系就是多对一。这和公司与职工对一对多有什么区别？<br>区别其实是在SQL语句中的：多对一的关联关系，是在多的一方的表中定义，一的一方表中没有任何关系定义：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-keyword">class</span> <span class="hljs-constructor">Company(<span class="hljs-operator">...</span>)</span>:<br>    id = <span class="hljs-constructor">Column(<span class="hljs-operator">...</span>)</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-constructor">Employee(..)</span>:<br>    id = <span class="hljs-constructor">Column(<span class="hljs-operator">...</span>)</span><br>    company_id = <span class="hljs-constructor">Column( <span class="hljs-operator">...</span>, ForeignKey(&#x27;<span class="hljs-params">company</span>.<span class="hljs-params">id</span>&#x27;)</span> )<br>    company = relationship(<span class="hljs-string">&quot;Company&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="Many-to-Many-多对多"><a href="#Many-to-Many-多对多" class="headerlink" title="Many to Many 多对多"></a>Many to Many 多对多</h3><p>多对多的关系也很常见，比如User和Radio的关系：<br>一个Radio可以有多个用户可以订阅，一个用户可以订阅多个Radio。</p>
+<p>SQL中处理多对多的关系时，是把多对多分拆成两个一对多关系。做法是：新创建一个表，专门存储映射关系。原本的两个表无需设置任何外键。</p>
+<p>SQLAlchemy的实践中，也和SQL中的做法一样。</p>
+<p><strong>注意：既然有了专门的Mapping映射表，那么两个表各自就不需要注册任何ForeignKey外键了。</strong></p>
+<p>示例：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs angelscript"># 做出一个专门的表，存储映射关系<br># 注意：<span class="hljs-number">1.</span> 这个表中两个<span class="hljs-string">&quot;id&quot;</span>都不是主键，因为是多对多的关系，所以二者都可以有多条数据。<br>#  <span class="hljs-number">2.</span> 映射表必须在前面定义，否则后面的类引用时，编译器会找不到<br>radio_users = Table(<span class="hljs-string">&#x27;radio_users&#x27;</span>, Base.metadata,<br>    Column(<span class="hljs-string">&#x27;whatever_name1&#x27;</span>, Integer, ForeignKey(<span class="hljs-string">&#x27;radios.id&#x27;</span>)),<br>    Column(<span class="hljs-string">&#x27;whatever_name2&#x27;</span>, Integer, ForeignKey(<span class="hljs-string">&#x27;users.id&#x27;</span>))<br>)<br><br># 定义两个ORM对象：<br><span class="hljs-keyword">class</span> <span class="hljs-symbol">Radio</span>(<span class="hljs-symbol">Base</span>):<br>    <span class="hljs-symbol">__tablename__</span> = &#x27;<span class="hljs-symbol">radios</span>&#x27;<br><br>    <span class="hljs-symbol">rid</span> = <span class="hljs-symbol">Column</span>(&#x27;<span class="hljs-symbol">id</span>&#x27;, <span class="hljs-symbol">Integer, <span class="hljs-symbol">primary_key</span></span>=<span class="hljs-symbol">True</span>)<br>    <span class="hljs-symbol">followers</span> = <span class="hljs-symbol">relationship</span>(&#x27;<span class="hljs-symbol">User</span>&#x27;,<br>        <span class="hljs-symbol">secondary</span>=<span class="hljs-symbol">radio_users,     </span># `<span class="hljs-symbol">secondary</span>`是专门用来指明映射表的<br>        <span class="hljs-symbol">back_populates</span>=&#x27;<span class="hljs-symbol">subscriptions</span>&#x27;    # 这个值要对应另一个类的属性名<br>    )<br><br><span class="hljs-symbol">class</span> <span class="hljs-symbol">User</span>(<span class="hljs-symbol">Base</span>):<br>    <span class="hljs-symbol">__tablename__</span> = &#x27;<span class="hljs-symbol">users</span>&#x27;<br><br>    <span class="hljs-symbol">uid</span> = <span class="hljs-symbol">Column</span>(&#x27;<span class="hljs-symbol">id</span>&#x27;, <span class="hljs-symbol">Integer, <span class="hljs-symbol">primary_key</span></span>=<span class="hljs-symbol">True</span>)<br>    <span class="hljs-symbol">subscriptions</span> = <span class="hljs-symbol">relationship</span>(&#x27;<span class="hljs-symbol">Radio</span>&#x27;,<br>        <span class="hljs-symbol">secondary</span>=<span class="hljs-symbol">radio_users,</span><br><span class="hljs-symbol">        <span class="hljs-symbol">back_populates</span></span>=&#x27;<span class="hljs-symbol">followers</span>&#x27;   # 这个值要对应另一个类的属性名<br>    )<br></code></pre></td></tr></table></figure>
+
+<p>其中，<code>secondary</code>是专门用来指明映射表的。</p>
+<blockquote>
+<p>注意：多对多的时候我们也可以用<code>backref</code>参数来添加互相引用。但是这种方法太不直观了，容易产生混乱。所以这里建议用<code>back_populates</code>参数，在两方都添加引用，表现一种平行地位，方便理解。</p>
+</blockquote>
+<p>然后插入数据时候是这么用：</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-built_in">r1</span> = Radio()<br><span class="hljs-built_in">r2</span> = Radio()<br><span class="hljs-built_in">r3</span> = Radio()<br><br>u1 = User()<br>u2 = User()<br>u3 = User()<br><br><span class="hljs-meta"># 添加对象间的关联</span><br><span class="hljs-built_in">r1</span>.followers += [u1, u2, u3]<br><br><span class="hljs-meta"># 反过来添加也一样</span><br>u1.subscriptions += [<span class="hljs-built_in">r2</span>, <span class="hljs-built_in">r3</span>]<br></code></pre></td></tr></table></figure>
+
+<h2 id="Many-to-Many-to-Many-多对多对多-（深层关联）"><a href="#Many-to-Many-to-Many-多对多对多-（深层关联）" class="headerlink" title="Many to Many to Many 多对多对多 （深层关联）"></a>Many to Many to Many 多对多对多 （深层关联）</h2><p>深层关联，为了避免理解困难，最笨的方法就是简单的使用外键ID，然后手动搜索另一个表的对应ID。<br><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081130360.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/sqlalchemy/">sqlalchemy</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                      <a class="hover-with-bg" href="/tags/sqlalchemy/">sqlalchemy</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/12/17/seleniumstandalone-chromelatest%20%E6%89%BE%E4%B8%8D%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%90%8D%E7%A7%B0%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">selenium/standalone-chrome:latest 找不到服务名称解决办法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/11/29/%E4%BD%BF%E7%94%A8%20docker%20%E9%83%A8%E7%BD%B2%E5%9F%BA%E4%BA%8E%20selenium+chrome-headless%E7%9A%84%E6%9C%8D%E5%8A%A1/">
+                        <span class="hidden-mobile">使用 docker 部署基于 selenium+chrome-headless的服务</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","appKey":"WbImCRYLaCb0AN9W178IBFBs","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

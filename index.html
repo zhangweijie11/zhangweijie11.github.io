@@ -246,6 +246,57 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2022/01/27/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9/" target="_self">
+          缓存穿透、缓存击穿、缓存雪崩
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/01/27/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9/" target="_self">
+          
+          Redis - 缓存穿透、缓存击穿、缓存雪崩为啥要有缓存 每次请求数据，都直接达到数据库上，数据库受不了，所以得在请求和数据库中间加个缓冲带。这个缓冲带需要非常快，所以就放在内存中，和 CPU 离得近，数据拷贝等操作会很快。然后就先抵挡一部分请求，直接在缓存中就能获取到部分数据，如果没命中缓存再去数据库查，也能减少很大一部分请求，尤其是针对热点数据，能减少 80%以上的请求。 缓存穿透场景有个黑客
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-01-27 17:50" pubdate>
+              2022-01-27
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/">Redis</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/Redis/">Redis</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2022/01/19/Git%20%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" target="_self">
           Git 常见错误及解决办法
         </a>
@@ -393,15 +444,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/11/08/%E6%9F%A5%E7%9C%8B%20docker%20%E5%AE%B9%E5%99%A8%E8%B5%84%E6%BA%90%E4%BD%BF%E7%94%A8/" target="_self">
-          查看 Docker 容器资源使用
+        <a href="/2022/01/12/SqlAlchemy%20%20%E5%9F%BA%E6%9C%AC%E5%87%BD%E6%95%B0/" target="_self">
+          sqlalchemy 基本函数
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/11/08/%E6%9F%A5%E7%9C%8B%20docker%20%E5%AE%B9%E5%99%A8%E8%B5%84%E6%BA%90%E4%BD%BF%E7%94%A8/" target="_self">
+        <a href="/2022/01/12/SqlAlchemy%20%20%E5%9F%BA%E6%9C%AC%E5%87%BD%E6%95%B0/" target="_self">
           
-          查看 docker 容器资源使用在容器的使用过程中，如果能及时的掌握容器使用的系统资源，无论对开发还是运维工作都是非常有益的。幸运的是 docker 自己就提供了这样的命令：docker stats。 默认输出docker stats 命令用来显示容器使用的系统资源。不带任何选项执行 docker stats 命令： 1$ docker stats   默认情况下，stats 命令会每隔 1 秒钟
+          SqlAlchemy  基本函数CAST 业务场景说明  domain 表中存在一个字段 source，类型为 array，现在需要进行完全匹配    domain source    baidu.com {brute,search}   163.com {brute}   现在需要精确匹配出163.com 原生 SQL 语句 1select * from domain where CAST(do
         </a>
       </p>
 
@@ -409,8 +460,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-11-08 10:45" pubdate>
-              2021-11-08
+            <time datetime="2022-01-12 14:32" pubdate>
+              2022-01-12
             </time>
           </div>
         
@@ -418,9 +469,9 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%AE%B9%E5%99%A8%E5%8C%96/">容器化</a>
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
-              <a href="/categories/%E5%AE%B9%E5%99%A8%E5%8C%96/Docker/">Docker</a>
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/sqlalchemy/">sqlalchemy</a>
             
           </div>
         
@@ -428,9 +479,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Docker/">Docker</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
-              <a href="/tags/%E5%AE%B9%E5%99%A8/">容器</a>
+              <a href="/tags/sqlalchemy/">sqlalchemy</a>
             
           </div>
         
@@ -444,15 +495,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/14/%E5%85%B3%E4%BA%8E%20docker%20%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%AE%B9%E5%99%A8%E5%90%8D%E5%AD%97%E8%BF%9B%E8%A1%8C%E5%AE%B9%E5%99%A8%E9%97%B4%E8%BF%9E%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98/" target="_self">
-          关于 Docker 无法使用容器名字进行容器间链接==连接的问题
+        <a href="/2022/01/07/AHP%EF%BC%88%E5%B1%82%E6%AC%A1%E5%88%86%E6%9E%90%E6%B3%95%EF%BC%89/" target="_self">
+          AHP（层次分析法）
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/14/%E5%85%B3%E4%BA%8E%20docker%20%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%AE%B9%E5%99%A8%E5%90%8D%E5%AD%97%E8%BF%9B%E8%A1%8C%E5%AE%B9%E5%99%A8%E9%97%B4%E8%BF%9E%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98/" target="_self">
+        <a href="/2022/01/07/AHP%EF%BC%88%E5%B1%82%E6%AC%A1%E5%88%86%E6%9E%90%E6%B3%95%EF%BC%89/" target="_self">
           
-          关于 docker 无法使用容器名字进行容器间连接的问题问题描述项目名称 : domain-search 原始 endpoint.sh 文件 123456789#!&#x2F;bin&#x2F;shecho &quot;Waiting for postgres...&quot;while ! nc -z domain-search-db 5432; do  sleep 0.1doneecho &quot;Postgr
+          AHP（层次分析法）[TOC]  一、AHP层次分析法是什么？AHP(Analytic Hierarchy Process)层次分析法是美国运筹学家T. L. Saaty教授于二十世纪70年代提出的一种实用的多方案或多目标的决策方法，是一种定性与定量相结合的决策分析方法。用决策者的经验判断各衡量目标之间能否实现的标准之间的相对重要程度，并合理地给出每个决策方案的每个标准的权数，利用权数求出各方案的
         </a>
       </p>
 
@@ -460,8 +511,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-14 10:39" pubdate>
-              2021-10-14
+            <time datetime="2022-01-07 14:37" pubdate>
+              2022-01-07
             </time>
           </div>
         
@@ -469,9 +520,9 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%AE%B9%E5%99%A8%E5%8C%96/">容器化</a>
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%8F%8A%E7%AE%97%E6%B3%95/">数据及算法</a>
             
-              <a href="/categories/%E5%AE%B9%E5%99%A8%E5%8C%96/Docker/">Docker</a>
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%8F%8A%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95/">算法</a>
             
           </div>
         
@@ -479,9 +530,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Docker/">Docker</a>
-            
-              <a href="/tags/%E5%AE%B9%E5%99%A8%E8%BF%9E%E6%8E%A5/">容器连接</a>
+              <a href="/tags/AHP/">AHP</a>
             
           </div>
         
@@ -495,15 +544,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/01/21/Golang%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/" target="_self">
-          Golang 配置文件相关操作
+        <a href="/2021/12/09/MySQL%20%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" target="_self">
+          、MySQL 事务隔离级别
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/01/21/Golang%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/" target="_self">
+        <a href="/2021/12/09/MySQL%20%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" target="_self">
           
-          Golang 配置文件相关操作 本文以读取数据库配置文件为例  1、JSON 文件1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374package main&#x2F;* 解析 js
+          MySQL 事务、隔离级别MySQL 基础架构示意图  事务介绍MySQL 事务主要用于处理操作量奥迪，复杂度高的数据。比如，在人员管理系统中，你删除一个人员的基本资料，肯定也需要同步删除和这个人员相关的所有资料。这些数据库操作语句就构成了一个事务。 一个经典的例子，银行转账。你要给小张转 100 块钱，并且现在你的账户只有 100 块钱。转账过程中肯定会涉及到一系列针对金额的操作，比如查询余额、
         </a>
       </p>
 
@@ -511,8 +560,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-01-21 10:54" pubdate>
-              2021-01-21
+            <time datetime="2021-12-09 17:44" pubdate>
+              2021-12-09
             </time>
           </div>
         
@@ -520,9 +569,9 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
-              <a href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Golang/">Golang</a>
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a>
             
           </div>
         
@@ -530,7 +579,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Golang/">Golang</a>
+              <a href="/tags/MySQL/">MySQL</a>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
           </div>
         
@@ -544,15 +595,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2020/11/06/%E6%93%8D%E4%BD%9C%E6%96%87%E4%BB%B6%E5%9F%BA%E7%A1%80/" target="_self">
-          操作文件基础
+        <a href="/2021/12/07/MySQL%20%E6%97%A5%E5%BF%97%E5%8F%8A%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" target="_self">
+          MySQL 日志及数据备份恢复
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2020/11/06/%E6%93%8D%E4%BD%9C%E6%96%87%E4%BB%B6%E5%9F%BA%E7%A1%80/" target="_self">
+        <a href="/2021/12/07/MySQL%20%E6%97%A5%E5%BF%97%E5%8F%8A%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" target="_self">
           
-          文件系统文件格式其实我们可以随便排列存储文件，而且我们也可以自己定义文件格式，但是按照标准格式的话会更加方便，不管是存储还是查询。 文件其实是一长串二进制数据，我们通过 ASCII 码去解读文件。 文件有很多种类，大致分为五类：  文字文件 图片文件 视频文件 音乐文件 其他文件
+          MySQL 日志及数据备份恢复MySQL三种日志详解1、日志日志是 MySQL 数据库的重要组成部分，记录数据库运行时期的各种状态信息。MySQL日志主要包括错误日志、查询日志、 慢查询日志、事务日志、二进制日志几大类。作为开发，我们重点需要关注二进制日志（binlog）和事务日志（redolog和undolog）  简单对比     日志 物理日志 逻辑日志 定义 作用    redo log
         </a>
       </p>
 
@@ -560,8 +611,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2020-11-06 09:23" pubdate>
-              2020-11-06
+            <time datetime="2021-12-07 15:31" pubdate>
+              2021-12-07
             </time>
           </div>
         
@@ -569,7 +620,9 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a>
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a>
             
           </div>
         
@@ -577,7 +630,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%96%87%E4%BB%B6/">文件</a>
+              <a href="/tags/MySQL/">MySQL</a>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
           </div>
         
@@ -591,15 +646,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2020/03/17/%E9%85%8D%E7%BD%AE%20GitHub%20%E4%BB%A5%E5%8F%8A%20Gitlab%20%E8%B4%A6%E6%88%B7/" target="_self">
-          配置 GitHub 以及 GitLab 账户
+        <a href="/2021/11/18/MySQL%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86/" target="_self">
+          MySQL 存储引擎原理
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2020/03/17/%E9%85%8D%E7%BD%AE%20GitHub%20%E4%BB%A5%E5%8F%8A%20Gitlab%20%E8%B4%A6%E6%88%B7/" target="_self">
+        <a href="/2021/11/18/MySQL%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86/" target="_self">
           
-          配置 GitHub 以及 Gitlab 账户1、准备工作全局配置 Git 账户 12git config --global user.name &quot;xxx&quot; &#x2F;&#x2F; 配置全局用户名，如Github上注册的用户名git config --global user.email &quot;yyy@mail.com&quot; &#x2F;&#x2F; 配置全局邮箱，如Github上配置的邮箱  这个--gl
+          MySQL1、MySQL存储引擎原理1.1 MySQL 记录存储  页头  记录页面的控制信息，共占 56 字节，包括也得左右兄弟页面指针，页面空间使用情况等  虚记录  最大虚记录：比页内最大主键还大 最小虚记录：比页内最小主键还小  记录堆  行记录存储区，分为有效记录和已删除记录，每个记录大小都可能不相同  自由空间链表  已删除记录组成的链表  未分配空间  页面为使用的存储空间  页尾
         </a>
       </p>
 
@@ -607,8 +662,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2020-03-17 10:40" pubdate>
-              2020-03-17
+            <time datetime="2021-11-18 09:37" pubdate>
+              2021-11-18
             </time>
           </div>
         
@@ -616,58 +671,9 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7/">基础工具</a>
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
-              <a href="/categories/%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7/Git/">Git</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/GitHub/">GitHub</a>
-            
-              <a href="/tags/GitLab/">GitLab</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/02/07/Kong%20%E7%BD%91%E5%85%B3%E7%AE%80%E4%BB%8B%E5%8F%8A%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" target="_self">
-          KONG 网关简介及简单使用
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/02/07/Kong%20%E7%BD%91%E5%85%B3%E7%AE%80%E4%BB%8B%E5%8F%8A%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" target="_self">
-          
-          Kong 网关简介及简单使用1、kong 网关简介Kong是在客户端和微服务端转发 API 通信的 API 网关，可以通过插件扩展功能。Kong 主要有两个重要的的组件：  Kong Server：基于 nginx 的服务器，用来接收 API 请求 Apache Cassandra：用于存储操作数据  我们可以通过增加更多的 Kong Server服务器对 Kong 服务进行水平扩展，通过前置的负
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-02-07 16:01" pubdate>
-              2020-02-07
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E8%AE%A4%E8%AF%81%E6%8E%88%E6%9D%83/">认证授权</a>
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a>
             
           </div>
         
@@ -675,9 +681,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Kong/">Kong</a>
+              <a href="/tags/MySQL/">MySQL</a>
             
-              <a href="/tags/%E7%BD%91%E5%85%B3/">网关</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
           </div>
         
@@ -689,7 +695,7 @@
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
