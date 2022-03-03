@@ -1,0 +1,606 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangweijie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、Swagger Editor简介Swagger Editor是一个开源的编辑器，并且它也是一个基于Angular的成功案例。在Swagger Editor中，我们可以基于YAML等语法定义我们的RESTful API，然后它会自动生成一篇排版优美的API文档，并且提供实时预览。简单说就是可以边编写API 边预览边测试。 Swagger官方提供了一个Swagger Editor的在线的web版本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swagger Editor">
+<meta property="og:url" content="http://example.com/2019/08/26/Swagger%20Editor%E7%AE%80%E4%BB%8B.md/index.html">
+<meta property="og:site_name" content="ffreedom">
+<meta property="og:description" content="一、Swagger Editor简介Swagger Editor是一个开源的编辑器，并且它也是一个基于Angular的成功案例。在Swagger Editor中，我们可以基于YAML等语法定义我们的RESTful API，然后它会自动生成一篇排版优美的API文档，并且提供实时预览。简单说就是可以边编写API 边预览边测试。 Swagger官方提供了一个Swagger Editor的在线的web版本">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081131246.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081131382.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081131810.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081131995.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081131985.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081131165.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081131969.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081131666.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081132091.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081132060.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081132914.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081132833.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081132927.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081132954.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081132544.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081132959.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081132807.png">
+<meta property="article:published_time" content="2019-08-26T01:07:31.000Z">
+<meta property="article:modified_time" content="2022-03-03T07:53:41.716Z">
+<meta property="article:author" content="zhangweijie">
+<meta property="article:tag" content="Swagger">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081131246.png">
+  
+  
+  <title>Swagger Editor - ffreedom</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","app_key":"WbImCRYLaCb0AN9W178IBFBs","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ffreedom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Swagger Editor">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-08-26 09:07" pubdate>
+        2019年8月26日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      18 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Swagger Editor</h1>
+            
+            <div class="markdown-body">
+              <h1 id="一、Swagger-Editor简介"><a href="#一、Swagger-Editor简介" class="headerlink" title="一、Swagger Editor简介"></a>一、Swagger Editor简介</h1><p>Swagger Editor是一个开源的编辑器，并且它也是一个基于Angular的成功案例。在Swagger Editor中，我们可以基于YAML等语法定义我们的RESTful API，然后它会自动生成一篇排版优美的API文档，并且提供实时预览。简单说就是可以边编写API 边预览边测试。</p>
+<p>Swagger官方提供了一个Swagger Editor的在线的web版本，<a target="_blank" rel="noopener" href="http://editor.swagger.io/#/%EF%BC%8C%E5%BD%93%E7%84%B6%E6%88%91%E4%BB%AC%E4%B9%9F%E5%8F%AF%E4%BB%A5%E4%B8%8B%E8%BD%BD%E5%88%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E6%9C%BA%E5%99%A8%E5%9C%A8%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8C%E3%80%82">http://editor.swagger.io/#/，当然我们也可以下载到自己的机器在本地运行。</a></p>
+<h1 id="二、Swagger-Editor安装"><a href="#二、Swagger-Editor安装" class="headerlink" title="二、Swagger Editor安装"></a>二、Swagger Editor安装</h1><h3 id="1-Node-js-安装"><a href="#1-Node-js-安装" class="headerlink" title="1.Node.js 安装"></a>1.Node.js 安装</h3><p>swagger 是用node写的，所以需要先安装node。安装nodejs后node和npm会一并安装。windows中直接运行node-v8.1.2-x64.msi即可完成安装。</p>
+<h3 id="2-node中http-server安装"><a href="#2-node中http-server安装" class="headerlink" title="2.node中http-server安装"></a>2.node中http-server安装</h3><p>任一cmd窗口，执行</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs axapta">npm install -g http-<span class="hljs-keyword">server</span><br></code></pre></td></tr></table></figure>
+
+<p> <img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081131246.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h3 id="3-下载swagger-editor"><a href="#3-下载swagger-editor" class="headerlink" title="3.下载swagger-editor"></a>3.下载swagger-editor</h3><p>安装swagger-editor 有多种方式，</p>
+<h5 id="从github-下载安装（有时下载会有点慢）"><a href="#从github-下载安装（有时下载会有点慢）" class="headerlink" title="从github 下载安装（有时下载会有点慢）"></a>从github 下载安装（有时下载会有点慢）</h5><h5 id="从官网下载swagger-editor-zip，解压即可。（已共享到QQ群文件：301343109）"><a href="#从官网下载swagger-editor-zip，解压即可。（已共享到QQ群文件：301343109）" class="headerlink" title="从官网下载swagger-editor.zip，解压即可。（已共享到QQ群文件：301343109）"></a>从官网下载swagger-editor.zip，解压即可。（已共享到QQ群文件：301343109）</h5><h1 id="三、启动Swagger-Editor"><a href="#三、启动Swagger-Editor" class="headerlink" title="三、启动Swagger Editor"></a>三、启动Swagger Editor</h1><p>在swagger-editor的根目录打开cmd窗口，执行http-server ，默认为8080端口 ，若想更换端口则使用如下命令 http-server –p 80 或者修改：C:\Users\Administrator\AppData\Roaming\npm\node_modules\http-server\bin\http-server 中 84行 portfinder.basePort &#x3D; 8080; 改为自己想要的端口。</p>
+<p> <img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081131382.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>使用浏览器访问<a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080</a></p>
+<p> <img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081131810.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>说明：</p>
+<p>界面左边是api 文件的 yaml 描述文件， 左边部分可以直接编辑API文档，编辑会立即更新到右边视图。右边是swagger-UI，可以查看文档，并直接进行API的测试。</p>
+<h1 id="四、使用Swagger-Editor"><a href="#四、使用Swagger-Editor" class="headerlink" title="四、使用Swagger Editor"></a>四、使用Swagger Editor</h1><h3 id="1-示例"><a href="#1-示例" class="headerlink" title="1.示例"></a>1.示例</h3><p>swagger 内置了很多个examples。通过File→Open Example… 打开各示例文档：</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081131995.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081131985.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h3 id="2-设置"><a href="#2-设置" class="headerlink" title="2.设置"></a>2.设置</h3><p>通过 Preference可以进行各种偏好设置：</p>
+<p> <img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081131165.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h3 id="3-编写API-文档"><a href="#3-编写API-文档" class="headerlink" title="3.编写API 文档"></a>3.编写API 文档</h3><p>我们可以参照swagger-editor的示例，直接修改，然后生成自己的文档。</p>
+<p>几个关键地方需要修改：</p>
+<p>host 改为本地ip:port</p>
+<p>basePath 改为项目名或模块名</p>
+<p> <img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081131969.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>swagger-editor 有自动纠错的功能，编写的API 文档应该保证没有错误。这样才能发布。</p>
+<p>编写完毕后， 我们可以把它保存下来。 可选格式为yaml&#x2F;json ：</p>
+<p> <img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081131666.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>当然，我们也可以把写好的yaml&#x2F;json 文档导入然后修改、测试。</p>
+<h1 id="五、生成服务端代码"><a href="#五、生成服务端代码" class="headerlink" title="五、生成服务端代码"></a>五、生成服务端代码</h1><p>Swagger-editor的强大功能，在于其可以生成很多种语言的服务端&#x2F;客户端代码， 同时服务端代码中包含了Swagger-UI。 如下， 个人认为服务端中 其中 Node.js、Python Flask、Spring 语言的代码比较有价值，值得研究。</p>
+<p> <img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081132091.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>Spring 服务端代码适合后端开发人员，但是其生成的代码比较简单，而且不能直接使用， 需要做一些修改。</p>
+<p>生成代码前， 我们确保已修改我们文档的关键地方：</p>
+<p>host: localhost:8080</p>
+<p>basePath: &#x2F;projectABC</p>
+<p>以 Swagger Petstore (Simple) 为例， 生成的spring 服务端代码本质上是一个spring-boot 微服务。代码结构如下(导入eclipse)（已共享到QQ群文件：301343109）：</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081132060.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h1 id="六、修改-amp-运行服务端"><a href="#六、修改-amp-运行服务端" class="headerlink" title="六、修改&amp;运行服务端"></a>六、修改&amp;运行服务端</h1><p>打开application.properties文件，原来的server.port是8080，我这边有冲突，所以改成8060。</p>
+<p>运行Swagger2SpringBoot类的main方法：</p>
+<p> <img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081132914.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p> 看到红色矩形里的文字就代表启动成功了。</p>
+<p>访问<a target="_blank" rel="noopener" href="http://localhost:8060/projectABC/swagger-ui.html%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0swagger%E7%94%9F%E6%88%90%E7%9A%84api%E6%96%87%E6%A1%A3%E4%BA%86%EF%BC%9A">http://localhost:8060/projectABC/swagger-ui.html可以看到swagger生成的api文档了：</a></p>
+<p> <img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081132833.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>然后， 我们就可以进行测试等操作。</p>
+<h1 id="七、创建-amp-运行客户端"><a href="#七、创建-amp-运行客户端" class="headerlink" title="七、创建&amp;运行客户端"></a>七、创建&amp;运行客户端</h1><p>服务端启动之后， 就可以进行访问测试。访问测试有多种方式，</p>
+<p>1 是直接使用swagger-editor 的web 界面</p>
+<p>2 是使用swagger-editor生成的客户端代码</p>
+<p>3 是使用浏览器插件， 比如chrome 的 postman 插件</p>
+<p>下面分别进行介绍：</p>
+<h3 id="1．使用swagger-editor-的web-界面"><a href="#1．使用swagger-editor-的web-界面" class="headerlink" title="1．使用swagger-editor 的web 界面"></a>1．使用swagger-editor 的web 界面</h3><p>举个栗子，我们现在准备测试get &#x2F;estimates&#x2F;price：</p>
+<p> <img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081132927.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h3 id="2-使用swagger-editor生成客户端代码"><a href="#2-使用swagger-editor生成客户端代码" class="headerlink" title="2.使用swagger-editor生成客户端代码"></a>2.使用swagger-editor生成客户端代码</h3><p>swagger-editor可以生成 很多语言版本的客户端代码， 个人认为其中 JavaScript、java 比较有研究价值的，</p>
+<p> <img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081132954.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>具体参照</p>
+<h1 id="swagger-codegen自动生成代码工具的介绍与使用"><a href="#swagger-codegen自动生成代码工具的介绍与使用" class="headerlink" title="swagger-codegen自动生成代码工具的介绍与使用"></a><a target="_blank" rel="noopener" href="http://www.cnblogs.com/shamo89/p/7680771.html">swagger-codegen自动生成代码工具的介绍与使用</a></h1><h3 id="3．使用chrome-的-postman-插件"><a href="#3．使用chrome-的-postman-插件" class="headerlink" title="3．使用chrome 的 postman 插件"></a>3．使用chrome 的 postman 插件</h3><p>下载安装postman</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081132544.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>运行：</p>
+<p> <img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081132959.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>设置请求头：</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112081132807.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>Postman 的具体用法请查看网络相关资料，此处不再赘述。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/WEB-%E6%A1%86%E6%9E%B6/">WEB 框架</a>
+                    
+                      <a class="hover-with-bg" href="/categories/WEB-%E6%A1%86%E6%9E%B6/Swagger/">Swagger</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Swagger/">Swagger</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/08/29/Swagger%20editor%20%E7%AE%80%E4%BB%8B/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Swagger editor 简介</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/07/31/Anaconda/">
+                        <span class="hidden-mobile">Anaconda 安装</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","appKey":"WbImCRYLaCb0AN9W178IBFBs","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
