@@ -1,0 +1,656 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangweijie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="域名劫持 域名劫持又称DNS劫持，是指在劫持的网络范围内拦截域名解析的请求，分析请求的域名，把审查范围以外的请求放行，否则返回假的IP地址或者什么都不做使请求失去响应，其效果就是对特定的网络不能访问或访问的是假网址。  1、什么是 DNS？DNS是Domain Name System的缩写。互联网底层的基石是“IP”。IP 是“Internet Protocol”的缩写，中文是“互联网协议”。咱们">
+<meta property="og:type" content="article">
+<meta property="og:title" content="域名劫持">
+<meta property="og:url" content="http://example.com/2022/02/08/%E5%9F%9F%E5%90%8D%E5%8A%AB%E6%8C%81/index.html">
+<meta property="og:site_name" content="ffreedom">
+<meta property="og:description" content="域名劫持 域名劫持又称DNS劫持，是指在劫持的网络范围内拦截域名解析的请求，分析请求的域名，把审查范围以外的请求放行，否则返回假的IP地址或者什么都不做使请求失去响应，其效果就是对特定的网络不能访问或访问的是假网址。  1、什么是 DNS？DNS是Domain Name System的缩写。互联网底层的基石是“IP”。IP 是“Internet Protocol”的缩写，中文是“互联网协议”。咱们">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-02-08T07:52:31.000Z">
+<meta property="article:modified_time" content="2022-03-03T07:45:00.101Z">
+<meta property="article:author" content="zhangweijie">
+<meta property="article:tag" content="域名劫持">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>域名劫持 - ffreedom</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","app_key":"WbImCRYLaCb0AN9W178IBFBs","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ffreedom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="域名劫持">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-02-08 15:52" pubdate>
+        2022年2月8日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.9k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      50 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">域名劫持</h1>
+            
+            <div class="markdown-body">
+              <h1 id="域名劫持"><a href="#域名劫持" class="headerlink" title="域名劫持"></a>域名劫持</h1><blockquote>
+<p>域名劫持又称DNS劫持，是指在劫持的网络范围内拦截域名解析的请求，分析请求的域名，把审查范围以外的请求放行，否则返回假的IP地址或者什么都不做使请求失去响应，其效果就是对特定的网络不能访问或访问的是假网址。</p>
+</blockquote>
+<h2 id="1、什么是-DNS？"><a href="#1、什么是-DNS？" class="headerlink" title="1、什么是 DNS？"></a>1、什么是 DNS？</h2><p><code>DNS</code>是<code>Domain Name System</code>的缩写。互联网底层的基石是“IP”。<code>IP</code> 是“<code>Internet Protocol</code>”的缩写，中文是“互联网协议”。咱们日常用的那些互联网软件（浏览器、聊天工具、下载工具、等等）在工作时，必须依靠【<code>IP地址</code>】才能进行网络数据传输。</p>
+<p>“<code>IP地址</code>”是设计给软件用的——虽然软件很容易处理，但对于人类而言，却很难记忆。于是，后来又发明了 DNS。有了 DNS，人类就不需要记住长长的一串 IP地址，而只需记住“<code>域名</code>”。</p>
+<p>比如你上网的时候，只需在地址栏输入网站的“<code>域名</code>”，而不用输入网站的“<code>IP地址</code>”。然后电脑系统会利用 DNS 来把“<code>域名</code>”翻译成“<code>IP地址</code>”。这个翻译的过程术语叫“<code>域名解析/DNS解析</code>”。</p>
+<h2 id="2、域名解析"><a href="#2、域名解析" class="headerlink" title="2、域名解析"></a>2、域名解析</h2><p>域名是按照“<code>树形结构</code>”组织的。不懂得啥是“树形结构”的同学，可以对照一下电脑硬盘上的目录结构。域名的结构和目录结构很类似，目录结构是用“斜杠”作分隔符，而域名是用小数点作分隔符。两者的主要区别在于：目录结构名称的形式是从左到右（上级在左，下级在右），而域名是从右到左（上级在右，下级在左）。</p>
+<p><strong>以网易的域名为例</strong>：</p>
+<p>3g.163.com 的上级域名是 .163.com</p>
+<p>163.com 的上级域名是 .com</p>
+<p>这里的 .com 就被称为顶级域名（Top-Level Domain，简称 TLD），跟 .com 类似的那些 .net .org .gov 也是顶级域名。还有那些以国家&#x2F;地区的代码命名的（比如 .cn .tw .hk .jp 等等）也是顶级域名。</p>
+<h3 id="域名解析实现过程"><a href="#域名解析实现过程" class="headerlink" title="域名解析实现过程"></a>域名解析实现过程</h3><p>如果你曾经配置过电脑的网卡，应该记得上面除了有IP地址、掩码等设置，还有一项设置是“DNS服务器&#x2F;域名服务器”。这项设置就是用来帮助你的电脑进行域名解析的。你可以把这个“DNS服务器”想象成114查号台。每当电脑需要翻译某个域名，就找这个域名服务器查询，然后域名服务器会告诉你的电脑，要查询的域名对应的IP地址是啥。</p>
+<p><strong>下面简单说一下，你的电脑进行域名解析的过程。</strong></p>
+<p>为了叙述方便，以网易为例。当你在浏览器的地址栏中输入 <a target="_blank" rel="noopener" href="http://www.163.com,然后敲回车,这时候电脑软件会进行如下一系列事情./">www.163.com，然后敲回车，这时候电脑软件会进行如下一系列事情。</a></p>
+<ol>
+<li>首先根据输入的网址，提取出域名</li>
+<li>如果你在系统中配置了 Hosts 文件，那么电脑会先查询 Hosts 文件，看这个<a target="_blank" rel="noopener" href="http://www.163.com/">www.163.com</a> 否已经在 Hosts 里面有了对应的记录。如果有，直接就可以拿到该记录中的 IP地址，过程就结束了。</li>
+<li>如果 Hosts 里面没有这个别名，那么电脑会看你有没有设置域名服务器（DNS 服务器）。如果你的系统没有设置域名服务器，那电脑就没辙了，浏览器直接会报错，说网站的域名无法解析。过程就结束了。</li>
+<li>如果你设置过“域名服务器”，那么电脑会向这个域名服务器发送一个域名查询（DNS query）的请求，然后等候域名服务器的回应。</li>
+<li>如果域名服务器始终没有回应（比如域名服务器挂了，或域名服务器的IP填错了，或请求被 拦截了），那么电脑还是没辙（浏览器会报错）。</li>
+<li>如果域名服务器回应了，那么你的电脑就可以根据域名服务器的应答信息，得到该域名的 IP地址。之后浏览器就会向这个 IP地址 对应的 Web 端口发送 HTTP 请求。</li>
+</ol>
+<p>通常情况下，电脑拿到的（DNS服务器）应答信息是正确的——也就是说，应答中的 IP地址 确实对应那个域名——这种情况下，你的网络软件就可以正常工作了。</p>
+<p>但是在某些国家，例如CHAOXIAN,电脑拿到的 DNS 应答有可能是【错的】。为啥会出现这种情况呢，其实与“<code>域名劫持</code>”和“<code>域名污染</code>”有关。</p>
+<h2 id="3、域名服务器工作原理"><a href="#3、域名服务器工作原理" class="headerlink" title="3、域名服务器工作原理"></a>3、域名服务器工作原理</h2><ul>
+<li><p>域名的缓存</p>
+<p>我们平时使用的域名服务器，技术术语叫“<code>递归域名服务器</code>”。“递归服务器”是面向普通网友的。刚才介绍“域名解析”的时候提到的服务器就是“递归服务器”。</p>
+<p>“递归服务器”的内部通常会有一个 DNS记录 的缓存——这个缓存是为了提高查询效率的。当某台电脑向递归服务器发起域名查询时，递归服务器首先看自己的缓存中有没有该域名的记录，如果有，直接就回复该记录给查询的电脑。万一对方想要查询的域名没找到，就要进行缓存的同步。</p>
+</li>
+<li><p>缓存的同步</p>
+<p>下面就拿网易的域名为例，说说这种情况的处理流程。</p>
+<ol>
+<li>对方查询3g.163.com 这个域名，“递归服务器”发现自己的缓存中没有</li>
+<li>“递归服务器”会先去找“根域名服务器”帮忙，“根服务器”会告诉“递归服务器”说：这个域名属于 com 这个分支之下，你去找 com 这个域名的“权威服务器”，这个权威服务器的 IP地址 是 xxx。</li>
+<li>然后“递归服务器”根据拿到的这个 xxx地址，又去找“com 域名的权威服务器”。“com 域名的权威服务器”告诉它：你应该去找“163.com 域名的权威服务器”，这个权威服务器的 IP地址 是 yyy</li>
+<li>然后“递归服务器”又屁颠屁颠地去找“163.com 域名的权威服务器”。这时候“163.com 域名的权威服务器”才会告诉它，3g.163.com 这个域名的 IP地址 到底是多少。</li>
+</ol>
+<p>大伙儿看到没有？整个过程如同“踢皮球”，效率是很低的。所以“递归域名服务器”必须得有一个缓存，以此来优化效率（不用每次查询都来一次“踢皮球”）。</p>
+</li>
+<li><p>同步的周期</p>
+<p>说完了“域名的同步”，顺便提一下“同步的周期”。</p>
+<p>因为互联网上的域名信息是有可能发生变化的。比如增加了某个新域名，注销了某个旧域名，或者某个域名对应的 IP地址 变了。所以，“递归服务器”上保留的缓存中，每一条域名记录都有一个生命周期（可能是几分钟，也可能是几小时）。如果某条记录的生命周期过了，就会被删除，然后重新同步。</p>
+</li>
+</ul>
+<h2 id="4、什么是域名劫持？"><a href="#4、什么是域名劫持？" class="headerlink" title="4、什么是域名劫持？"></a>4、什么是域名劫持？</h2><p>刚才说了，域名服务器上都会保存一大堆的域名记录（每条记录包含“域名”和“IP地址”）。当收到域名查询的时候，域名服务器会从这堆记录中找到对方想要的，然后回应给对方。</p>
+<p>如果域名服务器上的某条记录被【<code>人为修改</code>】了（改成错的），那么一旦要查询这条记录，得到的就是错误的结果。这种情况称之为“<code>域名劫持</code>”。</p>
+<ul>
+<li><p>谁有“域名劫持”的企图？</p>
+<p>“域名劫持”通常是电信运营商（ISP）干的好事儿。很多宽带用户用的域名服务器就是 ISP 提供给你的。</p>
+<p>举例：</p>
+<p>前几年曾经出现过：某个 ISP 跟某网站勾结，把维基百科的流量重定向到XX。具体搞法是：该 ISP 篡改自己的域名服务器的记录，把里面跟维基百科 相关的域名记录的 IP地址 修改为XX的 IP地址。如此一来，假设你用的是这个 ISP 的域名服务器，当你在浏览器输入 <a target="_blank" rel="noopener" href="http://zh.wikipedia.org/%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E4%BD%A0%E7%9A%84%E7%94%B5%E8%84%91%E6%9F%A5%E8%AF%A2%E5%88%B0%E7%9A%84">http://zh.wikipedia.org/的时候，你的电脑查询到的</a> IP地址 其实是XX的 IP地址，所以浏览器打开的是“XX”的主页。</p>
+</li>
+<li><p>如何对付“域名劫持”？</p>
+<p>刚才说了，“域名劫持”的根源在于：域名服务器上的记录被人给改了。要对付这种耍流氓，最直接的办法就是不要使用这种流氓 ISP 提供的域名服务器，改用国外那些比较靠谱的。目前口碑最好的，大概是 Google 提供的两个域名服务器，IP地址 分别是 8.8.8.8 和 8.8.4.4 ——这俩不光是地址好记，更重要的是，不会耍流氓。</p>
+</li>
+</ul>
+<h2 id="5、什么是域名污染？"><a href="#5、什么是域名污染？" class="headerlink" title="5、什么是域名污染？"></a>5、什么是域名污染？</h2><p>先提醒一下：“<code>域名污染</code>”这个词还有其它几个别名，分别是“<code>域名欺骗</code>”、“<code>域名缓存投毒</code>”。今后看到这几个别名，要晓得是同一个意思。</p>
+<p>“<code>域名污染</code>”的原理，简单说来是这样的：当你的电脑向域名服务器发送了“域名查询”的请求，然后域名服务器把回应发送给你的电脑，这之间是有一个时间差的。如果某个攻击者能够在域名服务器的“DNS应答”还没有到达你的电脑之前，先伪造一个错误的“DNS应答”发给你电脑。那么你的电脑收到的就是错误的信息，并得到一个错误的 IP地址。</p>
+<ul>
+<li><p>谁有“域名污染”的企图？</p>
+<p>从技术上讲，只要攻击者能够位于“你”和“域名服务器”的传输线路中间，那么攻击者就有机会搞“域名污染”。能够做到这点的，可能是一个黑客&#x2F;骇客，也可能是 ISP。</p>
+</li>
+<li><p>某国家防火墙的两种“域名污染”</p>
+<p>刚才解释了“域名污染”的原理，那种形式不妨称为“直接污染”。由于某国家防火墙的特殊性，它不但可以做到“直接污染”，还可以做到“间接污染”。而普通的骇客顶多只能做到“直接污染”，难以做到“大范围的间接污染”。</p>
+</li>
+</ul>
+<hr>
+<p><strong>那么这两种污染有啥区别捏？</strong></p>
+<p>首先有必要先扫盲一下“某国家防火墙（其实是一种IDS，也就是入侵检测系统）的部署位置”。X国互联网只有少数几个国际出口（名气较大的是：A出口、B出口、C出口）。如果你要访问国外网站，你的网络数据流就必定会经过其中的某个“国际出口”。</p>
+<ul>
+<li><p>某国家防火墙的直接污染</p>
+<p>因为某国家防火墙部署在国际出口。如果你用的是【国外的】域名服务器，你的“DNS请求”必定会经过国际出口；同样，域名服务器的“DNS应答”必定也会经过国际出口才能到你的电脑。这一来一回就给某国家防火墙 提供了机会。</p>
+<p>这种污染就是俺所说的“直接污染”。</p>
+</li>
+<li><p>某国家防火墙 的间接污染</p>
+<p>刚才介绍了“使用国外域名服务器会被直接污染”。那如果你用的是【国内的】域名服务器呢？就会被“间接污染”。过程如下：</p>
+<ol>
+<li>比方说你用的是电信的 DNS服务器，然后你想要访问某个被不受欢迎的网站。</li>
+<li>对于不受欢迎的网站，其网站服务器必定在国外，而且网站的域名肯定也不会使用 CN 之下的域名。所以，被封锁的网站，其上级域名的“权威域名服务器”肯定也是在国外。</li>
+<li>当你向“电信的DNS服务器”查询反共网站的域名，这台“电信的DNS服务器”就会去找这个不受欢迎的网站的上一级域名对应的“权威域名服务器”去进行“域名查询”。</li>
+<li>因为是从国外进行域名查询，相关的数据流必定要经过国际出口。一旦经过国际出口，就会被 某国家防火墙 污染。</li>
+<li>如此一来，“电信的域名服务器”拿到的是已经被污染的域名记录（里面的IP是错的）。而且“电信的域名服务器”会把这条错误的记录保存在自己的域名缓存中。</li>
+<li>下次如果有另一个网友也找这台“电信的域名服务”查询这个不受欢迎的网站，也会查到错误的结果。</li>
+</ol>
+</li>
+</ul>
+<p>上述过程不断重复，最终会导致：全国所有的域名服务器，它们的缓存中只要是包含了不受欢迎的网站的记录，记录中的 IP地址 必定是错的（这个错误的 IP地址 也就是 某国家防火墙 伪造的那个）。所以说“间接污染”是很牛逼的，可以把错误的域名记录扩散到全国。</p>
+<p>“域名污染”也叫“域名缓存投毒”。“投毒”一词真的非常形象——就好象在某条河流的源头下毒，从而把整条河流的水都污染。“域名污染”直接破坏了互联网的基础设施。</p>
+<h2 id="6、各种域名劫持技术"><a href="#6、各种域名劫持技术" class="headerlink" title="6、各种域名劫持技术"></a>6、各种域名劫持技术</h2><ol>
+<li><p>假扮域名注册人和域名注册商通信</p>
+<p>这类域名盗窃包括使用伪造的传真、邮件等来修改域名注册信息。有时候，受害者公司的标识之类的也会用上，增加可信度。</p>
+<p> hushmail.com被盗窃就是一次典型的例子。当时一名域名劫持者使得注册服务提供商相信了他的身份，然后修改了该公司的域名管理员邮件信息。然后攻击者使用管理员邮件提交了密码重设请求。攻击者登录域名服务商，修改密码，更改DNS记录,然后指向自己的服务器。 </p>
+</li>
+<li><p>伪造域名注册人在注册商处的账户信息</p>
+<p>攻击者伪造域名注册人的邮件和注册商联系，然后卖掉域名或者让买家相信自己就是域名管理员，然后获利。</p>
+</li>
+<li><p>伪造域名注册人的域名转移请求</p>
+<p>攻击者提交一个伪造的域名转让请求来控制域名信息。</p>
+<p>在2001年，攻击者向服务商提交了一封信。谎称原注册人已经被公司解雇，须将域名转移给自己，结果他成功地控制了sex.com域名。最后被判了6500万美元罚款。 </p>
+</li>
+<li><p>DNS 重定向</p>
+<p>攻击者如果将DNS名称查询重定向到恶意DNS服务器。那么被劫持域名的解析就完全置于攻击者的控制之下。</p>
+</li>
+<li><p>DNS 缓存感染</p>
+<p>未经授权的 DNS 配置更改导致的 DNS 欺骗攻击，也称作 DNS 缓存投毒攻击。数据被存入域名服务器的缓存数据库中会被解析成一个错误的 IP或者是解析到另一个 IP。</p>
+</li>
+<li><p>利用 DNS 服务器进行 DDOS 攻击</p>
+<p>正常的 DNS 服务器递归询问过程可能被利用为 DDOS 攻击。假设攻击者已知被攻击机器 IP 地址，然后攻击者使用该地址作为发送解析命令的源地址。这样当使用 DNS 服务器递归查询后，DNS 服务器响应给最初的用户，而这个用户正是被攻击者。当攻击者控制足够多的肉鸡，反复进行上述操作，那么被攻击者就会受到来自 DNS 服务器的响应信息的 DDOS 攻击</p>
+</li>
+<li><p>DNS 信息劫持</p>
+<p>原则上 TCP&#x2F;IP协议通过序列号等多种方式避免仿冒数据的插入，但是入侵者如果通过监听客户端和 DNS 服务器的对话，就可以猜测服务器响应给客户端的 DNS 查询 ID。每个 DNS 报文包括一个相关联的16 位的 ID 号，DNS 服务器根据这个 ID 号获取请求源地址。攻击者在 DNS 服务器之前将虚假的响应数据交给用户，从而欺骗客户端去访问恶意网站。假设当提交给某个域名服务器的域名解析请求的数据包被截获，然后按照截获者的意图将一个虚假的 IP 地址作为应答信息返回给请求者。这时原始请求者就会把这个虚假的 IP 地址作为他所要请求的域名从而进行连接，显然他被欺骗到了别处而根本连接不上自己的想要连接的那个域名。</p>
+</li>
+<li><p>ARP 欺骗</p>
+<p>ARP攻击就是通过伪造IP地址和MAC地址实现ARP欺骗，能够在网络中产生大量的ARP通信量使网络阻塞，攻击者只要持续不断的发出伪造的ARP响应包就能更改目标主机ARP缓存中的IP-MAC条目，造成网络中断或中间人攻击。</p>
+<p>ARP攻击主要是存在于局域网网络中，局域网中若有一台计算机感染ARP木马，则感染该ARP木马的系统将会试图通过”ARP欺骗”手段截获所在网络内其它计算机的通信信息，并因此造成网内其它计算机的通信故障。ARP欺骗通常是在用户局网中，造成用户访问域名的错误指向，但在IDC机房被入侵后，则也可能出现攻击者采用ARP包压制正常主机、或者压制DNS服务器，而李代桃僵，以使访问导向错误指向的情况。</p>
+</li>
+<li><p>本机劫持</p>
+<p>在计算机系统被木马或流氓软件感染后可能会出现部分域名的访问异常，如访问挂马或者钓鱼站点、无法访问等情况，本机劫持有hosts文件篡改、本机DNS劫持、SPI链注入、BHO插件等方式，虽然并非都通过DNS环节完成，但都会造成无法按照用户意愿获得正确的地址或者内容的后果。</p>
+</li>
+</ol>
+<h2 id="7、常见域名劫持现象"><a href="#7、常见域名劫持现象" class="headerlink" title="7、常见域名劫持现象"></a>7、常见域名劫持现象</h2><ul>
+<li>广告劫持：用户正常页面指向到广告页面。</li>
+<li>恶意劫持：域名指向IP被改变，将用户访问流量引到挂马，盗号等对用户有害页面的劫持。</li>
+<li>local DNS缓存：为了降低跨网流量及用户访问速度进行的一种劫持，导致域名解析结果不能按时更新。</li>
+</ul>
+<h2 id="8、预防域名劫持"><a href="#8、预防域名劫持" class="headerlink" title="8、预防域名劫持"></a>8、预防域名劫持</h2><ol>
+<li>业内解决的办法即是对内容进行HTTPS加密，实现密文传输，彻底避免劫持问题。</li>
+<li>互联网公司准备两个及以上的域名，一旦黑客进行DNS 攻击，用户还可以访问另一个域名</li>
+<li>手动修改可靠的DNS服务器</li>
+</ol>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%9F%9F%E5%90%8D%E7%9F%A5%E8%AF%86/">域名知识</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%9F%9F%E5%90%8D%E5%8A%AB%E6%8C%81/">域名劫持</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/02/14/%E5%9F%9F%E5%90%8D%E6%8A%A2%E6%B3%A8/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">域名抢注</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/01/27/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9/">
+                        <span class="hidden-mobile">缓存穿透、缓存击穿、缓存雪崩</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","appKey":"WbImCRYLaCb0AN9W178IBFBs","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
