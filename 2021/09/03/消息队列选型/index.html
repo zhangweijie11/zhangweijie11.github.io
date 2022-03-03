@@ -1,0 +1,553 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangweijie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="MQ 知识点1、什么是 MQ ？MQ 即为消息队列，是服务间一种异步通信的方式，适用于无服务器和微服务架构。消息在删除和处理之前一直存储在队列上，每条消息可被一个或者多个消费者进行消费。消息队列可用于服务间的解耦，分离重量级处理、缓冲或批处理工作以及缓解高峰期工作负载。   为什么我们需要消息队列？​        当公司的业务非常单一，并且数据量没有那么大的时候，我们采用单机架构完全可以很好的满">
+<meta property="og:type" content="article">
+<meta property="og:title" content="消息队列选型">
+<meta property="og:url" content="http://example.com/2021/09/03/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%80%89%E5%9E%8B/index.html">
+<meta property="og:site_name" content="ffreedom">
+<meta property="og:description" content="MQ 知识点1、什么是 MQ ？MQ 即为消息队列，是服务间一种异步通信的方式，适用于无服务器和微服务架构。消息在删除和处理之前一直存储在队列上，每条消息可被一个或者多个消费者进行消费。消息队列可用于服务间的解耦，分离重量级处理、缓冲或批处理工作以及缓解高峰期工作负载。   为什么我们需要消息队列？​        当公司的业务非常单一，并且数据量没有那么大的时候，我们采用单机架构完全可以很好的满">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202109031525737.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202109031556103.png">
+<meta property="article:published_time" content="2021-09-03T08:21:31.000Z">
+<meta property="article:modified_time" content="2022-03-03T07:33:25.351Z">
+<meta property="article:author" content="zhangweijie">
+<meta property="article:tag" content="消息队列">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202109031525737.png">
+  
+  
+  <title>消息队列选型 - ffreedom</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","app_key":"WbImCRYLaCb0AN9W178IBFBs","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ffreedom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="消息队列选型">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-09-03 16:21" pubdate>
+        2021年9月3日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">消息队列选型</h1>
+            
+            <div class="markdown-body">
+              <h2 id="MQ-知识点"><a href="#MQ-知识点" class="headerlink" title="MQ 知识点"></a>MQ 知识点</h2><h3 id="1、什么是-MQ-？"><a href="#1、什么是-MQ-？" class="headerlink" title="1、什么是 MQ ？"></a>1、什么是 MQ ？</h3><p>MQ 即为消息队列，是服务间一种异步通信的方式，适用于无服务器和微服务架构。消息在删除和处理之前一直存储在队列上，每条消息可被一个或者多个消费者进行消费。消息队列可用于服务间的解耦，分离重量级处理、缓冲或批处理工作以及缓解高峰期工作负载。</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202109031525737.png" srcset="/img/loading.gif" lazyload alt="image-20210903152500688"></p>
+<hr>
+<h4 id="为什么我们需要消息队列？"><a href="#为什么我们需要消息队列？" class="headerlink" title="为什么我们需要消息队列？"></a>为什么我们需要消息队列？</h4><p>​        当公司的业务非常单一，并且数据量没有那么大的时候，我们采用单机架构完全可以很好的满足业务的需求，虽然这样系统的扩展性很差，但是要牢记一点，技术是为业务服务的，没有必要为了使用新技术而使用新技术。</p>
+<p>​        当公司的业务复杂度逐渐增加，相对应的数据量也会有爆炸式的增长。这个时候再采用单机同步服务的方式确实不太适合。因为业务复杂度上来以后，会有非常多的业务节点。如果其中一个业务节点非常耗时，那会导致整个业务流都非常耗时，从而带来非常差的用户体验。</p>
+<p>​        例如数据中心，当我们添加一条主域名后，后续会进行域名爆破、域名解析、域名数据汇总等任务，单个任务都会有几十秒甚至是几分钟的耗时，如果一直等待着，那用户肯定会认为是系统出了问题。这个时候我们只能采用异步的方式将这些任务分发下去同时执行。然后再统一汇总结果，更改数据库的数据。但是从用户角度来看，我添加了一个域名，那立刻就能在数据中心看到我的数据了。当后续的任务数据汇总过来以后，还能看到更多的数据，对用户体验很好。</p>
+<p>​        提到了异步任务，就会有消息队列。我们各个服务之间的相互调用，消息队列是最为稳妥的方式。使用接口会有网络的抖动等问题，直接调用对方的数据库更加不可取。消息队列采用生产者-消费者模型，能将我们的消息很好的进行分发传输，每个服务只需要接收属于自己服务的消息，然后进行自己的业务逻辑就行，服务直接可以解耦。</p>
+<h3 id="2、MQ-的优点"><a href="#2、MQ-的优点" class="headerlink" title="2、MQ 的优点"></a>2、MQ 的优点</h3><ul>
+<li>异步处理 – 相比于传统的串行、并行方式，提高了系统的吞吐量</li>
+<li>应用解耦 – 各个系统之间通过消息通信，不用关心其他系统的处理，甚至不关心他们处理的结果为失败还是成功</li>
+<li>流量削峰 – 可以通过消息队列长度控制请求量；可以缓解短时间内的大量请求</li>
+<li>日志处理 – 解决大量日志传输问题  （也可以使用 ELK 解决日志问题）</li>
+<li>消息通讯 – 消息队列一般都内置了高效的通信机制，因此可以当做一个简单的消息通讯工具</li>
+</ul>
+<h3 id="3、MQ-的缺点"><a href="#3、MQ-的缺点" class="headerlink" title="3、MQ 的缺点"></a>3、MQ 的缺点</h3><ul>
+<li>降低系统的可用性 – 每个服务之间虽然解耦，但是还是都通过消息队列进行通信，一旦消息队列挂掉，那整个系统就会崩溃</li>
+<li>提高系统的复杂度 – 每个服务现在不仅要关注自己的逻辑处理程序，还需要关系消息队列的一系列问题，比如消息丢失，消息被重复消费，消息一致性等问题</li>
+<li>整个系统的一致性问题 – 各个服务通过消息队列进行消息传递，但是一旦某个服务依赖于下一个服务的数据，本服务数据已经更改，但是下个服务崩溃或者数据修改未成功，那就会造成系统数据不一致的问题</li>
+</ul>
+<h3 id="4、技术选型问题"><a href="#4、技术选型问题" class="headerlink" title="4、技术选型问题"></a>4、技术选型问题</h3><p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202109031556103.png" srcset="/img/loading.gif" lazyload alt="image-20210903155605079"></p>
+<p> ActiveMQ 作为比较早的消息中间件，在国内应用比较广泛，基础功能也很强大。但是没有办法支撑互联网的高并发、高负载以及高吞吐量的复杂场景，并且在国内的互联网公司落地的比较少，应用的基本都是一些传统企业。</p>
+<p>RabbitMQ 使用更加广泛，并且就可以支撑高并发、高负载、高吞吐量的复杂应用场景，更为关键的是有着友好的、方便快捷的后台管理界面，极大的减少了运维的工作。另外还支持集群化、高可用部署架构，消息高可靠支持，功能很完善。另外，在国内的互联网公司使用的也比较多，各种可复制操作的例子很多。还有就是 RabbitMQ 的社区很活跃，虽然他的语言是 erlang，并不适合研究源码，但是架不住社区很活跃，绝大部分的问题都能在社区进行解决。</p>
+<p>RocketMQ 阿里系出品，适合基础架构研发实力比较强的公司，社区不是很活跃，但是使用了Java 语言进行开发，里边用到的很多设计模式和思路值得学习。</p>
+<p>综上所述，中小型公司更加适合使用RabbitMQ，社区活跃，可用度高。大型公司RabbitMQ 和 RocketMQ 都可以使用。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/14/%E5%85%B3%E4%BA%8E%20docker%20%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%AE%B9%E5%99%A8%E5%90%8D%E5%AD%97%E8%BF%9B%E8%A1%8C%E5%AE%B9%E5%99%A8%E9%97%B4%E8%BF%9E%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">关于 Docker 无法使用容器名字进行容器间链接==连接的问题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/01/21/Golang%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/">
+                        <span class="hidden-mobile">Golang 配置文件相关操作</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","appKey":"WbImCRYLaCb0AN9W178IBFBs","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
