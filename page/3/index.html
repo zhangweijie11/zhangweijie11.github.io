@@ -648,15 +648,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2019/11/29/%E4%BD%BF%E7%94%A8%20docker%20%E9%83%A8%E7%BD%B2%E5%9F%BA%E4%BA%8E%20selenium+chrome-headless%E7%9A%84%E6%9C%8D%E5%8A%A1/" target="_self">
-          使用 docker 部署基于 selenium+chrome-headless的服务
+        <a href="/2019/12/06/celery%20%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" target="_self">
+          celery 常用配置
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2019/11/29/%E4%BD%BF%E7%94%A8%20docker%20%E9%83%A8%E7%BD%B2%E5%9F%BA%E4%BA%8E%20selenium+chrome-headless%E7%9A%84%E6%9C%8D%E5%8A%A1/" target="_self">
+        <a href="/2019/12/06/celery%20%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" target="_self">
           
-          使用 docker 部署基于 selenium+chrome-headless的服务1、编写 docker-compose 文件12345bs-whatweb-chrome:    image: selenium&#x2F;standalone-chrome:latest  # 使用官方镜像    ports:  # 端口映射（后续可能没用）    - 9999:4444    shm_size: 2g
+          设置时区 1CELERY_TIMEZONE &#x3D; &amp;#x27;Asia&#x2F;Shanghai&amp;#x27;  启动时区设置 1CELERY_ENABLE_UTC &#x3D; True    限制任务的执行频率下面这个就是限制tasks模块下的add函数，每秒钟只能执行10次 1CELERY_ANNOTATIONS &#x3D; &amp;#123;&amp;#x27;tasks.add&amp;#x27;:&amp;#123;&amp;#x27;rate_lim
         </a>
       </p>
 
@@ -664,8 +664,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2019-11-29 11:34" pubdate>
-              2019-11-29
+            <time datetime="2019-12-06 09:40" pubdate>
+              2019-12-06
             </time>
           </div>
         
@@ -673,9 +673,9 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%AE%B9%E5%99%A8%E5%8C%96/">容器化</a>
+              <a href="/categories/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/">异步任务</a>
             
-              <a href="/categories/%E5%AE%B9%E5%99%A8%E5%8C%96/Docker/">Docker</a>
+              <a href="/categories/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/Celery/">Celery</a>
             
           </div>
         
@@ -683,11 +683,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Docker/">Docker</a>
+              <a href="/tags/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/">异步任务</a>
             
-              <a href="/tags/selenium/">selenium</a>
-            
-              <a href="/tags/Chrom-Headless/">Chrom-Headless</a>
+              <a href="/tags/Celery/">Celery</a>
             
           </div>
         
