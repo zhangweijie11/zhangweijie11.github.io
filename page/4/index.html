@@ -195,6 +195,108 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/12/12/%E6%B7%B1%E7%A9%B6%20sqlalchemy%20%E4%B8%AD%E8%A1%A8%E5%85%B3%E7%B3%BBtable%20relationships/" target="_self">
+          深究 sqlalchemy 中表关系table relationships
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/12/12/%E6%B7%B1%E7%A9%B6%20sqlalchemy%20%E4%B8%AD%E8%A1%A8%E5%85%B3%E7%B3%BBtable%20relationships/" target="_self">
+          
+          深究 sqlalchemy 中表关系table relationships为什么需要定义Relationships在相关联的表中，我们可以不创建表关联的定义，而只是单纯互相引用id即可。但是，查询和使用起来就要麻烦很多： 1234567＃给定参数User.name,获取该user的addresses# 参考知乎：https:&#x2F;&#x2F;www.zhihu.com&#x2F;question&#x2F;38456789&#x2F;ans
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-12-12 16:36" pubdate>
+              2019-12-12
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/sqlalchemy/">sqlalchemy</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/sqlalchemy/">sqlalchemy</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/12/06/celery%20%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" target="_self">
+          celery 常用配置
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/12/06/celery%20%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" target="_self">
+          
+          设置时区 1CELERY_TIMEZONE &#x3D; &amp;#x27;Asia&#x2F;Shanghai&amp;#x27;  启动时区设置 1CELERY_ENABLE_UTC &#x3D; True    限制任务的执行频率下面这个就是限制tasks模块下的add函数，每秒钟只能执行10次 1CELERY_ANNOTATIONS &#x3D; &amp;#123;&amp;#x27;tasks.add&amp;#x27;:&amp;#123;&amp;#x27;rate_lim
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-12-06 09:40" pubdate>
+              2019-12-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/">异步任务</a>
+            
+              <a href="/categories/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/Celery/">Celery</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/">异步任务</a>
+            
+              <a href="/tags/Celery/">Celery</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/11/29/%E4%BD%BF%E7%94%A8%20docker%20%E9%83%A8%E7%BD%B2%E5%9F%BA%E4%BA%8E%20selenium+chrome-headless%E7%9A%84%E6%9C%8D%E5%8A%A1/" target="_self">
           使用 docker 部署基于 selenium+chrome-headless的服务
         </a>
@@ -489,6 +591,59 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/11/04/celery%20%E6%97%A5%E5%BF%97%E8%AE%BE%E7%BD%AE/" target="_self">
+          celery 日志设置
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/04/celery%20%E6%97%A5%E5%BF%97%E8%AE%BE%E7%BD%AE/" target="_self">
+          
+          celery 日志设置3种自定义Celery日志记录处理程序的策略python日志处理程序可以自定义日志消息，例如，我们想把日志消息写入屏幕，文件和日志管理服务等，在这种情况下，我们能将三个日志处理程序添加到应用程序的根记录器中。 12345678910111213141516171819import logginglogger &#x3D; logging.getLogger()formatter &#x3D; l
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-04 15:31" pubdate>
+              2019-11-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/">异步任务</a>
+            
+              <a href="/categories/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/Celery/">Celery</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%97%A5%E5%BF%97/">日志</a>
+            
+              <a href="/tags/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/">异步任务</a>
+            
+              <a href="/tags/Celery/">Celery</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/10/31/3%E7%A7%8D%E8%87%AA%E5%AE%9A%E4%B9%89Celery%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%AD%96%E7%95%A5/" target="_self">
           3种自定义Celery日志记录处理程序的策略
         </a>
@@ -527,151 +682,6 @@
               <a href="/tags/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/">异步任务</a>
             
               <a href="/tags/Celery/">Celery</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/10/29/%E8%87%AA%E5%AE%9A%E4%B9%89Celery%E4%BB%BB%E5%8A%A1%E8%AE%B0%E5%BD%95%E5%99%A8/" target="_self">
-          自定义Celery任务记录器
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/10/29/%E8%87%AA%E5%AE%9A%E4%B9%89Celery%E4%BB%BB%E5%8A%A1%E8%AE%B0%E5%BD%95%E5%99%A8/" target="_self">
-          
-          自定义Celery任务记录器celery 有一个特殊的记录器celery.task，这个记录器由 celery worker 设立，目的是将与任务相关的信息添加到日志消息中。这个日志包含两个新的参数：  task_id task_name  通过访问任务记录器 celery.utils.log，这两个参数可以帮助我们了解日志消息来自哪个任务。 123456789101112# tasks.pyim
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-10-29 15:07" pubdate>
-              2019-10-29
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/">异步任务</a>
-            
-              <a href="/categories/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/Celery/">Celery</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/">异步任务</a>
-            
-              <a href="/tags/Celery/">Celery</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/10/24/%E9%9B%86%E4%B8%AD%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86/" target="_self">
-          集中日志处理
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/10/24/%E9%9B%86%E4%B8%AD%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86/" target="_self">
-          
-          一、logging 模块logging模块是Python内置的标准模块，主要用于输出运行日志，可以设置输出日志的等级、日志保存路径、日志文件回滚等；相比print，具备如下优点：  可以通过设置不同的日志等级，在release版本中只输出重要信息，而不必显示大量的调试信息； print将所有信息都输出到标准输出中，严重影响开发者从标准输出中查看其它数据；logging则可以由开发者决定将信息输出到
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-10-24 14:17" pubdate>
-              2019-10-24
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%97%A5%E5%BF%97/">日志</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%97%A5%E5%BF%97/">日志</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/10/24/%E4%BB%80%E4%B9%88%E6%98%AF%E6%97%A5%E5%BF%97/" target="_self">
-          什么是日志
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/10/24/%E4%BB%80%E4%B9%88%E6%98%AF%E6%97%A5%E5%BF%97/" target="_self">
-          
-          一、什么是日志日志用来记录用户操作、系统运行状态等，是一个系统的重要组成部分。然而，由于日志通常不属于系统的核心功能，所以常常不被团队成员所重视。对于一些简单的小程序，可能并不需要在如何记录日志的问题上花费太多精力。但是对于作为基础平台为很多产品提供服务的后端程序，就必须要考虑如何依靠良好的日志来保证系统可靠的运行了。 好的日志可以帮助系统的开发和运维人员：  了解线上系统的运行状态 快速准确定位
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-10-24 10:43" pubdate>
-              2019-10-24
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%97%A5%E5%BF%97/">日志</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%97%A5%E5%BF%97/">日志</a>
             
           </div>
         

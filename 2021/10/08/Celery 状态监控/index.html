@@ -1,0 +1,631 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangweijie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Celery 监控（常规监控和 Flower）1、Flower 简介Flower是基于web的监控和管理Celery的工具 2、Flower 特性 用Celery事件实时监控   任务进程和历史 能够显示任务的详细信息（arguments, start time, runtime等） 图形化和统计    远程控制   查看worker状态和统计 关闭和重启worker实例 控制进程池大小，平滑配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="celery 状态监控">
+<meta property="og:url" content="http://example.com/2021/10/08/Celery%20%E7%8A%B6%E6%80%81%E7%9B%91%E6%8E%A7/index.html">
+<meta property="og:site_name" content="ffreedom">
+<meta property="og:description" content="Celery 监控（常规监控和 Flower）1、Flower 简介Flower是基于web的监控和管理Celery的工具 2、Flower 特性 用Celery事件实时监控   任务进程和历史 能够显示任务的详细信息（arguments, start time, runtime等） 图形化和统计    远程控制   查看worker状态和统计 关闭和重启worker实例 控制进程池大小，平滑配置">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202110081521723.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202110081523787.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202110081523957.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202110081524716.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202110081524475.png">
+<meta property="article:published_time" content="2021-10-08T01:43:31.000Z">
+<meta property="article:modified_time" content="2022-03-03T07:40:46.670Z">
+<meta property="article:author" content="zhangweijie">
+<meta property="article:tag" content="异步任务">
+<meta property="article:tag" content="Celery">
+<meta property="article:tag" content="监控">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202110081521723.png">
+  
+  
+  <title>celery 状态监控 - ffreedom</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","app_key":"WbImCRYLaCb0AN9W178IBFBs","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ffreedom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="celery 状态监控">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-08 09:43" pubdate>
+        2021年10月8日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.9k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      42 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">celery 状态监控</h1>
+            
+            <div class="markdown-body">
+              <h2 id="Celery-监控（常规监控和-Flower）"><a href="#Celery-监控（常规监控和-Flower）" class="headerlink" title="Celery 监控（常规监控和 Flower）"></a>Celery 监控（常规监控和 Flower）</h2><h3 id="1、Flower-简介"><a href="#1、Flower-简介" class="headerlink" title="1、Flower 简介"></a>1、Flower 简介</h3><p>Flower是基于web的监控和管理<a target="_blank" rel="noopener" href="http://www.celeryproject.org/">Celery</a>的工具</p>
+<h3 id="2、Flower-特性"><a href="#2、Flower-特性" class="headerlink" title="2、Flower 特性"></a>2、Flower 特性</h3><ul>
+<li><p>用Celery事件实时监控</p>
+<blockquote>
+<ul>
+<li>任务进程和历史</li>
+<li>能够显示任务的详细信息（arguments, start time, runtime等）</li>
+<li>图形化和统计</li>
+</ul>
+</blockquote>
+</li>
+<li><p>远程控制</p>
+<blockquote>
+<ul>
+<li>查看worker状态和统计</li>
+<li>关闭和重启worker实例</li>
+<li>控制进程池大小，平滑配置(autoscale settings)</li>
+<li>查看和修改一个worker实例消费的队列</li>
+<li>查看当前正在运行的tasks</li>
+<li>查看计划任务(ETA(估计到达的时间)&#x2F;倒计时)</li>
+<li>应用时间和速率限制</li>
+<li>配置浏览器(Configuration viewer)</li>
+<li>撤销或终止任务</li>
+</ul>
+</blockquote>
+</li>
+<li><p>Broker monitoring（中间人监控）</p>
+<blockquote>
+<ul>
+<li>查看所有Celery 队列的统计</li>
+<li>队列长度图</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<h3 id="3、Flower-使用方法"><a href="#3、Flower-使用方法" class="headerlink" title="3、Flower 使用方法"></a>3、Flower 使用方法</h3><ul>
+<li>Docker 使用方法（推荐使用）</li>
+</ul>
+<figure class="highlight nestedtext"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><pre><code class="hljs nestedtext"><span class="hljs-attribute">version</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;3.7&quot;</span><br><br><span class="hljs-attribute">services</span><span class="hljs-punctuation">:</span><br>  <span class="hljs-attribute">domain-certificate-flower</span><span class="hljs-punctuation">:</span><br>    <span class="hljs-attribute">image</span><span class="hljs-punctuation">:</span> <span class="hljs-string">mher/flower:0.9.7</span><br>    <span class="hljs-attribute">container_name</span><span class="hljs-punctuation">:</span> <span class="hljs-string">domain-certificate-flower</span><br>    <span class="hljs-attribute">restart</span><span class="hljs-punctuation">:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attribute">environment</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">CELERY_BROKER_URL=amqp://&#123;username&#125;:&#123;password&#125;@&#123;ip&#125;:&#123;port&#125;/&#123;vhost&#125;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">FLOWER_PORT=5555</span><br>    <span class="hljs-attribute">ports</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">5568:5555</span><br></code></pre></td></tr></table></figure>
+
+<p><code>注意</code>:  <code>当 image 版本号有变化的时候，使用方法会有不同，详情请查看flower 官方文档</code></p>
+<ul>
+<li>常规使用方法</li>
+</ul>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">celery -A celery_app <span class="hljs-attribute">--broker</span>=amqp://&#123;username&#125;:&#123;password&#125;@&#123;ip&#125;:&#123;port&#125;/&#123;vhost&#125; flower <span class="hljs-attribute">--address</span>=127.0.0.1 <span class="hljs-attribute">--port</span>=5555<br></code></pre></td></tr></table></figure>
+
+<h3 id="4、Flower-使用截图"><a href="#4、Flower-使用截图" class="headerlink" title="4、Flower 使用截图"></a>4、Flower 使用截图</h3><ul>
+<li>指示板</li>
+</ul>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202110081521723.png" srcset="/img/loading.gif" lazyload alt="image-20211008152133538"></p>
+<ul>
+<li>任务栏</li>
+</ul>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202110081523787.png" srcset="/img/loading.gif" lazyload alt="image-20211008152259962"></p>
+<ul>
+<li>Broker</li>
+</ul>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202110081523957.png" srcset="/img/loading.gif" lazyload alt="image-20211008152315882"></p>
+<ul>
+<li>Worker 详情</li>
+</ul>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202110081524716.png" srcset="/img/loading.gif" lazyload alt="image-20211008152402374"></p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202110081524475.png" srcset="/img/loading.gif" lazyload alt="image-20211008152417340"></p>
+<h3 id="5、命令行查看"><a href="#5、命令行查看" class="headerlink" title="5、命令行查看"></a>5、命令行查看</h3><ul>
+<li>查看 worker 状态</li>
+</ul>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs crystal"><span class="hljs-variable">$ </span>celery -A proj status<br>celery<span class="hljs-variable">@e12d18b11bf8</span>: OK<br>celery<span class="hljs-variable">@4e8eb97af6a8</span>: OK<br>celery<span class="hljs-variable">@0d9dcbcd7862</span>: OK<br>celery<span class="hljs-variable">@e858cc9a321f</span>: OK<br>celery<span class="hljs-variable">@7254993a84be</span>: OK<br>...<br></code></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>查看 worker 具体信息</li>
+</ul>
+<figure class="highlight nim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs nim">$ celery -A proj inspect stats<br>-&gt; celery@<span class="hljs-number">0</span>d9dcbcd7862: <span class="hljs-type">OK</span><br>    &#123;<br>        <span class="hljs-string">&quot;broker&quot;</span>: <span class="hljs-meta">&#123;...&#125;</span>,<br>        <span class="hljs-string">&quot;clock&quot;</span>: <span class="hljs-string">&quot;649&quot;</span>,<br>        <span class="hljs-string">&quot;pid&quot;</span>: <span class="hljs-number">1</span>,<br>        <span class="hljs-string">&quot;pool&quot;</span>: <span class="hljs-meta">&#123;...&#125;</span>,<br>        <span class="hljs-string">&quot;prefetch_count&quot;</span>: <span class="hljs-number">16</span>,<br>        <span class="hljs-string">&quot;rusage&quot;</span>: <span class="hljs-meta">&#123;...&#125;</span>,<br>        <span class="hljs-string">&quot;total&quot;</span>: &#123;&#125;<br>    &#125;<br>-&gt; celery@<span class="hljs-number">4</span>e8eb97af6a8: <span class="hljs-type">OK</span><br>    &#123;<br>        <span class="hljs-string">&quot;broker&quot;</span>: <span class="hljs-meta">&#123;...&#125;</span>,<br>        <span class="hljs-string">&quot;clock&quot;</span>: <span class="hljs-string">&quot;649&quot;</span>,<br>        <span class="hljs-string">&quot;pid&quot;</span>: <span class="hljs-number">1</span>,<br>        <span class="hljs-string">&quot;pool&quot;</span>: <span class="hljs-meta">&#123;...&#125;</span>,<br>        <span class="hljs-string">&quot;prefetch_count&quot;</span>: <span class="hljs-number">16</span>,<br>        <span class="hljs-string">&quot;rusage&quot;</span>: <span class="hljs-meta">&#123;...&#125;</span>,<br>        <span class="hljs-string">&quot;total&quot;</span>: &#123;&#125;<br>    &#125;<br>...<br></code></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>常看当前正在执行的 task</li>
+</ul>
+<figure class="highlight sml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sml">$ celery -<span class="hljs-type">A</span> proj inspect active<br>-&gt; celery@ec8e264c5c0e: <span class="hljs-type">OK</span><br>    - empty -<br>-&gt; celery@<span class="hljs-number">16</span>c1f1a6d8ca: <span class="hljs-type">OK</span><br>    * &#123;<span class="hljs-symbol">&#x27;id&#x27;</span>: <span class="hljs-symbol">&#x27;b2626431</span>-<span class="hljs-number">4420</span>-<span class="hljs-number">4</span>dde-a596-be7b63942ac4&#x27;, <span class="hljs-symbol">&#x27;name&#x27;</span>: <span class="hljs-symbol">&#x27;examples</span>.tasks.low_task&#x27;, <span class="hljs-symbol">&#x27;args&#x27;</span>: <span class="hljs-literal">[]</span>, <span class="hljs-symbol">&#x27;kwargs&#x27;</span>: &#123;&#125;, <span class="hljs-symbol">&#x27;type&#x27;</span>: <span class="hljs-symbol">&#x27;examples</span>.tasks.low_task&#x27;, <span class="hljs-symbol">&#x27;hostname&#x27;</span>: <span class="hljs-symbol">&#x27;celery</span>@<span class="hljs-number">16</span>c1f1a6d8ca&#x27;, <span class="hljs-symbol">&#x27;time_start&#x27;</span>: <span class="hljs-number">1596941119.8071737</span>, <span class="hljs-symbol">&#x27;acknowledged&#x27;</span>: <span class="hljs-type">True</span>, <span class="hljs-symbol">&#x27;delivery_info&#x27;</span>: &#123;<span class="hljs-symbol">&#x27;exchange&#x27;</span>: <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-symbol">&#x27;routing_key&#x27;</span>: <span class="hljs-symbol">&#x27;low&#x27;</span>, <span class="hljs-symbol">&#x27;priority&#x27;</span>: <span class="hljs-type">None</span>, <span class="hljs-symbol">&#x27;redelivered&#x27;</span>: <span class="hljs-type">False</span>&#125;, <span class="hljs-symbol">&#x27;worker_pid&#x27;</span>: <span class="hljs-number">7</span>&#125;<br>...<br></code></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>查看当前队列信息</li>
+</ul>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs arcade">$ celery -A proj inspect active_queues<br>-&gt; celery@d6dd3883d8a8: OK<br>    * &#123;<span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;default&#x27;</span>, <span class="hljs-string">&#x27;exchange&#x27;</span>: &#123;<span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;default&#x27;</span>, <span class="hljs-string">&#x27;type&#x27;</span>: <span class="hljs-string">&#x27;direct&#x27;</span>, <span class="hljs-string">&#x27;arguments&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;durable&#x27;</span>: <span class="hljs-literal">True</span>, <span class="hljs-string">&#x27;passive&#x27;</span>: <span class="hljs-literal">False</span>, <span class="hljs-string">&#x27;auto_delete&#x27;</span>: <span class="hljs-literal">False</span>, <span class="hljs-string">&#x27;delivery_mode&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;no_declare&#x27;</span>: <span class="hljs-literal">False</span>&#125;, <span class="hljs-string">&#x27;routing_key&#x27;</span>: <span class="hljs-string">&#x27;default&#x27;</span>, <span class="hljs-string">&#x27;queue_arguments&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;binding_arguments&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;consumer_arguments&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;durable&#x27;</span>: <span class="hljs-literal">True</span>, <span class="hljs-string">&#x27;exclusive&#x27;</span>: <span class="hljs-literal">False</span>, <span class="hljs-string">&#x27;auto_delete&#x27;</span>: <span class="hljs-literal">False</span>, <span class="hljs-string">&#x27;no_ack&#x27;</span>: <span class="hljs-literal">False</span>, <span class="hljs-string">&#x27;alias&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;bindings&#x27;</span>: [], <span class="hljs-string">&#x27;no_declare&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;expires&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;message_ttl&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;max_length&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;max_length_bytes&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;max_priority&#x27;</span>: <span class="hljs-built_in">None</span>&#125;<br>-&gt; celery@e12d18b11bf8: OK<br>    * &#123;<span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;default&#x27;</span>, <span class="hljs-string">&#x27;exchange&#x27;</span>: &#123;<span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;default&#x27;</span>, <span class="hljs-string">&#x27;type&#x27;</span>: <span class="hljs-string">&#x27;direct&#x27;</span>, <span class="hljs-string">&#x27;arguments&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;durable&#x27;</span>: <span class="hljs-literal">True</span>, <span class="hljs-string">&#x27;passive&#x27;</span>: <span class="hljs-literal">False</span>, <span class="hljs-string">&#x27;auto_delete&#x27;</span>: <span class="hljs-literal">False</span>, <span class="hljs-string">&#x27;delivery_mode&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;no_declare&#x27;</span>: <span class="hljs-literal">False</span>&#125;, <span class="hljs-string">&#x27;routing_key&#x27;</span>: <span class="hljs-string">&#x27;default&#x27;</span>, <span class="hljs-string">&#x27;queue_arguments&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;binding_arguments&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;consumer_arguments&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;durable&#x27;</span>: <span class="hljs-literal">True</span>, <span class="hljs-string">&#x27;exclusive&#x27;</span>: <span class="hljs-literal">False</span>, <span class="hljs-string">&#x27;auto_delete&#x27;</span>: <span class="hljs-literal">False</span>, <span class="hljs-string">&#x27;no_ack&#x27;</span>: <span class="hljs-literal">False</span>, <span class="hljs-string">&#x27;alias&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;bindings&#x27;</span>: [], <span class="hljs-string">&#x27;no_declare&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;expires&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;message_ttl&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;max_length&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;max_length_bytes&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;max_priority&#x27;</span>: <span class="hljs-built_in">None</span>&#125;<br>-&gt; celery@e05921129af4: OK<br>    * &#123;<span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;high&#x27;</span>, <span class="hljs-string">&#x27;exchange&#x27;</span>: &#123;<span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;high&#x27;</span>, <span class="hljs-string">&#x27;type&#x27;</span>: <span class="hljs-string">&#x27;direct&#x27;</span>, <span class="hljs-string">&#x27;arguments&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;durable&#x27;</span>: <span class="hljs-literal">True</span>, <span class="hljs-string">&#x27;passive&#x27;</span>: <span class="hljs-literal">False</span>, <span class="hljs-string">&#x27;auto_delete&#x27;</span>: <span class="hljs-literal">False</span>, <span class="hljs-string">&#x27;delivery_mode&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;no_declare&#x27;</span>: <span class="hljs-literal">False</span>&#125;, <span class="hljs-string">&#x27;routing_key&#x27;</span>: <span class="hljs-string">&#x27;high&#x27;</span>, <span class="hljs-string">&#x27;queue_arguments&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;binding_arguments&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;consumer_arguments&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;durable&#x27;</span>: <span class="hljs-literal">True</span>, <span class="hljs-string">&#x27;exclusive&#x27;</span>: <span class="hljs-literal">False</span>, <span class="hljs-string">&#x27;auto_delete&#x27;</span>: <span class="hljs-literal">False</span>, <span class="hljs-string">&#x27;no_ack&#x27;</span>: <span class="hljs-literal">False</span>, <span class="hljs-string">&#x27;alias&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;bindings&#x27;</span>: [], <span class="hljs-string">&#x27;no_declare&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;expires&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;message_ttl&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;max_length&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;max_length_bytes&#x27;</span>: <span class="hljs-built_in">None</span>, <span class="hljs-string">&#x27;max_priority&#x27;</span>: <span class="hljs-built_in">None</span>&#125;<br>...<br></code></pre></td></tr></table></figure>
+
+<h3 id="6、总结"><a href="#6、总结" class="headerlink" title="6、总结"></a>6、总结</h3><div class="code-wrapper"><pre><code class="hljs">     针对 Flower 的使用主要是各个版本与 Celery 需要一一对应，当前使用的为 `Flower=0.9.7`与`Celery=4.4.7`
+</code></pre></div>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/">异步任务</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/Celery/">Celery</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/">异步任务</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Celery/">Celery</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%9B%91%E6%8E%A7/">监控</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/14/%E5%85%B3%E4%BA%8E%20docker%20%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%AE%B9%E5%99%A8%E5%90%8D%E5%AD%97%E8%BF%9B%E8%A1%8C%E5%AE%B9%E5%99%A8%E9%97%B4%E8%BF%9E%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">关于 Docker 无法使用容器名字进行容器间链接==连接的问题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/09/03/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%80%89%E5%9E%8B/">
+                        <span class="hidden-mobile">消息队列选型</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","appKey":"WbImCRYLaCb0AN9W178IBFBs","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
