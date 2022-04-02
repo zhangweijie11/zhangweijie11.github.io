@@ -171,6 +171,104 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2022/04/02/postgres%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D%EF%BC%88%E5%AE%BF%E4%B8%BB%E6%9C%BA%E5%92%8C%E5%AE%B9%E5%99%A8%EF%BC%89/" target="_self">
+          postgres数据库备份与恢复（宿主机和容器）
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/04/02/postgres%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D%EF%BC%88%E5%AE%BF%E4%B8%BB%E6%9C%BA%E5%92%8C%E5%AE%B9%E5%99%A8%EF%BC%89/" target="_self">
+          
+          数据备份与恢复pg_dumpdocker容器操作：导出数据库： 123docker exec -t -u postgres &amp;#123;容器 id&amp;#125; pg_dump &amp;#123;数据库名称&amp;#125; -c &gt; &amp;#123;文件名称&amp;#125;示例：docker exec -t -u postgres 6666 pg_dump isip -c &gt; dump.sql  恢复数据
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-04-02 14:07" pubdate>
+              2022-04-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/PostgreSQL/">PostgreSQL</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/PostgreSQL/">PostgreSQL</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/04/02/postgresql%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" target="_self">
+          postgresql 常用命令
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/04/02/postgresql%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" target="_self">
+          
+          docker 登录1docker exec -it &amp;#123;容器 id&amp;#125; psql -U postgres   当前总共正在使用的连接数 1select count(1) from pg_stat_activity;  显示系统允许的最大连接数1show max_connections;  显示系统保留的用户数1show superuser_reserved_connections
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-04-02 14:07" pubdate>
+              2022-04-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/PostgreSQL/">PostgreSQL</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/PostgreSQL/">PostgreSQL</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2022/03/01/%E4%BD%BF%E7%94%A8%20Ettercap%E5%97%85%E6%8E%A2%E5%B7%A5%E5%85%B7%E8%BF%9B%E8%A1%8C%20DNS%20%E6%AC%BA%E9%AA%97%E5%AE%9E%E9%AA%8C/" target="_self">
           使用 Ettercap嗅探工具进行 DNS 欺骗实验
         </a>
@@ -550,106 +648,6 @@
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/Git/">Git</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/01/19/Golang%20%E4%BB%A3%E7%A0%81%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98/" target="_self">
-          Golang 代码编译问题
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/01/19/Golang%20%E4%BB%A3%E7%A0%81%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98/" target="_self">
-          
-          Golang 代码编译问题 Windows  12345678910# 编译代码SET CGO_ENABLED&#x3D;0SET GOOS&#x3D;darwinSET GOARCH&#x3D;amd64go build main.goSET CGO_ENABLED&#x3D;0SET GOOS&#x3D;linuxSET GOARCH&#x3D;amd64go build main.go   Linux  123# 编译代码CGO_ENABLED&#x3D;0
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-01-19 14:07" pubdate>
-              2022-01-19
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>
-            
-              <a href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Golang/">Golang</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Golang/">Golang</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/01/12/SqlAlchemy%20%20%E5%9F%BA%E6%9C%AC%E5%87%BD%E6%95%B0/" target="_self">
-          sqlalchemy 基本函数
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/01/12/SqlAlchemy%20%20%E5%9F%BA%E6%9C%AC%E5%87%BD%E6%95%B0/" target="_self">
-          
-          SqlAlchemy  基本函数CAST 业务场景说明  domain 表中存在一个字段 source，类型为 array，现在需要进行完全匹配    domain source    baidu.com {brute,search}   163.com {brute}   现在需要精确匹配出163.com 原生 SQL 语句 1select * from domain where CAST(do
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-01-12 14:32" pubdate>
-              2022-01-12
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/sqlalchemy/">sqlalchemy</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-              <a href="/tags/sqlalchemy/">sqlalchemy</a>
             
           </div>
         

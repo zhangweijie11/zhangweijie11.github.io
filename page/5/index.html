@@ -171,6 +171,102 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/11/20/init%20%E4%B8%8E%20new%20%E6%96%B9%E6%B3%95/" target="_self">
+          inint与 new 方法
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/20/init%20%E4%B8%8E%20new%20%E6%96%B9%E6%B3%95/" target="_self">
+          
+          __init__与 __new__ 方法__new__和__init__参数的不同__new__所接收的第一个参数是cls，而__init__所接收的第一个参数是self。这是因为当我们调用__new__的时候，该类的实例还并不存在（也就是self所引用的对象还不存在），所以需要接收一个类作为参数，从而产生一个实例。而当我们调用__init__的时候，实例已经存在，因此__init__接受self
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-20 11:03" pubdate>
+              2019-11-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>
+            
+              <a href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python/">Python</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%A0%87%E5%87%86%E5%BA%93/">标准库</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/11/09/JWT%20%E7%AE%80%E4%BB%8B/" target="_self">
+          JWT 简介
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/09/JWT%20%E7%AE%80%E4%BB%8B/" target="_self">
+          
+          JWT（JSON Web Token）入门教程1、跨域认证问题互联网服务离不开用户认证。一般流程是下面这样。  1、用户向服务器发送用户名和密码。 2、服务器验证通过后，在当前对话（session）里面保存相关数据，比如用户角色、登录时间等等。 3、服务器向用户返回一个 session_id，写入用户的 Cookie。 4、用户随后的每一次请求，都会通过 Cookie，将 session_id 传
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-09 11:50" pubdate>
+              2019-11-09
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%A4%E8%AF%81%E6%8E%88%E6%9D%83/">认证授权</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/JWT/">JWT</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/11/08/%E6%9C%8D%E5%8A%A1%E4%B8%8E%E6%97%A5%E5%BF%97%E7%BA%A7%E5%88%AB/" target="_self">
           服务与日志级别
         </a>
@@ -351,11 +447,11 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%97%A5%E5%BF%97/">日志</a>
-            
               <a href="/tags/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/">异步任务</a>
             
               <a href="/tags/Celery/">Celery</a>
+            
+              <a href="/tags/%E6%97%A5%E5%BF%97/">日志</a>
             
           </div>
         
@@ -552,104 +648,6 @@
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/%E6%97%A5%E5%BF%97/">日志</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/10/18/Sentry%20%E5%85%A5%E9%97%A8/" target="_self">
-          Sentry 入门
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/10/18/Sentry%20%E5%85%A5%E9%97%A8/" target="_self">
-          
-          Sentry 入门前言​        错误日志监控也可称为业务逻辑监控，旨在对业务系统运行过程中产生的错误日志进行收集收纳和监控告警。Sentry 所做的就是收集应用底层代码的崩溃信息，便于我们排除代码异常。 既有方案 单台服务器上每个系统服务自己维护自己的日志，方便自己查看 同台服务器上多个日志集中存放到同个目录，方便集中管理 使用 ELK 系统，将所有日志输出到 ELK 系统，使用 GUI
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-10-18 14:29" pubdate>
-              2019-10-18
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%9B%91%E6%8E%A7%E9%A2%84%E8%AD%A6/">监控预警</a>
-            
-              <a href="/categories/%E7%9B%91%E6%8E%A7%E9%A2%84%E8%AD%A6/Sentry/">Sentry</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Sentry/">Sentry</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/08/29/Swagger%20editor%20%E7%AE%80%E4%BB%8B/" target="_self">
-          Swagger editor 简介
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/08/29/Swagger%20editor%20%E7%AE%80%E4%BB%8B/" target="_self">
-          
-          &#x2F;pets&#x2F;findByTags:    get:      tags:        - pet            summary: Finds Pets by tags            description: Muliple tags can be provided with comma seperated strings. Use tag1, tag2, ta
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-08-29 09:07" pubdate>
-              2019-08-29
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/WEB-%E6%A1%86%E6%9E%B6/">WEB 框架</a>
-            
-              <a href="/categories/WEB-%E6%A1%86%E6%9E%B6/Swagger/">Swagger</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Swagger/">Swagger</a>
             
           </div>
         
