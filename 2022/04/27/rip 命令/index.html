@@ -18,21 +18,22 @@
   <meta name="author" content="zhangweijie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="数据备份与恢复pg_dumpdocker容器操作：导出数据库： 123docker exec -t -u postgres &amp;#123;容器 id&amp;#125; pg_dump &amp;#123;数据库名称&amp;#125; -c &gt; &amp;#123;文件名称&amp;#125;示例：docker exec -t -u postgres 6666 pg_dump isip -c &gt; dump.sql  恢复数据">
+    <meta name="description" content="rip命令rip命令与rm命令不同，参数也不相同，可以使用rip --help查看使用说明。 rip命令会将你要删除的文件或文件夹移动到&#x2F;tmp下的某个位置 使用rip -u可以回滚上一次的删除操作 使用rip -d会清空放在临时文件夹中删除的文件 与rm不同的是，rip可以直接删除文件夹，而不需要加-r参数  即使使用rip这个工具，也应避免高危命令。比如 1234567rip &#x2F;etcrip">
 <meta property="og:type" content="article">
-<meta property="og:title" content="postgres数据库备份与恢复（宿主机和容器）">
-<meta property="og:url" content="http://example.com/2022/04/02/postgres%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D%EF%BC%88%E5%AE%BF%E4%B8%BB%E6%9C%BA%E5%92%8C%E5%AE%B9%E5%99%A8%EF%BC%89/index.html">
+<meta property="og:title" content="rip 命令">
+<meta property="og:url" content="http://example.com/2022/04/27/rip%20%E5%91%BD%E4%BB%A4/index.html">
 <meta property="og:site_name" content="ffreedom">
-<meta property="og:description" content="数据备份与恢复pg_dumpdocker容器操作：导出数据库： 123docker exec -t -u postgres &amp;#123;容器 id&amp;#125; pg_dump &amp;#123;数据库名称&amp;#125; -c &gt; &amp;#123;文件名称&amp;#125;示例：docker exec -t -u postgres 6666 pg_dump isip -c &gt; dump.sql  恢复数据">
+<meta property="og:description" content="rip命令rip命令与rm命令不同，参数也不相同，可以使用rip --help查看使用说明。 rip命令会将你要删除的文件或文件夹移动到&#x2F;tmp下的某个位置 使用rip -u可以回滚上一次的删除操作 使用rip -d会清空放在临时文件夹中删除的文件 与rm不同的是，rip可以直接删除文件夹，而不需要加-r参数  即使使用rip这个工具，也应避免高危命令。比如 1234567rip &#x2F;etcrip">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-04-02T06:07:31.000Z">
-<meta property="article:modified_time" content="2022-04-02T07:13:39.225Z">
+<meta property="article:published_time" content="2022-04-27T02:02:31.000Z">
+<meta property="article:modified_time" content="2022-04-28T07:29:12.501Z">
 <meta property="article:author" content="zhangweijie">
-<meta property="article:tag" content="PostgreSQL">
+<meta property="article:tag" content="服务器">
+<meta property="article:tag" content="rip">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>postgres数据库备份与恢复（宿主机和容器） - ffreedom</title>
+  <title>rip 命令 - ffreedom</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -154,7 +155,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="postgres数据库备份与恢复（宿主机和容器）">
+            <span class="h2" id="subtitle" title="rip 命令">
               
             </span>
 
@@ -164,8 +165,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-04-02 14:07" pubdate>
-        2022年4月2日 下午
+      <time datetime="2022-04-27 10:02" pubdate>
+        2022年4月27日 上午
       </time>
     </span>
   
@@ -175,7 +176,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.1k 字
+      433 字
     </span>
   
 
@@ -184,7 +185,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      18 分钟
+      4 分钟
     </span>
   
 
@@ -221,36 +222,21 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">postgres数据库备份与恢复（宿主机和容器）</h1>
+            <h1 style="display: none">rip 命令</h1>
             
             <div class="markdown-body">
-              <h1 id="数据备份与恢复"><a href="#数据备份与恢复" class="headerlink" title="数据备份与恢复"></a>数据备份与恢复</h1><h2 id="pg-dump"><a href="#pg-dump" class="headerlink" title="pg_dump"></a>pg_dump</h2><h3 id="docker容器操作："><a href="#docker容器操作：" class="headerlink" title="docker容器操作："></a>docker容器操作：</h3><p>导出数据库：</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><pre><code class="hljs pgsql">docker exec -t -u postgres &#123;容器 id&#125; pg_dump &#123;数据库名称&#125; -c &gt; &#123;文件名称&#125;<br>示例：<br>docker exec -t -u postgres <span class="hljs-number">6666</span> pg_dump isip -c &gt; dump.<span class="hljs-keyword">sql</span><br></code></pre></td></tr></table></figure>
+              <h2 id="rip命令"><a href="#rip命令" class="headerlink" title="rip命令"></a>rip命令</h2><p>rip命令与rm命令不同，参数也不相同，可以使用<code>rip --help</code>查看使用说明。</p>
+<p>rip命令会将你要删除的文件或文件夹移动到<code>/tmp</code>下的某个位置</p>
+<p>使用<code>rip -u</code>可以回滚上一次的删除操作</p>
+<p>使用<code>rip -d</code>会清空放在临时文件夹中删除的文件</p>
+<p>与rm不同的是，rip可以直接删除文件夹，而不需要加<code>-r</code>参数</p>
+<hr>
+<p>即使使用rip这个工具，也应避免高危命令。比如</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><pre><code class="hljs bash">rip /etc<br>rip /<br><span class="hljs-comment">#经过测试，以上命令执行后不会像rm命令那么极端，文件或许不会丢失，但仍旧有破坏性，可能会出现一些未知的问题。</span><br>由于目前没有完全验证诸如上述命令的安全性<br>因此切勿尝试！！！<br>因此切勿尝试！！！<br>因此切勿尝试！！！<br></code></pre></td></tr></table></figure>
 
-<p>恢复数据库：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> your_dump.sql | docker <span class="hljs-built_in">exec</span> -i &#123;容器 <span class="hljs-built_in">id</span>&#125; psql -U &#123;用户名&#125; -d &#123;数据库名称&#125;<br>示例：<br><span class="hljs-built_in">cat</span> your_dump.sql | docker <span class="hljs-built_in">exec</span> -i 6666 psql -U postgres -d isip<br></code></pre></td></tr></table></figure>
-
-<h3 id="宿主机操作："><a href="#宿主机操作：" class="headerlink" title="宿主机操作："></a>宿主机操作：</h3><p>宿主机备份数据库：</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">pg_dump -h &#123;主机ip&#125; -U &#123;用户名&#125; &#123;数据库名称&#125; &gt; &#123;备份地址文件&#125;<br>示例：<br>pg_dump -h <span class="hljs-number">192.168</span><span class="hljs-number">.199</span><span class="hljs-number">.253</span> -U isip isip &gt; /tmp/beifen253.<span class="hljs-keyword">sql</span><br></code></pre></td></tr></table></figure>
-
-<p>宿主机恢复数据库：</p>
-<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs dust"><span class="language-xml">psql -h </span><span class="hljs-template-variable">&#123;主机 ip&#125;</span><span class="language-xml"> -U </span><span class="hljs-template-variable">&#123;用户名&#125;</span><span class="language-xml"> -d </span><span class="hljs-template-variable">&#123;数据库名称&#125;</span><span class="language-xml"> &lt;  </span><span class="hljs-template-variable">&#123;备份地址文件&#125;</span><span class="language-xml"></span><br><span class="language-xml">示例：</span><br><span class="language-xml">psql -h 192.168.199.253 -U isip -d isip &lt; /beifen.253.sql</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h2><h3 id="docker-容器操作："><a href="#docker-容器操作：" class="headerlink" title="docker 容器操作："></a>docker 容器操作：</h3><p>导出数据：</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs applescript">docker exec -t -u &#123;用户名&#125; &#123;容器<span class="hljs-built_in">id</span>&#125; psql -d &#123;数据库名称&#125; -c &#x27;<span class="hljs-keyword">copy</span> &#123;表名称&#125;(&#123;字段名&#125;,&#123;字段名&#125;) <span class="hljs-keyword">to</span> stdout <span class="hljs-keyword">with</span> csv&#x27; &gt; &#123;文件名&#125;<br>示例：<br>docker exec -t -u postgres b57988 psql -d isip -c &#x27;<span class="hljs-keyword">copy</span> <span class="hljs-literal">result</span>(target,comp_uuid,<span class="hljs-built_in">version</span>,create_time,update_time) <span class="hljs-keyword">to</span> stdout <span class="hljs-keyword">with</span> csv&#x27; &gt; <span class="hljs-literal">result</span>.csv<br></code></pre></td></tr></table></figure>
-
-<p>导入数据：</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs applescript">docker cp &#123;文件名&#125; &#123;容器 <span class="hljs-built_in">id</span>&#125;:&#123;文件地址&#125;<br>示例：<br>docker cp new_result.csv b579:/<br><br>\<span class="hljs-keyword">copy</span> <span class="hljs-literal">result</span>(target,comp_uuid,version_uuid,create_time,update_time) <span class="hljs-keyword">from</span> &#x27;new_result.csv&#x27; <span class="hljs-keyword">with</span> csv;<br></code></pre></td></tr></table></figure>
-
-<h3 id="宿主机操作：-1"><a href="#宿主机操作：-1" class="headerlink" title="宿主机操作："></a>宿主机操作：</h3><p>宿主机导出数据：</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">copy</span> &#123;表名称&#125; <span class="hljs-keyword">to</span> &#123;文件名&#125; <span class="hljs-keyword">with</span> &#123;文件格式&#125;<br><br>示例：<br><span class="hljs-keyword">COPY</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">TO</span> <span class="hljs-string">&#x27;/tmp/data/test.csv&#x27;</span> <span class="hljs-keyword">WITH</span> csv;<br><br>也可以导出指定的属性：<br><span class="hljs-keyword">COPY</span> <span class="hljs-keyword">user</span>(<span class="hljs-type">name</span>,<span class="hljs-keyword">password</span>) <span class="hljs-keyword">TO</span> <span class="hljs-string">&#x27;/tmp/data/test.csv&#x27;</span> <span class="hljs-keyword">WITH</span> csv;<br><br>也可以使用<span class="hljs-keyword">select</span> 语句：<br><span class="hljs-keyword">COPY</span> (<span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span>) <span class="hljs-keyword">TO</span> <span class="hljs-string">&#x27;/tmp/data/test.csv&#x27;</span> <span class="hljs-keyword">WITH</span> csv;<br><br>也可以指定要导出哪些字段：<br><span class="hljs-keyword">COPY</span> (<span class="hljs-keyword">select</span> <span class="hljs-type">name</span>,age <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span>) <span class="hljs-keyword">TO</span> <span class="hljs-string">&#x27;/tmp/data/test.csv&#x27;</span> <span class="hljs-keyword">WITH</span> csv <span class="hljs-keyword">header</span>;<br></code></pre></td></tr></table></figure>
-
-<p>宿主机导入数据：</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">copy</span> &#123;表名称&#125; <span class="hljs-keyword">from</span> &#123;文件名称&#125; whth &#123;文件格式&#125;<br><br>示例：<br><span class="hljs-keyword">COPY</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">FROM</span> <span class="hljs-string">&#x27;/tmp/data/test.csv&#x27;</span> <span class="hljs-keyword">WITH</span> csv;<br><br>如果导出的时候，指定了<span class="hljs-keyword">header</span>属性，那么在导入的时候，也需要指定：<br><span class="hljs-keyword">COPY</span> <span class="hljs-keyword">user</span>(<span class="hljs-type">name</span>, age) <span class="hljs-keyword">FROM</span> <span class="hljs-string">&#x27;/tmp/data/test.csv&#x27;</span> <span class="hljs-keyword">WITH</span> csv <span class="hljs-keyword">header</span>;<br></code></pre></td></tr></table></figure>
-
-<h1 id="修改自增长-id"><a href="#修改自增长-id" class="headerlink" title="修改自增长 id"></a>修改自增长 id</h1><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">select</span> setval(<span class="hljs-string">&#x27;&#123;表名称&#125;_id_seq&#x27;</span>,(<span class="hljs-keyword">select</span> max(id) <span class="hljs-keyword">from</span> &#123;表名称&#125;));<br>示例：<br><span class="hljs-keyword">select</span> setval(<span class="hljs-string">&#x27;isip_id_seq&#x27;</span>,(<span class="hljs-keyword">select</span> max(id) <span class="hljs-keyword">from</span> isip));<br></code></pre></td></tr></table></figure>
-
-<h1 id="强制杀死数据库进程"><a href="#强制杀死数据库进程" class="headerlink" title="强制杀死数据库进程"></a>强制杀死数据库进程</h1><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">select</span> pg_terminate_backend(pid) <span class="hljs-keyword">from</span> pg_stat_activity <span class="hljs-keyword">where</span> DATNAME = <span class="hljs-string">&#x27;表名称&#x27;</span><br>示例：<br><span class="hljs-keyword">select</span> pg_terminate_backend(pid) <span class="hljs-keyword">from</span> pg_stat_activity <span class="hljs-keyword">where</span> DATNAME = <span class="hljs-string">&#x27;isip&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>此工具目的是尽可能减轻人为误操作带来的影响，但是不可能带来完全无忧的体验，不正确使用仍然可能出现未知的问题，因此使用该命令操作服务器时仍要小心谨慎。</p>
+<p>自己永远是自己的第一负责人，每个人始终要为自己的每个操作负责任。</p>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/nivekuil/rip">https://github.com/nivekuil/rip</a></p>
 
             </div>
             <hr>
@@ -260,9 +246,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-                    
-                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/PostgreSQL/">PostgreSQL</a>
+                      <a class="hover-with-bg" href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a>
                     
                   </div>
                 
@@ -270,7 +254,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/PostgreSQL/">PostgreSQL</a>
+                      <a class="hover-with-bg" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a>
+                    
+                      <a class="hover-with-bg" href="/tags/rip/">rip</a>
                     
                   </div>
                 
@@ -287,9 +273,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/04/27/rip%20%E5%91%BD%E4%BB%A4/">
+                      <a href="/2022/04/28/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">rip 命令</span>
+                        <span class="hidden-mobile">服务器使用注意事项</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -297,8 +283,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/04/02/postgresql%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
-                        <span class="hidden-mobile">postgresql 常用命令</span>
+                      <a href="/2022/04/02/postgres%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D%EF%BC%88%E5%AE%BF%E4%B8%BB%E6%9C%BA%E5%92%8C%E5%AE%B9%E5%99%A8%EF%BC%89/">
+                        <span class="hidden-mobile">postgres数据库备份与恢复（宿主机和容器）</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

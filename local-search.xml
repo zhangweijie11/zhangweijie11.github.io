@@ -4,6 +4,58 @@
   
   
   <entry>
+    <title>服务器使用注意事项</title>
+    <link href="/2022/04/28/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/"/>
+    <url>/2022/04/28/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</url>
+    
+    <content type="html"><![CDATA[<h2 id="服务器使用注意事项"><a href="#服务器使用注意事项" class="headerlink" title="服务器使用注意事项"></a>服务器使用注意事项</h2><p><strong>1.不要把自己锁到门外边</strong></p><p>如果禁用密码登录的同时，又没有把SSH公钥放进去，那么就没办法登录服务器了。</p><p><strong>2.不要随意使用<code>apt upgrade</code>和<code>apt auto-remove</code></strong></p><p><strong>3.不确定的不要操作，不确定的操作先讨论</strong></p><p>比如磁盘分区、磁盘挂载、交换空间等</p><p><strong>4.修改文件前先备份，不要直接修改</strong></p><p><strong>5.不要随意修改文件或文件夹的权限和归属</strong></p><p>例如，<code>.ssh</code>文件夹下的私钥，如果权限过高，则会不能使用。<code>id_rsa</code>权限必须是600</p><p><strong>6.不要删除用户家目录下的所有文件</strong></p><p>切勿使用<code>rm -r /home/user/*</code>，家目录下还有该用户的隐藏文件，例如<code>.bash_rc</code>、<code>.ssh</code>等，删除后用户可能无法登陆。</p><p><strong>7.不要随意修改IP地址，主机名等</strong></p><p>例如，RabbitMQ通过主机名识别，如果随意修改主机名，RabbitMQ可能无法启动。</p><p><strong>8.尽量不用root用户操作，必要时可以使用sudo临时提权</strong></p><p><strong>9.不需要提权时，完全可以不用sudo</strong></p><p><strong>10.删除文件或文件夹注意事项</strong></p><p>10.1 如果该文件或文件夹归属于当前用户，则不要用sudo</p><p>10.2 如果是删除文件，而不是文件夹，不要用<code>-r</code>选项</p><p>10.3 在Ubuntu中没必要使用<code>-f</code>选项</p><p>10.4 删除时不要使用变量</p><figure class="highlight bash"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">rm</span> -r <span class="hljs-variable">$DATA_PATH</span>/*<br></code></pre></td></tr></table></figure><p>如果你没有设置或忘记设置$DATA_PATH这个变量，想想后果！</p><p>10.5 删除前仔细检查是否有多余的空格</p><p>例如删除文件夹时，使用TAB自动补全，如果要删除test目录，补全后命令在文件夹名后面多一个<code>/</code></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">rm</span> -r <span class="hljs-built_in">test</span>/<br></code></pre></td></tr></table></figure><p>这本来也无可厚非，但是如果由于某些原因，比如无意间碰着键盘的空格键了，而这个空格键正好在<code>test</code>和<code>/</code>中间，那也就凉了。所以建议把后面的<code>/</code>移除。</p><p>同理，使用这个命令时也必须十分小心,多一个空格就完了。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">rm</span> -r <span class="hljs-built_in">test</span>/*<br></code></pre></td></tr></table></figure><p>10.6 不要使用这个命令，非常危险</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">rm</span> -r *<br></code></pre></td></tr></table></figure><p>一旦没有注意当前文件夹是否是需要删除的，则会非常致命。尽量使用绝对目录。</p><p>10.7 输入rm命令时，先在前面加#</p><p>例如</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="language-bash"><span class="hljs-built_in">rm</span> -r <span class="hljs-built_in">test</span></span><br></code></pre></td></tr></table></figure><p>等确定过命令没有问题后，再把光标放到首位删除#号，再执行命令</p><p><strong>11.当命令终端窗口不在底部时，很多时候为了快速回到底部，可能会连续敲回车或者<code>CTRL + C</code>，这也是一个风险点。你就可能会执行你非预期的命令或停止正在执行的前台程序。建议使用空格键代替</strong></p><p><strong>12.离开工位时，办公电脑记得锁屏</strong></p><p><strong>13.修改定时任务时要小心</strong></p><p>编辑定时任务会用到<code>crontab -e</code>命令，键盘上<code>e</code>和<code>r</code>是相邻的，千万别手滑按成了    <code>crontab -r</code>，否则会在没有任何确认提示的情况下清空当前用户的所有定时任务。建议编辑之前先用<code>crontab -l</code>列出定时任务，即使出现误删，可以直接从终端窗口复制重新粘贴回去。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>服务器</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>服务器</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>rip 命令</title>
+    <link href="/2022/04/27/rip%20%E5%91%BD%E4%BB%A4/"/>
+    <url>/2022/04/27/rip%20%E5%91%BD%E4%BB%A4/</url>
+    
+    <content type="html"><![CDATA[<h2 id="rip命令"><a href="#rip命令" class="headerlink" title="rip命令"></a>rip命令</h2><p>rip命令与rm命令不同，参数也不相同，可以使用<code>rip --help</code>查看使用说明。</p><p>rip命令会将你要删除的文件或文件夹移动到<code>/tmp</code>下的某个位置</p><p>使用<code>rip -u</code>可以回滚上一次的删除操作</p><p>使用<code>rip -d</code>会清空放在临时文件夹中删除的文件</p><p>与rm不同的是，rip可以直接删除文件夹，而不需要加<code>-r</code>参数</p><hr><p>即使使用rip这个工具，也应避免高危命令。比如</p><figure class="highlight bash"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><pre><code class="hljs bash">rip /etc<br>rip /<br><span class="hljs-comment">#经过测试，以上命令执行后不会像rm命令那么极端，文件或许不会丢失，但仍旧有破坏性，可能会出现一些未知的问题。</span><br>由于目前没有完全验证诸如上述命令的安全性<br>因此切勿尝试！！！<br>因此切勿尝试！！！<br>因此切勿尝试！！！<br></code></pre></td></tr></table></figure><p>此工具目的是尽可能减轻人为误操作带来的影响，但是不可能带来完全无忧的体验，不正确使用仍然可能出现未知的问题，因此使用该命令操作服务器时仍要小心谨慎。</p><p>自己永远是自己的第一负责人，每个人始终要为自己的每个操作负责任。</p><p>项目地址：<a href="https://github.com/nivekuil/rip">https://github.com/nivekuil/rip</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>服务器</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>服务器</tag>
+      
+      <tag>rip</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>postgres数据库备份与恢复（宿主机和容器）</title>
     <link href="/2022/04/02/postgres%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D%EF%BC%88%E5%AE%BF%E4%B8%BB%E6%9C%BA%E5%92%8C%E5%AE%B9%E5%99%A8%EF%BC%89/"/>
     <url>/2022/04/02/postgres%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D%EF%BC%88%E5%AE%BF%E4%B8%BB%E6%9C%BA%E5%92%8C%E5%AE%B9%E5%99%A8%EF%BC%89/</url>

@@ -18,21 +18,21 @@
   <meta name="author" content="zhangweijie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="数据备份与恢复pg_dumpdocker容器操作：导出数据库： 123docker exec -t -u postgres &amp;#123;容器 id&amp;#125; pg_dump &amp;#123;数据库名称&amp;#125; -c &gt; &amp;#123;文件名称&amp;#125;示例：docker exec -t -u postgres 6666 pg_dump isip -c &gt; dump.sql  恢复数据">
+    <meta name="description" content="服务器使用注意事项1.不要把自己锁到门外边 如果禁用密码登录的同时，又没有把SSH公钥放进去，那么就没办法登录服务器了。 2.不要随意使用apt upgrade和apt auto-remove 3.不确定的不要操作，不确定的操作先讨论 比如磁盘分区、磁盘挂载、交换空间等 4.修改文件前先备份，不要直接修改 5.不要随意修改文件或文件夹的权限和归属 例如，.ssh文件夹下的私钥，如果权限过高，则会不">
 <meta property="og:type" content="article">
-<meta property="og:title" content="postgres数据库备份与恢复（宿主机和容器）">
-<meta property="og:url" content="http://example.com/2022/04/02/postgres%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D%EF%BC%88%E5%AE%BF%E4%B8%BB%E6%9C%BA%E5%92%8C%E5%AE%B9%E5%99%A8%EF%BC%89/index.html">
+<meta property="og:title" content="服务器使用注意事项">
+<meta property="og:url" content="http://example.com/2022/04/28/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/index.html">
 <meta property="og:site_name" content="ffreedom">
-<meta property="og:description" content="数据备份与恢复pg_dumpdocker容器操作：导出数据库： 123docker exec -t -u postgres &amp;#123;容器 id&amp;#125; pg_dump &amp;#123;数据库名称&amp;#125; -c &gt; &amp;#123;文件名称&amp;#125;示例：docker exec -t -u postgres 6666 pg_dump isip -c &gt; dump.sql  恢复数据">
+<meta property="og:description" content="服务器使用注意事项1.不要把自己锁到门外边 如果禁用密码登录的同时，又没有把SSH公钥放进去，那么就没办法登录服务器了。 2.不要随意使用apt upgrade和apt auto-remove 3.不确定的不要操作，不确定的操作先讨论 比如磁盘分区、磁盘挂载、交换空间等 4.修改文件前先备份，不要直接修改 5.不要随意修改文件或文件夹的权限和归属 例如，.ssh文件夹下的私钥，如果权限过高，则会不">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-04-02T06:07:31.000Z">
-<meta property="article:modified_time" content="2022-04-02T07:13:39.225Z">
+<meta property="article:published_time" content="2022-04-28T02:02:31.000Z">
+<meta property="article:modified_time" content="2022-04-28T07:29:17.493Z">
 <meta property="article:author" content="zhangweijie">
-<meta property="article:tag" content="PostgreSQL">
+<meta property="article:tag" content="服务器">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>postgres数据库备份与恢复（宿主机和容器） - ffreedom</title>
+  <title>服务器使用注意事项 - ffreedom</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -154,7 +154,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="postgres数据库备份与恢复（宿主机和容器）">
+            <span class="h2" id="subtitle" title="服务器使用注意事项">
               
             </span>
 
@@ -164,8 +164,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-04-02 14:07" pubdate>
-        2022年4月2日 下午
+      <time datetime="2022-04-28 10:02" pubdate>
+        2022年4月28日 上午
       </time>
     </span>
   
@@ -175,7 +175,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.1k 字
+      1.1k 字
     </span>
   
 
@@ -184,7 +184,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      18 分钟
+      10 分钟
     </span>
   
 
@@ -221,36 +221,52 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">postgres数据库备份与恢复（宿主机和容器）</h1>
+            <h1 style="display: none">服务器使用注意事项</h1>
             
             <div class="markdown-body">
-              <h1 id="数据备份与恢复"><a href="#数据备份与恢复" class="headerlink" title="数据备份与恢复"></a>数据备份与恢复</h1><h2 id="pg-dump"><a href="#pg-dump" class="headerlink" title="pg_dump"></a>pg_dump</h2><h3 id="docker容器操作："><a href="#docker容器操作：" class="headerlink" title="docker容器操作："></a>docker容器操作：</h3><p>导出数据库：</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><pre><code class="hljs pgsql">docker exec -t -u postgres &#123;容器 id&#125; pg_dump &#123;数据库名称&#125; -c &gt; &#123;文件名称&#125;<br>示例：<br>docker exec -t -u postgres <span class="hljs-number">6666</span> pg_dump isip -c &gt; dump.<span class="hljs-keyword">sql</span><br></code></pre></td></tr></table></figure>
+              <h2 id="服务器使用注意事项"><a href="#服务器使用注意事项" class="headerlink" title="服务器使用注意事项"></a>服务器使用注意事项</h2><p><strong>1.不要把自己锁到门外边</strong></p>
+<p>如果禁用密码登录的同时，又没有把SSH公钥放进去，那么就没办法登录服务器了。</p>
+<p><strong>2.不要随意使用<code>apt upgrade</code>和<code>apt auto-remove</code></strong></p>
+<p><strong>3.不确定的不要操作，不确定的操作先讨论</strong></p>
+<p>比如磁盘分区、磁盘挂载、交换空间等</p>
+<p><strong>4.修改文件前先备份，不要直接修改</strong></p>
+<p><strong>5.不要随意修改文件或文件夹的权限和归属</strong></p>
+<p>例如，<code>.ssh</code>文件夹下的私钥，如果权限过高，则会不能使用。<code>id_rsa</code>权限必须是600</p>
+<p><strong>6.不要删除用户家目录下的所有文件</strong></p>
+<p>切勿使用<code>rm -r /home/user/*</code>，家目录下还有该用户的隐藏文件，例如<code>.bash_rc</code>、<code>.ssh</code>等，删除后用户可能无法登陆。</p>
+<p><strong>7.不要随意修改IP地址，主机名等</strong></p>
+<p>例如，RabbitMQ通过主机名识别，如果随意修改主机名，RabbitMQ可能无法启动。</p>
+<p><strong>8.尽量不用root用户操作，必要时可以使用sudo临时提权</strong></p>
+<p><strong>9.不需要提权时，完全可以不用sudo</strong></p>
+<p><strong>10.删除文件或文件夹注意事项</strong></p>
+<p>10.1 如果该文件或文件夹归属于当前用户，则不要用sudo</p>
+<p>10.2 如果是删除文件，而不是文件夹，不要用<code>-r</code>选项</p>
+<p>10.3 在Ubuntu中没必要使用<code>-f</code>选项</p>
+<p>10.4 删除时不要使用变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">rm</span> -r <span class="hljs-variable">$DATA_PATH</span>/*<br></code></pre></td></tr></table></figure>
 
-<p>恢复数据库：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> your_dump.sql | docker <span class="hljs-built_in">exec</span> -i &#123;容器 <span class="hljs-built_in">id</span>&#125; psql -U &#123;用户名&#125; -d &#123;数据库名称&#125;<br>示例：<br><span class="hljs-built_in">cat</span> your_dump.sql | docker <span class="hljs-built_in">exec</span> -i 6666 psql -U postgres -d isip<br></code></pre></td></tr></table></figure>
+<p>如果你没有设置或忘记设置$DATA_PATH这个变量，想想后果！</p>
+<p>10.5 删除前仔细检查是否有多余的空格</p>
+<p>例如删除文件夹时，使用TAB自动补全，如果要删除test目录，补全后命令在文件夹名后面多一个<code>/</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">rm</span> -r <span class="hljs-built_in">test</span>/<br></code></pre></td></tr></table></figure>
 
-<h3 id="宿主机操作："><a href="#宿主机操作：" class="headerlink" title="宿主机操作："></a>宿主机操作：</h3><p>宿主机备份数据库：</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">pg_dump -h &#123;主机ip&#125; -U &#123;用户名&#125; &#123;数据库名称&#125; &gt; &#123;备份地址文件&#125;<br>示例：<br>pg_dump -h <span class="hljs-number">192.168</span><span class="hljs-number">.199</span><span class="hljs-number">.253</span> -U isip isip &gt; /tmp/beifen253.<span class="hljs-keyword">sql</span><br></code></pre></td></tr></table></figure>
+<p>这本来也无可厚非，但是如果由于某些原因，比如无意间碰着键盘的空格键了，而这个空格键正好在<code>test</code>和<code>/</code>中间，那也就凉了。所以建议把后面的<code>/</code>移除。</p>
+<p>同理，使用这个命令时也必须十分小心,多一个空格就完了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">rm</span> -r <span class="hljs-built_in">test</span>/*<br></code></pre></td></tr></table></figure>
 
-<p>宿主机恢复数据库：</p>
-<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs dust"><span class="language-xml">psql -h </span><span class="hljs-template-variable">&#123;主机 ip&#125;</span><span class="language-xml"> -U </span><span class="hljs-template-variable">&#123;用户名&#125;</span><span class="language-xml"> -d </span><span class="hljs-template-variable">&#123;数据库名称&#125;</span><span class="language-xml"> &lt;  </span><span class="hljs-template-variable">&#123;备份地址文件&#125;</span><span class="language-xml"></span><br><span class="language-xml">示例：</span><br><span class="language-xml">psql -h 192.168.199.253 -U isip -d isip &lt; /beifen.253.sql</span><br></code></pre></td></tr></table></figure>
+<p>10.6 不要使用这个命令，非常危险</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">rm</span> -r *<br></code></pre></td></tr></table></figure>
 
-<h2 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h2><h3 id="docker-容器操作："><a href="#docker-容器操作：" class="headerlink" title="docker 容器操作："></a>docker 容器操作：</h3><p>导出数据：</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs applescript">docker exec -t -u &#123;用户名&#125; &#123;容器<span class="hljs-built_in">id</span>&#125; psql -d &#123;数据库名称&#125; -c &#x27;<span class="hljs-keyword">copy</span> &#123;表名称&#125;(&#123;字段名&#125;,&#123;字段名&#125;) <span class="hljs-keyword">to</span> stdout <span class="hljs-keyword">with</span> csv&#x27; &gt; &#123;文件名&#125;<br>示例：<br>docker exec -t -u postgres b57988 psql -d isip -c &#x27;<span class="hljs-keyword">copy</span> <span class="hljs-literal">result</span>(target,comp_uuid,<span class="hljs-built_in">version</span>,create_time,update_time) <span class="hljs-keyword">to</span> stdout <span class="hljs-keyword">with</span> csv&#x27; &gt; <span class="hljs-literal">result</span>.csv<br></code></pre></td></tr></table></figure>
+<p>一旦没有注意当前文件夹是否是需要删除的，则会非常致命。尽量使用绝对目录。</p>
+<p>10.7 输入rm命令时，先在前面加#</p>
+<p>例如</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="language-bash"><span class="hljs-built_in">rm</span> -r <span class="hljs-built_in">test</span></span><br></code></pre></td></tr></table></figure>
 
-<p>导入数据：</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs applescript">docker cp &#123;文件名&#125; &#123;容器 <span class="hljs-built_in">id</span>&#125;:&#123;文件地址&#125;<br>示例：<br>docker cp new_result.csv b579:/<br><br>\<span class="hljs-keyword">copy</span> <span class="hljs-literal">result</span>(target,comp_uuid,version_uuid,create_time,update_time) <span class="hljs-keyword">from</span> &#x27;new_result.csv&#x27; <span class="hljs-keyword">with</span> csv;<br></code></pre></td></tr></table></figure>
-
-<h3 id="宿主机操作：-1"><a href="#宿主机操作：-1" class="headerlink" title="宿主机操作："></a>宿主机操作：</h3><p>宿主机导出数据：</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">copy</span> &#123;表名称&#125; <span class="hljs-keyword">to</span> &#123;文件名&#125; <span class="hljs-keyword">with</span> &#123;文件格式&#125;<br><br>示例：<br><span class="hljs-keyword">COPY</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">TO</span> <span class="hljs-string">&#x27;/tmp/data/test.csv&#x27;</span> <span class="hljs-keyword">WITH</span> csv;<br><br>也可以导出指定的属性：<br><span class="hljs-keyword">COPY</span> <span class="hljs-keyword">user</span>(<span class="hljs-type">name</span>,<span class="hljs-keyword">password</span>) <span class="hljs-keyword">TO</span> <span class="hljs-string">&#x27;/tmp/data/test.csv&#x27;</span> <span class="hljs-keyword">WITH</span> csv;<br><br>也可以使用<span class="hljs-keyword">select</span> 语句：<br><span class="hljs-keyword">COPY</span> (<span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span>) <span class="hljs-keyword">TO</span> <span class="hljs-string">&#x27;/tmp/data/test.csv&#x27;</span> <span class="hljs-keyword">WITH</span> csv;<br><br>也可以指定要导出哪些字段：<br><span class="hljs-keyword">COPY</span> (<span class="hljs-keyword">select</span> <span class="hljs-type">name</span>,age <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span>) <span class="hljs-keyword">TO</span> <span class="hljs-string">&#x27;/tmp/data/test.csv&#x27;</span> <span class="hljs-keyword">WITH</span> csv <span class="hljs-keyword">header</span>;<br></code></pre></td></tr></table></figure>
-
-<p>宿主机导入数据：</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">copy</span> &#123;表名称&#125; <span class="hljs-keyword">from</span> &#123;文件名称&#125; whth &#123;文件格式&#125;<br><br>示例：<br><span class="hljs-keyword">COPY</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">FROM</span> <span class="hljs-string">&#x27;/tmp/data/test.csv&#x27;</span> <span class="hljs-keyword">WITH</span> csv;<br><br>如果导出的时候，指定了<span class="hljs-keyword">header</span>属性，那么在导入的时候，也需要指定：<br><span class="hljs-keyword">COPY</span> <span class="hljs-keyword">user</span>(<span class="hljs-type">name</span>, age) <span class="hljs-keyword">FROM</span> <span class="hljs-string">&#x27;/tmp/data/test.csv&#x27;</span> <span class="hljs-keyword">WITH</span> csv <span class="hljs-keyword">header</span>;<br></code></pre></td></tr></table></figure>
-
-<h1 id="修改自增长-id"><a href="#修改自增长-id" class="headerlink" title="修改自增长 id"></a>修改自增长 id</h1><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">select</span> setval(<span class="hljs-string">&#x27;&#123;表名称&#125;_id_seq&#x27;</span>,(<span class="hljs-keyword">select</span> max(id) <span class="hljs-keyword">from</span> &#123;表名称&#125;));<br>示例：<br><span class="hljs-keyword">select</span> setval(<span class="hljs-string">&#x27;isip_id_seq&#x27;</span>,(<span class="hljs-keyword">select</span> max(id) <span class="hljs-keyword">from</span> isip));<br></code></pre></td></tr></table></figure>
-
-<h1 id="强制杀死数据库进程"><a href="#强制杀死数据库进程" class="headerlink" title="强制杀死数据库进程"></a>强制杀死数据库进程</h1><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">select</span> pg_terminate_backend(pid) <span class="hljs-keyword">from</span> pg_stat_activity <span class="hljs-keyword">where</span> DATNAME = <span class="hljs-string">&#x27;表名称&#x27;</span><br>示例：<br><span class="hljs-keyword">select</span> pg_terminate_backend(pid) <span class="hljs-keyword">from</span> pg_stat_activity <span class="hljs-keyword">where</span> DATNAME = <span class="hljs-string">&#x27;isip&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>等确定过命令没有问题后，再把光标放到首位删除#号，再执行命令</p>
+<p><strong>11.当命令终端窗口不在底部时，很多时候为了快速回到底部，可能会连续敲回车或者<code>CTRL + C</code>，这也是一个风险点。你就可能会执行你非预期的命令或停止正在执行的前台程序。建议使用空格键代替</strong></p>
+<p><strong>12.离开工位时，办公电脑记得锁屏</strong></p>
+<p><strong>13.修改定时任务时要小心</strong></p>
+<p>编辑定时任务会用到<code>crontab -e</code>命令，键盘上<code>e</code>和<code>r</code>是相邻的，千万别手滑按成了    <code>crontab -r</code>，否则会在没有任何确认提示的情况下清空当前用户的所有定时任务。建议编辑之前先用<code>crontab -l</code>列出定时任务，即使出现误删，可以直接从终端窗口复制重新粘贴回去。</p>
 
             </div>
             <hr>
@@ -260,9 +276,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-                    
-                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/PostgreSQL/">PostgreSQL</a>
+                      <a class="hover-with-bg" href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a>
                     
                   </div>
                 
@@ -270,7 +284,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/PostgreSQL/">PostgreSQL</a>
+                      <a class="hover-with-bg" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a>
                     
                   </div>
                 
@@ -287,18 +301,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/04/27/rip%20%E5%91%BD%E4%BB%A4/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">rip 命令</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/04/02/postgresql%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
-                        <span class="hidden-mobile">postgresql 常用命令</span>
+                      <a href="/2022/04/27/rip%20%E5%91%BD%E4%BB%A4/">
+                        <span class="hidden-mobile">rip 命令</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -171,6 +171,104 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/10/29/%E8%87%AA%E5%AE%9A%E4%B9%89Celery%E4%BB%BB%E5%8A%A1%E8%AE%B0%E5%BD%95%E5%99%A8/" target="_self">
+          自定义Celery任务记录器
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/29/%E8%87%AA%E5%AE%9A%E4%B9%89Celery%E4%BB%BB%E5%8A%A1%E8%AE%B0%E5%BD%95%E5%99%A8/" target="_self">
+          
+          自定义Celery任务记录器celery 有一个特殊的记录器celery.task，这个记录器由 celery worker 设立，目的是将与任务相关的信息添加到日志消息中。这个日志包含两个新的参数：  task_id task_name  通过访问任务记录器 celery.utils.log，这两个参数可以帮助我们了解日志消息来自哪个任务。 123456789101112# tasks.pyim
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-29 15:07" pubdate>
+              2019-10-29
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/">异步任务</a>
+            
+              <a href="/categories/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/Celery/">Celery</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/">异步任务</a>
+            
+              <a href="/tags/Celery/">Celery</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/10/24/%E9%9B%86%E4%B8%AD%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86/" target="_self">
+          集中日志处理
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/24/%E9%9B%86%E4%B8%AD%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86/" target="_self">
+          
+          一、logging 模块logging模块是Python内置的标准模块，主要用于输出运行日志，可以设置输出日志的等级、日志保存路径、日志文件回滚等；相比print，具备如下优点：  可以通过设置不同的日志等级，在release版本中只输出重要信息，而不必显示大量的调试信息； print将所有信息都输出到标准输出中，严重影响开发者从标准输出中查看其它数据；logging则可以由开发者决定将信息输出到
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-24 14:17" pubdate>
+              2019-10-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%97%A5%E5%BF%97/">日志</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%97%A5%E5%BF%97/">日志</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/10/24/%E4%BB%80%E4%B9%88%E6%98%AF%E6%97%A5%E5%BF%97/" target="_self">
           什么是日志
         </a>
@@ -557,62 +655,11 @@
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2018/12/15/MySQL%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/" target="_self">
-          MySQL 基础命令
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2018/12/15/MySQL%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/" target="_self">
-          
-          进入数据库：MySQL -u root -p查看数据库：show databases创建库：create database 库名称使用数据库:use 数据库名字查看正在使用的数据库：select database（）查看表：show tables 创建表：create table 表名称（各字段及其类型和属性）更改表的名字：alter table 表原名称 rename to 表新名称插入数据：i
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2018-12-15 10:43" pubdate>
-              2018-12-15
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/MySQL/">MySQL</a>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/5/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/#board">4</a><a class="page-number" href="/page/5/#board">5</a><span class="page-number current">6</span>
+      <a class="extend prev" rel="prev" href="/page/5/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/#board">4</a><a class="page-number" href="/page/5/#board">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/#board">7</a><a class="extend next" rel="next" href="/page/7/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
