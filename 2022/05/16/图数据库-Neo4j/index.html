@@ -1,0 +1,632 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangweijie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Neo4J 简单教程1、简介​        知识图谱（Knowledge Graph），在图书情报界称为知识域可视化或知识领域映射地图，是显示知识发展进程与结构关系的一系列各种不同的图形，用 可视化技术描述知识资源及其载体，挖掘、分析、 构建、绘制和显示知识及它们之间的相互联系。 知识图谱是通过将应用数学、 图形学、信息可视化技术、 信息科学等学科的理论与方法与计量学引文分析、共现分析等方法结合">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图数据库 Neo4j">
+<meta property="og:url" content="http://example.com/2022/05/16/%E5%9B%BE%E6%95%B0%E6%8D%AE%E5%BA%93-Neo4j/index.html">
+<meta property="og:site_name" content="ffreedom">
+<meta property="og:description" content="Neo4J 简单教程1、简介​        知识图谱（Knowledge Graph），在图书情报界称为知识域可视化或知识领域映射地图，是显示知识发展进程与结构关系的一系列各种不同的图形，用 可视化技术描述知识资源及其载体，挖掘、分析、 构建、绘制和显示知识及它们之间的相互联系。 知识图谱是通过将应用数学、 图形学、信息可视化技术、 信息科学等学科的理论与方法与计量学引文分析、共现分析等方法结合">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161445699.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161459337.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161459131.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161501437.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161502203.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161506264.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161508661.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161509709.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161510634.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161525887.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161531336.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161558916.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161559909.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161559629.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161559061.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161607491.png">
+<meta property="article:published_time" content="2022-05-16T06:07:31.000Z">
+<meta property="article:modified_time" content="2022-05-16T08:08:20.092Z">
+<meta property="article:author" content="zhangweijie">
+<meta property="article:tag" content="知识图谱">
+<meta property="article:tag" content="图数据库">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161445699.png">
+  
+  
+  <title>图数据库 Neo4j - ffreedom</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","app_key":"WbImCRYLaCb0AN9W178IBFBs","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ffreedom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="图数据库 Neo4j">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-05-16 14:07" pubdate>
+        2022年5月16日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      39 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">图数据库 Neo4j</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Neo4J-简单教程"><a href="#Neo4J-简单教程" class="headerlink" title="Neo4J 简单教程"></a>Neo4J 简单教程</h1><h2 id="1、简介"><a href="#1、简介" class="headerlink" title="1、简介"></a>1、简介</h2><p>​        知识图谱（Knowledge Graph），在图书情报界称为知识域可视化或知识领域映射地图，是显示知识发展进程与结构关系的一系列各种不同的图形，用 可视化技术描述知识资源及其载体，挖掘、分析、 构建、绘制和显示知识及它们之间的相互联系。 知识图谱是通过将应用数学、 图形学、信息可视化技术、 信息科学等学科的理论与方法与计量学引文分析、共现分析等方法结合，并利用可视化的图谱形象地展示学科的核心结构、发展历史、 前沿领域以及整体知识架构达到多学科融合目的的现代理论。它能为学科研究提供切实的、有价值的参考。</p>
+<p>​        知识图谱由于其数据包含实体、属性、关系等，常见的关系型数据库诸如MySQL之类不能很好的体现数据的这些特点，因此知识图谱数据的存储一般是采用图数据库（Graph Databases）。而<a href="https://link.zhihu.com/?target=https://neo4j.com/">Neo4j</a>是其中最为常见的图数据库。</p>
+<p>​        Cypher是Neo4J的声明式图形查询语言，允许用户不必编写图形结构的遍历代码，就可以对图形数据进行高效的查询。Cypher的设计目的类似SQL，适合于开发者以及在数据库上做点对点模式（ad-hoc）查询的专业操作人员。其具备的能力包括： - 创建、更新、删除节点和关系 - 通过模式匹配来查询和修改节点和关系 - 管理索引和约束等。</p>
+<h2 id="2、安装"><a href="#2、安装" class="headerlink" title="2、安装"></a>2、安装</h2><h3 id="docker-安装"><a href="#docker-安装" class="headerlink" title="docker 安装"></a>docker 安装</h3><ol>
+<li><p>拉取镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs shell">docker pull neo4j  # 默认安装最新版本<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>启动容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run -d --name container_name \  //-d表示容器后台运行 --name指定容器名字<br>	-p 7474:7474 -p 7687:7687 \  //映射容器的端口号到宿主机的端口号<br>	-v /home/neo4j/data:/data \  //把容器内的数据目录挂载到宿主机的对应目录下<br>	-v /home/neo4j/logs:/logs \  //挂载日志目录<br>	-v /home/neo4j/conf:/var/lib/neo4j/conf   //挂载配置目录<br>	-v /home/neo4j/import:/var/lib/neo4j/import \  //挂载数据导入目录<br>	--env NEO4J_AUTH=neo4j/password \  //设定数据库的名字的访问密码<br>	neo4j //指定使用的镜像<br><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>检测是否启动成功</p>
+<p>本地访问<code>localhost:7474</code>，输入用户名及密码，能出现下边的页面即部署成功</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161445699.png" srcset="/img/loading.gif" lazyload alt="image-20220516144523419"></p>
+</li>
+</ol>
+<h2 id="3、创建节点、关系、属性"><a href="#3、创建节点、关系、属性" class="headerlink" title="3、创建节点、关系、属性"></a>3、创建节点、关系、属性</h2><p>通过实际案例讲解，节点包括电影和演员，电影和演员间存在主演关系等</p>
+<h3 id="1、清空数据库"><a href="#1、清空数据库" class="headerlink" title="1、清空数据库"></a>1、清空数据库</h3><p>删除数据库中全部的数据，保证一个空白的环境进行操作</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">MATCH (n) DETACH DELETE n;<br></code></pre></td></tr></table></figure>
+
+<h3 id="2、创建节点"><a href="#2、创建节点" class="headerlink" title="2、创建节点"></a>2、创建节点</h3><ul>
+<li>演员节点(Person为节点，name 为属性)</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">CREATE (n:Person &#123;name:&#x27;葛优&#x27;&#125;) RETURN n;<br>CREATE (n:Person &#123;name:&#x27;巩俐&#x27;&#125;) RETURN n;<br>CREATE (n:Person &#123;name:&#x27;章子怡&#x27;&#125;) RETURN n;<br>CREATE (n:Person &#123;name:&#x27;李连杰&#x27;&#125;) RETURN n;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161459337.png" srcset="/img/loading.gif" lazyload alt="image-20220516145920097"></p>
+<ul>
+<li>电影节点（Movie 为节点，name 为属性）</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">CREATE (n:Movie &#123;name:&#x27;活着&#x27;&#125;) RETURN n;<br>CREATE (n:Movie &#123;name:&#x27;红高粱&#x27;&#125;) RETURN n;<br>CREATE (n:Movie &#123;name:&#x27;卧虎藏龙&#x27;&#125;) RETURN n;<br>CREATE (n:Movie &#123;name:&#x27;少林寺&#x27;&#125;) RETURN n;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161459131.png" srcset="/img/loading.gif" lazyload alt="image-20220516145937971"></p>
+<h3 id="3、创建关系"><a href="#3、创建关系" class="headerlink" title="3、创建关系"></a>3、创建关系</h3><ul>
+<li>创建电影与演员的关系</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs shell">MATCH (a:Person &#123;name:&#x27;葛优&#x27;&#125;), <br>      (b:Movie &#123;name:&#x27;活着&#x27;&#125;) <br>MERGE (a)-[:主演]-&gt;(b);<br>MATCH (a:Person &#123;name:&#x27;巩俐&#x27;&#125;), <br>      (b:Movie &#123;name:&#x27;红高粱&#x27;&#125;) <br>MERGE (a)-[:主演]-&gt;(b);<br>MATCH (a:Person &#123;name:&#x27;章子怡&#x27;&#125;), <br>      (b:Movie &#123;name:&#x27;卧虎藏龙&#x27;&#125;) <br>MERGE (a)-[:主演]-&gt;(b);<br>MATCH (a:Person &#123;name:&#x27;李连杰&#x27;&#125;), <br>      (b:Movie &#123;name:&#x27;少林寺&#x27;&#125;) <br>MERGE (a)-[:主演]-&gt;(b);<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161501437.png" srcset="/img/loading.gif" lazyload alt="image-20220516150101614"></p>
+<ul>
+<li>创建演员之间的关系</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs shell">MATCH (a:Person &#123;name:&#x27;葛优&#x27;&#125;), <br>      (b:Person &#123;name:&#x27;巩俐&#x27;&#125;) <br>MERGE (a)-[:朋友]-&gt;(b);<br>MATCH (a:Person &#123;name:&#x27;巩俐&#x27;&#125;), <br>      (b:Person &#123;name:&#x27;章子怡&#x27;&#125;) <br>MERGE (a)-[:朋友]-&gt;(b);<br>MATCH (a:Person &#123;name:&#x27;章子怡&#x27;&#125;), <br>      (b:Person &#123;name:&#x27;李连杰&#x27;&#125;) <br>MERGE (a)-[:朋友]-&gt;(b);<br>MATCH (a:Person &#123;name:&#x27;李连杰&#x27;&#125;), <br>      (b:Person &#123;name:&#x27;葛优&#x27;&#125;) <br>MERGE (a)-[:朋友]-&gt;(b);<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161502203.png" srcset="/img/loading.gif" lazyload alt="image-20220516150251832"></p>
+<ul>
+<li>创建节点的时候就建好关系</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">CREATE (a:Person &#123;name:&#x27;成龙&#x27;&#125;)-[r:FRIENDS]-&gt;(b:Person &#123;name:&#x27;章子怡&#x27;&#125;)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>关系增加属性</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">MATCH (a:Person &#123;name:&#x27;葛优&#x27;&#125;), <br>      (b:Movie &#123;name:&#x27;活着&#x27;&#125;) <br>MERGE (a)-[:主演 &#123;since:1994&#125;]-&gt;(b)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161506264.png" srcset="/img/loading.gif" lazyload alt="image-20220516150621217"></p>
+<h2 id="4、查询数据"><a href="#4、查询数据" class="headerlink" title="4、查询数据"></a>4、查询数据</h2><h3 id="1、查询所有对外有关系的节点"><a href="#1、查询所有对外有关系的节点" class="headerlink" title="1、查询所有对外有关系的节点"></a>1、查询所有对外有关系的节点</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">MATCH (a)--&gt;() RETURN a;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161508661.png" srcset="/img/loading.gif" lazyload alt="image-20220516150851145"></p>
+<h3 id="2、查看所有有关系的节点"><a href="#2、查看所有有关系的节点" class="headerlink" title="2、查看所有有关系的节点"></a>2、查看所有有关系的节点</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">MATCH (a)--() RETURN a<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161509709.png" srcset="/img/loading.gif" lazyload alt="image-20220516150946839"></p>
+<h3 id="3、查看所有对外有关系的节点，以及关系类型"><a href="#3、查看所有对外有关系的节点，以及关系类型" class="headerlink" title="3、查看所有对外有关系的节点，以及关系类型"></a>3、查看所有对外有关系的节点，以及关系类型</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">MATCH (a)-[r]-&gt;() RETURN a.name, type(r);<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161510634.png" srcset="/img/loading.gif" lazyload alt="image-20220516151053686"></p>
+<h3 id="4、查看所有有朋友关系的节点"><a href="#4、查看所有有朋友关系的节点" class="headerlink" title="4、查看所有有朋友关系的节点"></a>4、查看所有有朋友关系的节点</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">MATCH (n)-[:朋友]-() RETURN n;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161525887.png" srcset="/img/loading.gif" lazyload alt="image-20220516152527772"></p>
+<h3 id="5、查看某人的朋友的朋友"><a href="#5、查看某人的朋友的朋友" class="headerlink" title="5、查看某人的朋友的朋友"></a>5、查看某人的朋友的朋友</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">MATCH (a:Person &#123;name:&#x27;葛优&#x27;&#125;)-[r1:朋友]-()-[r2:朋友]-(friend_of_a_friend) RETURN friend_of_a_friend.name AS fofName<br></code></pre></td></tr></table></figure>
+
+<p>葛优朋友的朋友就是章子怡</p>
+<h2 id="5、修改节点、属性"><a href="#5、修改节点、属性" class="headerlink" title="5、修改节点、属性"></a>5、修改节点、属性</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">MATCH (a:Person &#123;name:&#x27;葛优&#x27;&#125;) SET a.age=54;<br>MATCH (a:Person &#123;name:&#x27;章子怡&#x27;&#125;) SET a.age=44;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161531336.png" srcset="/img/loading.gif" lazyload alt="image-20220516153150421"></p>
+<h2 id="6、删除节点、属性、关系"><a href="#6、删除节点、属性、关系" class="headerlink" title="6、删除节点、属性、关系"></a>6、删除节点、属性、关系</h2><h3 id="1、删除节点"><a href="#1、删除节点" class="headerlink" title="1、删除节点"></a>1、删除节点</h3><p>删除节点前需要将节点的关系等数据删除，否则会报错（Cannot delete node&lt;50&gt;, because it still has relationships. To delete this node, you must first delete its relationships.）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">MATCH (a:Person &#123;name:&#x27;章子怡&#x27;&#125;) DELETE a;<br></code></pre></td></tr></table></figure>
+
+<h3 id="2、删除节点属性"><a href="#2、删除节点属性" class="headerlink" title="2、删除节点属性"></a>2、删除节点属性</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">MATCH (a:Person &#123;name:&#x27;葛优&#x27;&#125;) SET a.test=&#x27;test&#x27;;<br>MATCH (a:Person &#123;name:&#x27;葛优&#x27;&#125;) REMOVE a.test;<br></code></pre></td></tr></table></figure>
+
+<h3 id="3、删除有关系的节点"><a href="#3、删除有关系的节点" class="headerlink" title="3、删除有关系的节点"></a>3、删除有关系的节点</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">MATCH (a:Person &#123;name:&#x27;葛优&#x27;&#125;)-[rel]-(b:Person) DELETE a,b,rel;<br></code></pre></td></tr></table></figure>
+
+<h3 id="4、删除关系"><a href="#4、删除关系" class="headerlink" title="4、删除关系"></a>4、删除关系</h3><ul>
+<li>删除指定两个节点的关系</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">MATCH (:Person &#123;name: &quot;葛优&quot;&#125;)-[r:朋友]-(:Person &#123;name: &quot;巩俐&quot;&#125;) <br>DELETE r<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>删除全部节点的某种关系</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">MATCH (:Person)-[r:朋友]-(:Person) <br>DELETE r<br><br>MATCH ()-[r:朋友]-() <br>DELETE r<br></code></pre></td></tr></table></figure>
+
+<h2 id="7、批量导入节点、关系"><a href="#7、批量导入节点、关系" class="headerlink" title="7、批量导入节点、关系"></a>7、批量导入节点、关系</h2><ul>
+<li>a.csv</li>
+</ul>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161558916.png" srcset="/img/loading.gif" lazyload alt="image-20220516155842200"></p>
+<ul>
+<li>b.csv</li>
+</ul>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161559909.png" srcset="/img/loading.gif" lazyload alt="image-20220516155901861"></p>
+<ul>
+<li>c.csv</li>
+</ul>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161559629.png" srcset="/img/loading.gif" lazyload alt="image-20220516155921550"></p>
+<ul>
+<li>d.csv</li>
+</ul>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161559061.png" srcset="/img/loading.gif" lazyload alt="image-20220516155939143"></p>
+<h3 id="1、导入演员节点"><a href="#1、导入演员节点" class="headerlink" title="1、导入演员节点"></a>1、导入演员节点</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">LOAD CSV WITH HEADERS FROM &#x27;file:///a.csv&#x27; AS line FIELDTERMINATOR &#x27;,&#x27; CREATE (:Person &#123;name: line.name&#125;);<br></code></pre></td></tr></table></figure>
+
+<h3 id="2、导入电影节点"><a href="#2、导入电影节点" class="headerlink" title="2、导入电影节点"></a>2、导入电影节点</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">LOAD CSV WITH HEADERS FROM &#x27;file:///b.csv&#x27; AS line FIELDTERMINATOR &#x27;,&#x27; CREATE (:Movie &#123;name: line.name&#125;);<br></code></pre></td></tr></table></figure>
+
+<h3 id="3、增加演员与电影的关系"><a href="#3、增加演员与电影的关系" class="headerlink" title="3、增加演员与电影的关系"></a>3、增加演员与电影的关系</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">LOAD CSV WITH HEADERS FROM &quot;file:///c.csv&quot; AS line MATCH (from:Person&#123;name:line.person&#125;),(to:Movie&#123;name:line.movie&#125;) MERGE (from)-[r:relation &#123;Relation:line.relation&#125;]-&gt;(to)<br></code></pre></td></tr></table></figure>
+
+<h3 id="4、增加演员之间的关系"><a href="#4、增加演员之间的关系" class="headerlink" title="4、增加演员之间的关系"></a>4、增加演员之间的关系</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">LOAD CSV WITH HEADERS FROM &quot;file:///d.csv&quot; AS line MATCH (from:Person&#123;name:line.one&#125;),(to:Person&#123;name:line.two&#125;) MERGE (from)-[r:relation &#123;Relation:line.relation&#125;]-&gt;(to)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202205161607491.png" srcset="/img/loading.gif" lazyload alt="A5CF8D71-A3EB-49D8-8D51-F67FD4146289"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%9B%BE%E6%95%B0%E6%8D%AE%E5%8F%AF%E4%BB%A5/">图数据可以</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">知识图谱</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE%E5%BA%93/">图数据库</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/28/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+                        <span class="hidden-mobile">服务器使用注意事项</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","appKey":"WbImCRYLaCb0AN9W178IBFBs","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
