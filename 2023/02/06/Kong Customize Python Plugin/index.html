@@ -1,0 +1,580 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangweijie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Kong Customize Python Plugin 前情提要：由于公司业务需求，需要针对 Kong 自定义插件，而 Kong 的插件主要是 Lua 语言，公司的技术栈是 Python，所以升级了 Kong 版本到 3.1。Kong3.1支持使用 Python 语言的插件，从此走上了踏坑填坑之路。（因为官方文档写的模棱两可，给的示例也不是很全面，所以升级版本和写插件过程很曲折） 该文档中的流程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kong Customize Python Plugin">
+<meta property="og:url" content="http://example.com/2023/02/06/Kong%20Customize%20Python%20Plugin/index.html">
+<meta property="og:site_name" content="ffreedom">
+<meta property="og:description" content="Kong Customize Python Plugin 前情提要：由于公司业务需求，需要针对 Kong 自定义插件，而 Kong 的插件主要是 Lua 语言，公司的技术栈是 Python，所以升级了 Kong 版本到 3.1。Kong3.1支持使用 Python 语言的插件，从此走上了踏坑填坑之路。（因为官方文档写的模棱两可，给的示例也不是很全面，所以升级版本和写插件过程很曲折） 该文档中的流程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202302061645116.png">
+<meta property="article:published_time" content="2023-02-06T07:51:31.000Z">
+<meta property="article:modified_time" content="2023-02-06T08:58:21.384Z">
+<meta property="article:author" content="zhangweijie">
+<meta property="article:tag" content="Kong">
+<meta property="article:tag" content="网关">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202302061645116.png">
+  
+  
+  <title>Kong Customize Python Plugin - ffreedom</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","app_key":"WbImCRYLaCb0AN9W178IBFBs","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ffreedom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Kong Customize Python Plugin">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-02-06 15:51" pubdate>
+        2023年2月6日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      11k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      91 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Kong Customize Python Plugin</h1>
+            
+            <div class="markdown-body">
+              <h2 id="Kong-Customize-Python-Plugin"><a href="#Kong-Customize-Python-Plugin" class="headerlink" title="Kong Customize Python Plugin"></a>Kong Customize Python Plugin</h2><blockquote>
+<p>前情提要：由于公司业务需求，需要针对 Kong 自定义插件，而 Kong 的插件主要是 Lua 语言，公司的技术栈是 Python，所以升级了 Kong 版本到 3.1。Kong3.1支持使用 Python 语言的插件，从此走上了踏坑填坑之路。（因为官方文档写的模棱两可，给的示例也不是很全面，所以升级版本和写插件过程很曲折）</p>
+<p>该文档中的流程前提是 Kong 通过容器启动，详情请仔细阅读官方文档，或者查看我的<a target="_blank" rel="noopener" href="https://ffreedom.top/2023/01/09/Kong-%E7%BD%91%E5%85%B3%E5%BF%AB%E9%80%9F%E5%88%9D%E5%A7%8B%E5%8C%96/">快速初始化网关</a>，想要了解我在使用网关中碰到各种各种的坑，也可以查看<a target="_blank" rel="noopener" href="https://ffreedom.top/2023/01/26/%E8%AE%B0%E5%BD%95%E5%8D%87%E7%BA%A7%20KONG%20%E7%BD%91%E5%85%B3%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/">记录升级 KONG3.1 网关遇到的坑</a>.</p>
+</blockquote>
+<p>首先先上一波<a target="_blank" rel="noopener" href="https://docs.konghq.com/gateway/latest/plugin-development/pluginserver/python/">官方文档</a>，同志们想要尝鲜，就得阅读官方文档，因为没有最新版本的中文文档，所以只能硬着头皮读官方文档，不懂得地方要去看 <a target="_blank" rel="noopener" href="https://github.com/Kong/kong">Kong 的源码</a>，希望大家一起去踏坑填坑。</p>
+<hr>
+<h3 id="需求介绍"><a href="#需求介绍" class="headerlink" title="需求介绍"></a>需求介绍</h3><p>客户端发送的数据中含有加密数据，需要结合后端的密钥去验证客户端的请求是否合法，不合法则拦截请求。</p>
+<h3 id="官方介绍"><a href="#官方介绍" class="headerlink" title="官方介绍"></a>官方介绍</h3><p><a target="_blank" rel="noopener" href="https://docs.konghq.com/gateway/latest/plugin-development/pluginserver/python/">Write plugin in Python</a></p>
+<h3 id="开始踏坑"><a href="#开始踏坑" class="headerlink" title="开始踏坑"></a>开始踏坑</h3><p>根据文档我们可以知道，要想使用插件，依赖于 Kong 本身支持的插件服务也就是PDK，名称是 <code>kong-pdk</code></p>
+<p>下载命令为：<code>pip3 install kong-pdk</code></p>
+<p>根据要求，插件的书写要求是 Kong 规定好的，虽然不是那么pythonic，但是必须按照他的要求去书写，不然后边 Kong 不干活。</p>
+<h3 id="正式开发"><a href="#正式开发" class="headerlink" title="正式开发"></a>正式开发</h3><p>Kong Gateway Python 插件实现具有以下属性：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><pre><code class="hljs python">Schema = (<br>    &#123; <span class="hljs-string">&quot;message&quot;</span>: &#123; <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;string&quot;</span> &#125; &#125;,<br>)<br>version = <span class="hljs-string">&#x27;0.1.0&#x27;</span><br>priority = <span class="hljs-number">0</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Plugin</span>(<span class="hljs-title class_ inherited__">object</span>):<br>  <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>名为<code>Plugin</code>的类定义实现此插件的类。</li>
+<li><code>Schema</code>定义插件的预期值和数据类型的字典。</li>
+<li>变量<code>version</code>和<code>priority</code>分别定义了版本号和执行优先级。</li>
+</ul>
+<p>根据我们的需求，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python3</span><br><br><span class="hljs-keyword">import</span> kong_pdk.pdk.kong <span class="hljs-keyword">as</span> kong<br><br>Schema = (&#123;<span class="hljs-string">&quot;message&quot;</span>: &#123;<span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>&#125;&#125;,)<br>version = <span class="hljs-string">&quot;1.0.0&quot;</span><br>priority = <span class="hljs-number">9</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Plugin</span>(<span class="hljs-title class_ inherited__">object</span>):<br>    <span class="hljs-keyword">pass</span><br><br><span class="hljs-comment"># add below section to allow this plugin optionally be running in a dedicated process</span><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>		<span class="hljs-comment"># 启动服务</span><br>    <span class="hljs-keyword">from</span> kong_pdk.cli <span class="hljs-keyword">import</span> start_dedicated_server<br><br>    start_dedicated_server(<span class="hljs-string">&quot;customer_verification&quot;</span>, Plugin, version, priority, Schema)<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="自定义处理程序"><a href="#自定义处理程序" class="headerlink" title="自定义处理程序"></a>自定义处理程序</h4><p>我们可以实现要在请求处理生命周期的各个点执行的自定义逻辑。要在访问阶段执行自定义代码，请定义一个名为的函数<code>access</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Plugin</span>(<span class="hljs-title class_ inherited__">object</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, config</span>):<br>        self.config = config<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">access</span>(<span class="hljs-params">self, kong</span>):<br>      <span class="hljs-keyword">pass</span><br><br></code></pre></td></tr></table></figure>
+
+<p>根据我们的需求，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python3</span><br><br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> hashlib<br><span class="hljs-keyword">import</span> kong_pdk.pdk.kong <span class="hljs-keyword">as</span> kong<br><br>Schema = (&#123;<span class="hljs-string">&quot;message&quot;</span>: &#123;<span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>&#125;&#125;,)<br>version = <span class="hljs-string">&quot;1.0.0&quot;</span><br>priority = <span class="hljs-number">9</span><br><br><br><span class="hljs-comment"># This is an example plugin that add a header to the response</span><br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Plugin</span>(<span class="hljs-title class_ inherited__">object</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, config</span>):<br>        self.config = config<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">access</span>(<span class="hljs-params">self, kong: kong.kong</span>):<br>        <span class="hljs-keyword">try</span>:<br>            headers = kong.request.get_headers()<br>            client_certificate_id = headers.get(<span class="hljs-string">&quot;client-certificate-id&quot;</span>)<br>            client_request_signature = headers.get(<span class="hljs-string">&quot;client-request-signature&quot;</span>)<br>            client_request_time = headers.get(<span class="hljs-string">&quot;client-request-time&quot;</span>)<br>            <span class="hljs-comment"># 如果 header中缺少我们验证需要数据，返回 400</span><br>            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> client_certificate_id <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> client_request_signature <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> client_request_time:<br>                kong.response.error(<span class="hljs-number">400</span>, <span class="hljs-string">&quot;Invalid Headers&quot;</span>)<br>            client_certificate_key = <span class="hljs-string">&quot;xxx&quot;</span><br>            customer_uuid = <span class="hljs-string">&quot;xxx&quot;</span><br>            old_hash_data = <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;client_certificate_id&#125;</span>|<span class="hljs-subst">&#123;client_certificate_key&#125;</span>|<span class="hljs-subst">&#123;client_request_time&#125;</span>&quot;</span><br>            new_hash_data = hashlib.sha256(old_hash_data.encode(<span class="hljs-string">&quot;utf-8&quot;</span>)).hexdigest()<br>            <span class="hljs-keyword">if</span> new_hash_data != client_request_signature:<br>            		<span class="hljs-comment"># 未通过验证时返回 403</span><br>                kong.response.error(<span class="hljs-number">403</span>, <span class="hljs-string">&quot;Access Forbidden&quot;</span>)<br>            <span class="hljs-comment"># 此处注意，是 kong.service.request</span><br>            kong.service.request.add_header(<span class="hljs-string">f&quot;X-Customer-Id&quot;</span>, <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;customer_uuid&#125;</span>&quot;</span>)<br>        <span class="hljs-comment"># 出现其他错误，一律按照 403 处理</span><br>        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> ex:<br>            kong.response.error(<span class="hljs-number">403</span>, <span class="hljs-string">&quot;Access Forbidden&quot;</span>)<br><br><br><span class="hljs-comment"># add below section to allow this plugin optionally be running in a dedicated process</span><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-keyword">from</span> kong_pdk.cli <span class="hljs-keyword">import</span> start_dedicated_server<br><br>    start_dedicated_server(<span class="hljs-string">&quot;customer_verification&quot;</span>, Plugin, version, priority, Schema)<br><br></code></pre></td></tr></table></figure>
+
+<p>另外可以使用相同的函数签名在以下阶段实现自定义逻辑：</p>
+<ul>
+<li><code>certificate</code>：请求协议为：https，grpcs，wss，在 SSL 握手的 SSL 证书服务阶段执行。</li>
+<li><code>rewrite</code>：请求协议为：*，作为重写阶段处理程序从客户端接收到每个请求时执行。<br>在此阶段，<code>Service</code>和<code>Consumer</code>都未被识别，因此只有当插件被配置为全局插件时才会执行此处理程序。</li>
+<li><code>access</code>：请求协议为：http(s)，grpc(s)，ws(s)，针对来自客户端的每个请求以及在将其代理到上游服务之前执行。</li>
+<li><code>response</code>：请求协议为：http(s)，grpc(s)，替换<code>header_filter()</code>和<code>body_filter()</code>。在从上游服务接收到整个响应之后，但在将响应的任何部分发送到客户端之前执行。</li>
+<li><code>preread</code>：每个连接执行一次。</li>
+<li><code>log</code>：每个连接关闭后执行一次。</li>
+</ul>
+<h4 id="创建连接外部数据库"><a href="#创建连接外部数据库" class="headerlink" title="创建连接外部数据库"></a>创建连接外部数据库</h4><p>因为需要从后端数据库获取验证的密钥，所以插件需要连接外部数据库。</p>
+<p>根据我们的需求，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python3</span><br><br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> hashlib<br><span class="hljs-keyword">import</span> psycopg2<br><span class="hljs-keyword">import</span> kong_pdk.pdk.kong <span class="hljs-keyword">as</span> kong<br><span class="hljs-keyword">from</span> dotenv <span class="hljs-keyword">import</span> find_dotenv, load_dotenv<br><br><span class="hljs-comment"># 此处注意需要从外部加载配置文件（位置可以自定义）</span><br>load_dotenv(find_dotenv(<span class="hljs-string">&quot;/usr/local/kong/kong.env&quot;</span>))<br><br>Schema = (&#123;<span class="hljs-string">&quot;message&quot;</span>: &#123;<span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>&#125;&#125;,)<br><br>version = <span class="hljs-string">&quot;1.0.0&quot;</span><br>priority = <span class="hljs-number">9</span><br><br><br><span class="hljs-comment"># This is an example plugin that add a header to the response</span><br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Plugin</span>(<span class="hljs-title class_ inherited__">object</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, config</span>):<br>        self.config = config<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">access</span>(<span class="hljs-params">self, kong: kong.kong</span>):<br>        <span class="hljs-keyword">try</span>:<br>            headers = kong.request.get_headers()<br>            client_certificate_id = headers.get(<span class="hljs-string">&quot;client-certificate-id&quot;</span>)<br>            client_request_signature = headers.get(<span class="hljs-string">&quot;client-request-signature&quot;</span>)<br>            client_request_time = headers.get(<span class="hljs-string">&quot;client-request-time&quot;</span>)<br>            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> client_certificate_id <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> client_request_signature <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> client_request_time:<br>                kong.response.error(<span class="hljs-number">400</span>, <span class="hljs-string">&quot;Invalid Headers&quot;</span>)<br>            client_certificate_key = <span class="hljs-string">&quot;&quot;</span><br>            customer_uuid = <span class="hljs-string">&quot;&quot;</span><br>            conn = psycopg2.connect(<br>                database=os.environ.get(<span class="hljs-string">&quot;SERVER_DB_DATABASE&quot;</span>),<br>                user=os.environ.get(<span class="hljs-string">&quot;SERVER_DB_USER&quot;</span>),<br>                password=os.environ.get(<span class="hljs-string">&quot;SERVER_DB_PASSWORD&quot;</span>),<br>                host=os.environ.get(<span class="hljs-string">&quot;SERVER_DB_HOST&quot;</span>),<br>                port=os.environ.get(<span class="hljs-string">&quot;SERVER_DB_PORT&quot;</span>),<br>            )<br>            cur = conn.cursor()<br><br>            <span class="hljs-comment"># 执行查询命令</span><br>            cur.execute(<span class="hljs-string">f&quot;select uuid, authentication from customer where certificate = &#x27;<span class="hljs-subst">&#123;client_certificate_id&#125;</span>&#x27;&quot;</span>)<br>            rows = cur.fetchall()<br>            <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> rows:<br>                customer_uuid = row[<span class="hljs-number">0</span>]<br>                customer_authentication = row[<span class="hljs-number">1</span>]<br>                client_certificate_key = customer_authentication[<span class="hljs-string">&quot;client_key&quot;</span>]<br>            old_hash_data = <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;client_certificate_id&#125;</span>|<span class="hljs-subst">&#123;client_certificate_key&#125;</span>|<span class="hljs-subst">&#123;client_request_time&#125;</span>&quot;</span><br>            new_hash_data = hashlib.sha256(old_hash_data.encode(<span class="hljs-string">&quot;utf-8&quot;</span>)).hexdigest()<br>            <span class="hljs-keyword">if</span> new_hash_data != client_request_signature:<br>                kong.response.error(<span class="hljs-number">403</span>, <span class="hljs-string">&quot;Access Forbidden&quot;</span>)<br>            kong.service.request.add_header(<span class="hljs-string">f&quot;X-Customer-Id&quot;</span>, <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;customer_uuid&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> ex:<br>            kong.response.error(<span class="hljs-number">403</span>, <span class="hljs-string">&quot;Access Forbidden&quot;</span>)<br><br><br><span class="hljs-comment"># add below section to allow this plugin optionally be running in a dedicated process</span><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-keyword">from</span> kong_pdk.cli <span class="hljs-keyword">import</span> start_dedicated_server<br><br>    start_dedicated_server(<span class="hljs-string">&quot;customer_verification&quot;</span>, Plugin, version, priority, Schema)<br><br></code></pre></td></tr></table></figure>
+
+<p>到此为止，我们的插件基础逻辑已经结束， 接下来就是怎么让 Kong 能识别到这个插件并加载插件供我们使用！</p>
+<h4 id="加载插件（容器使用插件）"><a href="#加载插件（容器使用插件）" class="headerlink" title="加载插件（容器使用插件）"></a>加载插件（容器使用插件）</h4><p>因为前期使用网关时是通过 Docker 启动的，所以此处插件也需要通过<a target="_blank" rel="noopener" href="https://docs.konghq.com/gateway/latest/plugin-development/pluginserver/plugins-kubernetes/">容器加载</a>。</p>
+<p>要使用需要外部插件服务器的插件，插件服务器和插件本身都需要安装在 Kong Gateway 容器内，将插件的源代码复制或挂载到 Kong Gateway 容器中。</p>
+<ul>
+<li>修改Dockerfile-Kong文件</li>
+</ul>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">FROM</span> kong<br><span class="hljs-keyword">USER</span> root<br><span class="hljs-comment"># Example for GO:</span><br><span class="hljs-comment"># COPY your-go-plugin /usr/local/bin/your-go-plugin</span><br><span class="hljs-comment"># Example for JavaScript:</span><br><span class="hljs-comment"># RUN apk update &amp;&amp; apk add nodejs npm &amp;&amp; npm install -g kong-pdk</span><br><span class="hljs-comment"># COPY your-js-plugin /path/to/your/js-plugins/your-js-plugin</span><br><span class="hljs-comment"># Example for Python</span><br><span class="hljs-comment"># PYTHONWARNINGS=ignore is needed to build gevent on Python 3.9</span><br><span class="hljs-comment"># RUN apk update &amp;&amp; \</span><br><span class="hljs-comment">#     apk add python3 py3-pip python3-dev musl-dev libffi-dev gcc g++ file make &amp;&amp; \</span><br><span class="hljs-comment">#    PYTHONWARNINGS=ignore pip3 install kong-pdk</span><br><span class="hljs-comment"># 由于我们需要连接数据库和加载配置文件，所以需要改写 dockerfile</span><br><span class="hljs-comment"># 安装Python3和第三方库</span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> apk update &amp;&amp; \</span><br><span class="language-bash">    apk add python3 py3-pip python3-dev musl-dev libffi-dev gcc g++ file make &amp;&amp; \</span><br><span class="language-bash">    PYTHONWARNINGS=ignore pip3 install kong-pdk==0.32 python-dotenv==0.21.0 psycopg2-binary==2.9.5</span><br><br><span class="hljs-comment"># 将源代码复制到容器中</span><br><span class="hljs-keyword">COPY</span><span class="language-bash"> plugins/customer-verification/customer_verification.py /usr/local/bin/customer_verification.py  <span class="hljs-comment"># 注意这个位置，后期修改kong 的配置文件时需要保持一下</span></span><br><span class="hljs-comment"># 赋权给文件，必须赋权不然会出现无权限无法执行文件，从而无法启动插件的情况</span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> <span class="hljs-built_in">chmod</span> 777 /usr/local/bin/customer_verification.py</span><br><br><span class="hljs-comment">## reset back the defaults</span><br><span class="hljs-comment">#USER kong</span><br><span class="hljs-comment">#ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]</span><br><span class="hljs-comment">#EXPOSE 8000 8443 8001 8444</span><br><span class="hljs-comment">#STOPSIGNAL SIGQUIT</span><br><span class="hljs-comment">#HEALTHCHECK --interval=10s --timeout=10s --retries=10 CMD kong health</span><br><span class="hljs-comment">#CMD [&quot;kong&quot;, &quot;docker-start&quot;]</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="修改-kong-配置文件"><a href="#修改-kong-配置文件" class="headerlink" title="修改 kong 配置文件"></a>修改 kong 配置文件</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta"># </span><span class="language-bash">修改日志级别为 debug，方便排查问题</span><br>log_level = debug<br><span class="hljs-meta"></span><br><span class="hljs-meta"># </span><span class="language-bash">新增配置</span><br>pluginserver_names = customer_verification  #名称自定义，需要与 Python 文件启动时的名称一样<br>pluginserver_customer_verification_socket = /usr/local/kong/customer_verification.sock  # 可自定义，也可以直接放在kong 默认路径/usr/local/kong下<br>pluginserver_customer_verification_start_cmd = /usr/local/bin/customer_verification.py -v  # 可自定义，也可以直接放在kong 默认路径/usr/local/bin下， -v 是可以输出更多信息<br>pluginserver_customer_verification_query_cmd = /usr/local/bin/customer_verification.py --dump<br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="language-bash">pluginserver_names =            <span class="hljs-comment"># Comma-separated list of names for pluginserver</span></span><br>                                 # processes.  The actual names are used for<br>                                 # log messages and to relate the actual settings.<br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="language-bash">pluginserver_XXX_socket = &lt;prefix&gt;/&lt;XXX&gt;.socket            <span class="hljs-comment"># Path to the unix socket</span></span><br>                                                            # used by the &lt;XXX&gt; pluginserver.<br><span class="hljs-meta">#</span><span class="language-bash">pluginserver_XXX_start_cmd = /usr/local/bin/&lt;XXX&gt;          <span class="hljs-comment"># Full command (including</span></span><br>                                                            # any needed arguments) to<br>                                                            # start the &lt;XXX&gt; pluginserver<br><span class="hljs-meta">#</span><span class="language-bash">pluginserver_XXX_query_cmd = /usr/local/bin/query_&lt;XXX&gt;    <span class="hljs-comment"># Full command to &quot;query&quot; the</span></span><br>                                                            # &lt;XXX&gt; pluginserver.  Should<br>                                                            # produce a JSON with the<br>                                                            # dump info of all plugins it<br>                                                            # manages<br></code></pre></td></tr></table></figure>
+
+
+
+<p>根据上边的配置，查看<a target="_blank" rel="noopener" href="https://github.com/Kong/kong">源码</a>为：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs lua"># /kong/kong/runloop/plugin_servers/process.lua<br><span class="hljs-keyword">local</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get_server_defs</span><span class="hljs-params">()</span></span><br>  <span class="hljs-keyword">local</span> <span class="hljs-built_in">config</span> = kong.configuration<br><br>  <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> _servers <span class="hljs-keyword">then</span><br>    _servers = &#123;&#125;<br><br>    <span class="hljs-keyword">for</span> i, name <span class="hljs-keyword">in</span> <span class="hljs-built_in">ipairs</span>(<span class="hljs-built_in">config</span>.pluginserver_names) <span class="hljs-keyword">do</span><br>      name = name:<span class="hljs-built_in">lower</span>()<br>      kong.<span class="hljs-built_in">log</span>.<span class="hljs-built_in">debug</span>(<span class="hljs-string">&quot;search config for pluginserver named: &quot;</span>, name)<br>      <span class="hljs-keyword">local</span> env_prefix = <span class="hljs-string">&quot;pluginserver_&quot;</span> .. name:<span class="hljs-built_in">gsub</span>(<span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-string">&quot;_&quot;</span>)<br>      _servers[i] = &#123;<br>        name = name,<br>        socket = <span class="hljs-built_in">config</span>[env_prefix .. <span class="hljs-string">&quot;_socket&quot;</span>] <span class="hljs-keyword">or</span> <span class="hljs-string">&quot;/usr/local/kong/&quot;</span> .. name .. <span class="hljs-string">&quot;.socket&quot;</span>,<br>        start_command = <span class="hljs-built_in">config</span>[env_prefix .. <span class="hljs-string">&quot;_start_cmd&quot;</span>] <span class="hljs-keyword">or</span> ifexists(<span class="hljs-string">&quot;/usr/local/bin/&quot;</span>..name),<br>        query_command = <span class="hljs-built_in">config</span>[env_prefix .. <span class="hljs-string">&quot;_query_cmd&quot;</span>] <span class="hljs-keyword">or</span> ifexists(<span class="hljs-string">&quot;/usr/local/bin/query_&quot;</span>..name),<br>      &#125;<br>    <span class="hljs-keyword">end</span><br>  <span class="hljs-keyword">end</span><br><br>  <span class="hljs-keyword">return</span> _servers<br><span class="hljs-keyword">end</span><br></code></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>修改 docker-compose 文件为</li>
+</ul>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile">kong:<br>    image: kong:<span class="hljs-number">3.1</span><br>    container_name: kong<br>    build:<br>      context: ../kong<br>      dockerfile: Dockerfile-Kong<br>    restart: always<br>    networks:<br>      - network<br>    env_file:<br>      - kong.<span class="hljs-keyword">env</span><br>    ports:<br>      - <span class="hljs-number">48000</span>:<span class="hljs-number">8000</span> <span class="hljs-comment"># 接收处理 http 流量</span><br>      - <span class="hljs-number">48443</span>:<span class="hljs-number">8443</span> <span class="hljs-comment"># 接收处理 https 流量</span><br>      <span class="hljs-comment">#- 8001:8001 # http 管理 API</span><br>      <span class="hljs-comment">#- 8444:8444 # https 管理 API</span><br>    volumes:<br>      - <span class="hljs-string">&#x27;./plugins/soc-log:/usr/local/share/lua/5.1/kong/plugins/soc-log&#x27;</span>  <span class="hljs-comment"># 挂载路径不可变，需要是/usr/local/share/lua/5.1/kong/plugins/</span><br>      - <span class="hljs-string">&#x27;./plugins/constants.lua:/usr/local/share/lua/5.1/kong/constants.lua&#x27;</span>  <span class="hljs-comment">## 必须挂载，因为需要修改文件后使用自定义文件</span><br>      - <span class="hljs-string">&#x27;./plugins/kong.conf.default:/etc/kong/kong.conf&#x27;</span>  <span class="hljs-comment">## 挂载自定义的 kong 配置文件</span><br>      - <span class="hljs-string">&#x27;./kong.env:/usr/local/kong/kong.env&#x27;</span>  <span class="hljs-comment">## 挂载数据库配置文件</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="修改-constants-lua文件"><a href="#修改-constants-lua文件" class="headerlink" title="修改 constants.lua文件"></a>修改 constants.lua文件</h4><p>需要再次修改<code>constants.lua</code>文件，因为 Kong 会从该文件根据名字加载插件。</p>
+<h4 id="如何确定你的插件已经启动了呢"><a href="#如何确定你的插件已经启动了呢" class="headerlink" title="如何确定你的插件已经启动了呢"></a>如何确定你的插件已经启动了呢</h4><p>查看下边日志：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">kong   | 2023/02/06 16:40:11 [debug] 1#0: [kong] process.lua:66 search config for pluginserver named: customer_verification  # 代表已经从配置文件中获取到插件配置<br>kong   | 2023/02/06 16:40:11 [debug] 1#0: [kong] mp_rpc.lua:33 mp_rpc.new: /usr/local/kong/customer_verification.sock  # 该文件可自定义，或者由 kong 自己在默认路径中生成<br>kong   | 2023/02/06 16:40:11 [debug] 1#0: [lua] plugins.lua:284: load_plugin(): Loading plugin: customer_verification  # 代表创建已经被 kong 识别到并加载<br>kong   | 2023/02/06 16:40:12 [info] 1129#0: *602 [customer_verification:1133] WARN - [16:40:12] lua-style return values are used, this will be deprecated in the future; instead of returning (data, err) tuple, only data will be returned and err will be thrown as PDKException; please adjust your plugin to use the new python-style PDK API., context: ngx.timer<br>kong   | 2023/02/06 16:40:12 [info] 1129#0: *602 [customer_verification:1133] INFO - [16:40:12] server started at path /usr/local/kong/customer_verification.sock, context: ngx.timer  # 代表插件服务器已经启动<br></code></pre></td></tr></table></figure>
+
+<p>当你的日志也出现上边的输出，恭喜你，你的日志已经可以开始正常使用了。</p>
+<p>如果你还不相信，可以去 konga 中查看</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202302061645116.png" srcset="/img/loading.gif" lazyload alt="image-20230206164553797"></p>
+<p>同志们，只要按照上述步骤去执行，你也可以开始开心的使用 Python 插件了！✿✿ヽ(°▽°)ノ✿✿✿ヽ(°▽°)ノ✿✿✿ヽ(°▽°)ノ✿</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BD%91%E5%85%B3/">网关</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BD%91%E5%85%B3/Kong/">Kong</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Kong/">Kong</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BD%91%E5%85%B3/">网关</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/01/26/%E8%AE%B0%E5%BD%95%E5%8D%87%E7%BA%A7%20KONG%20%E7%BD%91%E5%85%B3%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/">
+                        <span class="hidden-mobile">记录升级 KONG3.1 网关遇到的坑</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","appKey":"WbImCRYLaCb0AN9W178IBFBs","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
