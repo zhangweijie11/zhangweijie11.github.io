@@ -284,6 +284,35 @@
   
   
   <entry>
+    <title>Apple M1 安装 psycopg2-binary</title>
+    <link href="/2022/02/21/APPLE%20M1%20%E5%AE%89%E8%A3%85%20psycopg2-binary/"/>
+    <url>/2022/02/21/APPLE%20M1%20%E5%AE%89%E8%A3%85%20psycopg2-binary/</url>
+    
+    <content type="html"><![CDATA[<h2 id="Apple-M1-安装-psycopg2-binary"><a href="#Apple-M1-安装-psycopg2-binary" class="headerlink" title="Apple M1 安装 psycopg2-binary"></a>Apple M1 安装 psycopg2-binary</h2><p>当我满心欢喜的开始使用我的新电脑的时候，我发现了一些问题，其中就有无法安装 <code>psycopg2-binary</code>这个问题。</p><blockquote><p>本节专门用于设置<code>psycopg</code>早于<code>2.9.0</code>.</p></blockquote><h3 id="一、安装-PostgreSQl"><a href="#一、安装-PostgreSQl" class="headerlink" title="一、安装 PostgreSQl"></a>一、安装 PostgreSQl</h3><p>首先要安装 PostgreSQL，可选方式有很多，此处使用Mac 的包管理器 <code>HomeBrew </code>来安装</p><h4 id="1、查看可用-pg-版本"><a href="#1、查看可用-pg-版本" class="headerlink" title="1、查看可用 pg 版本"></a>1、查看可用 pg 版本</h4><figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$ </span><span class="language-bash">brew formulae | grep postgresql@</span><br>postgresql@10<br>postgresql@11<br>postgresql@12<br>postgresql@13<br>postgresql@14<br>postgresql@15<br>postgresql@9.4<br>postgresql@9.5<br></code></pre></td></tr></table></figure><h4 id="2、安装-postgresql"><a href="#2、安装-postgresql" class="headerlink" title="2、安装 postgresql"></a>2、安装 postgresql</h4><p>我们选择安装最新的 15 版本</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">brew install postgresql@15<br></code></pre></td></tr></table></figure><h4 id="3、修改配置"><a href="#3、修改配置" class="headerlink" title="3、修改配置"></a>3、修改配置</h4><p>按照 brew 输出的日志，将配置修改完毕</p><h3 id="二、安装-openssl"><a href="#二、安装-openssl" class="headerlink" title="二、安装 openssl"></a>二、安装 openssl</h3><h4 id="1、查看可用版本"><a href="#1、查看可用版本" class="headerlink" title="1、查看可用版本"></a>1、查看可用版本</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$ </span><span class="language-bash">brew formulae | grep openssl@</span><br>openssl@1.1<br>openssl@3<br></code></pre></td></tr></table></figure><h4 id="2、安装-openssl"><a href="#2、安装-openssl" class="headerlink" title="2、安装 openssl"></a>2、安装 openssl</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">brew install postgresql@1.1<br></code></pre></td></tr></table></figure><h4 id="3、修改配置-1"><a href="#3、修改配置-1" class="headerlink" title="3、修改配置"></a>3、修改配置</h4><p>按照 brew 输出的日志，将配置修改完毕</p><h3 id="三、成功安装"><a href="#三、成功安装" class="headerlink" title="三、成功安装"></a>三、成功安装</h3><p>尝试安装 <code>psycopg2 </code>或 <code>psycopg2-binary</code> 时遇到的第一个错误是：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs shell">Error: pg_config executable not found.<br><br>pg_config is required to build psycopg2 from source.  Please add the directory containing<br>pg_config to the $PATH or specify the full executable path with the option:<br><br>    python setup.py build_ext --pg-config /path/to/pg_config build ...<br><br>or with the pg_config option in &#x27;setup.cfg&#x27;.<br><br>If you prefer to avoid building psycopg2 from source, please install the PyPI &#x27;psycopg2-binary&#x27; package instead.<br><br>For further information please check the &#x27;doc/src/install.rst&#x27; file (also at &lt;https://www.psycopg.org/docs/install.html&gt;).<br></code></pre></td></tr></table></figure><p>为了解决这个问题，我们需要<code>pg_config</code>在我们的<code>$PATH</code></p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">export PATH=/opt/homebrew/opt/postgresql@15/bin:$PATH<br></code></pre></td></tr></table></figure><p>这也添加了常用的 Postgres工具<code>$PATH</code>和<code>psql</code>.<code>pg_dump</code></p><p>更新<code>$PATH</code> 后，这将是您遇到的下一个错误：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">ld: warning: directory not found for option &#x27;-L/usr/local/opt/openssl@1.1/lib&#x27;<br>ld: warning: directory not found for option &#x27;-L/usr/local/opt/python@3.8/lib&#x27;<br>ld: warning: directory not found for option &#x27;-L/usr/local/opt/icu4c/lib&#x27;<br>ld: library not found for -lssl<br>clang: error: linker command failed with exit code 1 (use -v to see invocation)<br>error: command &#x27;clang&#x27; failed with exit status 1<br></code></pre></td></tr></table></figure><p><code>LDFLAGS</code>我们通过设置我们的and来解决这个问题<code>CPPFLAGS</code>。</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">export LDFLAGS=&quot;-L/opt/homebrew/opt/openssl@1.1/lib -L/opt/homebrew/opt/python@3.8/lib&quot;<br>export CPPFLAGS=&quot;-I/opt/homebrew/opt/openssl@1.1/include&quot;<br></code></pre></td></tr></table></figure><p>最后成功安装</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">pip3 install psycopg2<br>pip3 install psycopg2-binary<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Apple M1</category>
+      
+      <category>python</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Apple M1</tag>
+      
+      <tag>psycopg2</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>域名抢注</title>
     <link href="/2022/02/14/%E5%9F%9F%E5%90%8D%E6%8A%A2%E6%B3%A8/"/>
     <url>/2022/02/14/%E5%9F%9F%E5%90%8D%E6%8A%A2%E6%B3%A8/</url>
