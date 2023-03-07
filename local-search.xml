@@ -13,9 +13,7 @@
     
     <categories>
       
-      <category>Apple M1</category>
-      
-      <category>python</category>
+      <category>MAC系统</category>
       
     </categories>
     
@@ -25,6 +23,8 @@
       <tag>Apple M1</tag>
       
       <tag>psycopg2</tag>
+      
+      <tag>Python</tag>
       
     </tags>
     
