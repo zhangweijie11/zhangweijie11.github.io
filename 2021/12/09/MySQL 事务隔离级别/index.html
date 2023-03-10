@@ -25,17 +25,17 @@
 <meta property="og:site_name" content="ffreedom">
 <meta property="og:description" content="MySQL 事务、隔离级别MySQL 基础架构示意图  事务介绍MySQL 事务主要用于处理操作量奥迪，复杂度高的数据。比如，在人员管理系统中，你删除一个人员的基本资料，肯定也需要同步删除和这个人员相关的所有资料。这些数据库操作语句就构成了一个事务。 一个经典的例子，银行转账。你要给小张转 100 块钱，并且现在你的账户只有 100 块钱。转账过程中肯定会涉及到一系列针对金额的操作，比如查询余额、">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/Users/zhangweijie/Library/Application%20Support/typora-user-images/image-20211209173717710.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202303101608830.png">
 <meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202112091745966.png">
-<meta property="og:image" content="http://example.com/Users/zhangweijie/Library/Application%20Support/typora-user-images/image-20211209175339234.png">
-<meta property="og:image" content="http://example.com/Users/zhangweijie/Library/Application%20Support/typora-user-images/image-20211209175652604.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202303101608581.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202303101609101.png">
 <meta property="article:published_time" content="2021-12-09T09:44:31.000Z">
-<meta property="article:modified_time" content="2022-03-02T14:25:39.405Z">
+<meta property="article:modified_time" content="2023-03-10T08:09:09.995Z">
 <meta property="article:author" content="zhangweijie">
 <meta property="article:tag" content="MySQL">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/Users/zhangweijie/Library/Application%20Support/typora-user-images/image-20211209173717710.png">
+<meta name="twitter:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202303101608830.png">
   
   
   <title>MySQL 事务隔离级别 - ffreedom</title>
@@ -230,7 +230,7 @@
             <h1 style="display: none">MySQL 事务隔离级别</h1>
             
             <div class="markdown-body">
-              <h2 id="MySQL-事务、隔离级别"><a href="#MySQL-事务、隔离级别" class="headerlink" title="MySQL 事务、隔离级别"></a>MySQL 事务、隔离级别</h2><h3 id="MySQL-基础架构示意图"><a href="#MySQL-基础架构示意图" class="headerlink" title="MySQL 基础架构示意图"></a>MySQL 基础架构示意图</h3><img src="/Users/zhangweijie/Library/Application Support/typora-user-images/image-20211209173717710.png" srcset="/img/loading.gif" lazyload alt="image-20211209173717710" style="zoom:50%;" />
+              <h2 id="MySQL-事务、隔离级别"><a href="#MySQL-事务、隔离级别" class="headerlink" title="MySQL 事务、隔离级别"></a>MySQL 事务、隔离级别</h2><h3 id="MySQL-基础架构示意图"><a href="#MySQL-基础架构示意图" class="headerlink" title="MySQL 基础架构示意图"></a>MySQL 基础架构示意图</h3><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202303101608830.png" srcset="/img/loading.gif" lazyload alt="image-20211209173717710" style="zoom:50%;" />
 
 <h3 id="事务介绍"><a href="#事务介绍" class="headerlink" title="事务介绍"></a>事务介绍</h3><p>MySQL 事务主要用于处理操作量奥迪，复杂度高的数据。比如，在人员管理系统中，你删除一个人员的基本资料，肯定也需要同步删除和这个人员相关的所有资料。这些数据库操作语句就构成了一个事务。</p>
 <p>一个经典的例子，银行转账。你要给小张转 100 块钱，并且现在你的账户只有 100 块钱。转账过程中肯定会涉及到一系列针对金额的操作，比如查询余额、做加减法、更新余额等，这些操作必须保证是一体的，不然等程序查完了，你还没做减法之前，你完全可以再次给小张转账 100 元。如果是这样的话，银行就会造成大量的坏账了。这个时候就需要用到事务这个概念了。</p>
@@ -289,13 +289,13 @@
 </ul>
 <p>一个事务提交之后，它做的变更才会被其他事务看到。但是这样会导致在当前事务的不同时间读取同一条数据会出现获取的结果不一致的情况出现。</p>
 <p>举个例子，在下面的例子中就会发现SessionA在一个事务期间两次查询的数据不一样。原因就是在于当前隔离级别为 RC，SessionA的事务可以读取到SessionB提交的最新数据。</p>
-<img src="/Users/zhangweijie/Library/Application Support/typora-user-images/image-20211209175339234.png" srcset="/img/loading.gif" lazyload alt="image-20211209175339234" style="zoom:50%;" />
+<img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202303101608581.png" srcset="/img/loading.gif" lazyload alt="image-20211209175339234" style="zoom:50%;" />
 
 <ul>
 <li>可重复读</li>
 </ul>
 <p>一个事务执行过程中看到的数据，总是跟这个事务在启动时看到的数据是一致的。当然在可重复读隔离级别下，未提交变更对其他事务也是不可见的。</p>
-<img src="/Users/zhangweijie/Library/Application Support/typora-user-images/image-20211209175652604.png" srcset="/img/loading.gif" lazyload alt="image-20211209175652604" style="zoom:50%;" />
+<img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202303101609101.png" srcset="/img/loading.gif" lazyload alt="image-20211209175652604" style="zoom:50%;" />
 
 <ul>
 <li>串行化</li>
