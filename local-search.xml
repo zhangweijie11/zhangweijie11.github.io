@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>僵尸扫描</title>
+    <link href="/2023/05/21/%E5%83%B5%E5%B0%B8%E6%89%AB%E6%8F%8F/"/>
+    <url>/2023/05/21/%E5%83%B5%E5%B0%B8%E6%89%AB%E6%8F%8F/</url>
+    
+    <content type="html"><![CDATA[<h3 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h3><p>僵尸扫描（Zombie Scan）是一种网络扫描技术，利用了IP协议的某些特性。它的特点是利用目标系统的弱点，使得扫描活动难以被追踪到发起者。</p><p>通常，网络扫描涉及向目标发送探测数据包，并根据响应（或缺乏响应）来确定主机是否在线、端口是否开放等信息。而僵尸扫描与普通扫描的不同之处在于它利用了IP包的源地址欺骗。</p><p>在僵尸扫描中，扫描者通过伪装成目标主机向第三方主机发送探测数据包，而不是直接与目标主机进行通信。通过检查第三方主机对探测数据包的响应情况，扫描者可以确定目标主机的状态，但第三方主机会将响应发送给伪装的目标主机。</p><p>这种技术使得扫描者的身份和位置更难被追踪，因为扫描流量看起来是来自于被伪装的目标主机而不是扫描者的真实IP地址。然而，它依赖于目标网络中存在可以被伪装的“僵尸”主机，这些主机可以被用来传递和接收探测数据包。</p><h3 id="二、过程"><a href="#二、过程" class="headerlink" title="二、过程"></a>二、过程</h3><ul><li><h4 id="TCP三次握手"><a href="#TCP三次握手" class="headerlink" title="TCP三次握手"></a>TCP三次握手</h4></li></ul><p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202312251149032.png" alt="image-20231225114914029"></p><ul><li><h4 id="僵尸扫描过程（端口开放）"><a href="#僵尸扫描过程（端口开放）" class="headerlink" title="僵尸扫描过程（端口开放）"></a>僵尸扫描过程（端口开放）</h4></li></ul><p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202312251149730.png" alt="image-20231225114948737"></p><ol><li>扫描者主机对Zombie(僵尸机)发送SYN&#x2F;ACK包，Zombie（假设此时系统产生的IPID为x）会回给主机一个RST，主机将会得到Zombie的IPID。</li><li>扫描主机向目标机器发送一个SYN包，有所不同的是，此时扫描主机会伪造一个伪装成Zombie的IP(即是x)向目标主机发送SYN包。如果目标的端口开放，便会向Zombie返回一个SYN&#x2F;ACK包，但是Zombie并没有发送任何包，zombie会向目标主机发送RST，此时Zombie的IPID将会增加1。IPID&#x3D;x+1</li><li>扫描者主机对Zombie(僵尸机)发送SYN&#x2F;ACK包，然后Zombie会回给主机一个RST，此时IPID&#x3D;x+2</li></ol><ul><li><h4 id="僵尸扫描过程（端口关闭）"><a href="#僵尸扫描过程（端口关闭）" class="headerlink" title="僵尸扫描过程（端口关闭）"></a>僵尸扫描过程（端口关闭）</h4><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202312251152114.png" alt="image-20231225115247896"></li></ul><ol><li>扫描者主机对Zombie(僵尸机)发送SYN&#x2F;ACK包，Zombie（假设此时系统产生的IPID为x）会回给主机一个RST，主机将会得到Zombie的IPID。</li><li>扫描主机向目标机器发送一个SYN包，有所不同的是，此时扫描主机会伪造一个伪装成Zombie的IP(即是x)向目标主机发送SYN包。目标主机的端口并未开放，那么目标主机也会向Zombie发送一个RST，但是Zombie收到RST包不会有任何反应，所以IPID不会改变(依旧是x)。IPID&#x3D;x</li><li>扫描者主机对Zombie(僵尸机)发送SYN&#x2F;ACK包，然后Zombie会回给主机一个RST，此时IPID&#x3D;x+1</li></ol><h3 id="三、结论"><a href="#三、结论" class="headerlink" title="三、结论"></a>三、结论</h3><ul><li>当IPID&#x3D;x+1 时，目标主机端口关闭</li><li>当IPID&#x3D;x+2 时，目标主机端口开放</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>安全研究</category>
+      
+      <category>渗透测试</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>僵尸扫描</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Apple M1 安装 psycopg2-binary</title>
     <link href="/2023/02/21/APPLE%20M1%20%E5%AE%89%E8%A3%85%20psycopg2-binary/"/>
     <url>/2023/02/21/APPLE%20M1%20%E5%AE%89%E8%A3%85%20psycopg2-binary/</url>
