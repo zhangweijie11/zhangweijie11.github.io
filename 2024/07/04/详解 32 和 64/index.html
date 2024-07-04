@@ -1,0 +1,568 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangweijie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="详解 32 和 64 关于 32 位和 64 位，这个概念一直让人比较懵。 在买电脑的时候，我们看到过32 位和 64 位 CPU。 下软件的时候，我们也看到过32 位或 64 位的软件。 就连装虚拟机的时候，我们也看过32 位和 64 位的系统。 在写代码的时候，我们的数值，也可以定义为int32 或者 int64。  一、从代码到可执行文件当我们在代码编辑器中写入 1234567891011&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="详解 32 和 64">
+<meta property="og:url" content="http://example.com/2024/07/04/%E8%AF%A6%E8%A7%A3%2032%20%E5%92%8C%2064/index.html">
+<meta property="og:site_name" content="ffreedom">
+<meta property="og:description" content="详解 32 和 64 关于 32 位和 64 位，这个概念一直让人比较懵。 在买电脑的时候，我们看到过32 位和 64 位 CPU。 下软件的时候，我们也看到过32 位或 64 位的软件。 就连装虚拟机的时候，我们也看过32 位和 64 位的系统。 在写代码的时候，我们的数值，也可以定义为int32 或者 int64。  一、从代码到可执行文件当我们在代码编辑器中写入 1234567891011&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202407041120588.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202407041122270.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202407041123096.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202407041123666.png">
+<meta property="og:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202407041125377.png">
+<meta property="article:published_time" content="2024-07-04T03:27:31.000Z">
+<meta property="article:modified_time" content="2024-07-04T03:35:08.670Z">
+<meta property="article:author" content="zhangweijie">
+<meta property="article:tag" content="详解 32 和 64">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202407041120588.png">
+  
+  
+  <title>详解 32 和 64 - ffreedom</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","app_key":"WbImCRYLaCb0AN9W178IBFBs","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ffreedom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="详解 32 和 64">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2024-07-04 11:27" pubdate>
+        2024年7月4日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      35 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">详解 32 和 64</h1>
+            
+            <div class="markdown-body">
+              <h2 id="详解-32-和-64"><a href="#详解-32-和-64" class="headerlink" title="详解 32 和 64"></a>详解 32 和 64</h2><blockquote>
+<p>关于 32 位和 64 位，这个概念一直让人比较懵。</p>
+<p>在买电脑的时候，我们看到过<strong>32 位和 64 位 CPU</strong>。</p>
+<p>下软件的时候，我们也看到过<strong>32 位或 64 位的软件</strong>。</p>
+<p>就连装虚拟机的时候，我们也看过<strong>32 位和 64 位的系统</strong>。</p>
+<p>在写代码的时候，我们的数值，也可以定义为<strong>int32 或者 int64</strong>。</p>
+</blockquote>
+<h3 id="一、从代码到可执行文件"><a href="#一、从代码到可执行文件" class="headerlink" title="一、从代码到可执行文件"></a>一、从代码到可执行文件</h3><p>当我们在代码编辑器中写入</p>
+<figure class="highlight c"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// test.c</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>         <span class="hljs-type">int</span> i,j;<br>         i = <span class="hljs-number">3</span>;<br>         j = <span class="hljs-number">2</span>;<br>         <span class="hljs-keyword">return</span> i + j;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>但这个代码是给人看的，机器可看不懂，于是这段代码，还会经过被编译器转成<strong>汇编码</strong>。</p>
+<p>汇编码就是我们大学的时候学的头秃的这种</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs assembly">// gcc -S test.c<br>pushq	%rbp<br>.cfi_def_cfa_offset 16<br>.cfi_offset %rbp, -16<br>movq	%rsp, %rbp<br>.cfi_def_cfa_register %rbp<br>movl	$0, -4(%rbp)<br>movl	$3, -8(%rbp)<br>movl	$2, -12(%rbp)<br>movl	-8(%rbp), %eax<br>addl	-12(%rbp), %eax<br>popq	%rbp<br>retq<br><br></code></pre></td></tr></table></figure>
+
+<p>而汇编，总归还是有各种 movl，pushq 这些符号，虽然确实不好看，但说到底<strong>还是给人看的</strong>，而机器 cpu 要的，说到底还是要 0101 这样的<strong>二进制编码</strong>，所以还需要使用汇编器将汇编转成二进制的<strong>机器码</strong>。我们可以看到下面内容分为 3 列，左边是指令地址， 右边是汇编码内容，中间的就是指令机器码，是 16 进制，可以转成二进制 01 串，这就是机器 cpu 能认识的内容了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs assembly">// objdump -d test<br>0000000000001125 &lt;main&gt;:<br>    1125:	55                   	push   %rbp<br>    1126:	48 89 e5             	mov    %rsp,%rbp<br>    1129:	c7 45 fc 03 00 00 00 	movl   $0x3,-0x4(%rbp)<br>    1130:	c7 45 f8 02 00 00 00 	movl   $0x2,-0x8(%rbp)<br>    1137:	8b 55 fc             	mov    -0x4(%rbp),%edx<br>    113a:	8b 45 f8             	mov    -0x8(%rbp),%eax<br>    113d:	01 d0                	add    %edx,%eax<br>    113f:	5d                   	pop    %rbp<br>    1140:	c3                   	retq<br>    1141:	66 2e 0f 1f 84 00 00 	nopw   %cs:0x0(%rax,%rax,1)<br>    1148:	00 00 00<br>    114b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202407041120588.png" srcset="/img/loading.gif" lazyload alt="image-20240704112015114"></p>
+<p>而机器码，最后会放在我们编译生成的<strong>可执行文件</strong>里。</p>
+<p>也就是说我们平时写的代码，最后会变成一堆 01 机器码，放在可执行文件里，躺在磁盘上。</p>
+<h3 id="二、从可执行文件到进程"><a href="#二、从可执行文件到进程" class="headerlink" title="二、从可执行文件到进程"></a>二、从可执行文件到进程</h3><p>一旦我们执行以下命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./可执行文件名<br></code></pre></td></tr></table></figure>
+
+<p>这个可执行文件就会加载进<strong>内存</strong>中，成为一个<strong>进程</strong>，运行起来。</p>
+<p>可执行文件里的机器码也会被加载到内存中，它就像是一张列满 todo list 的清单，而 CPU 就对照着这张清单，一行行的执行上面的机器码。从效果上来看，进程就动起来了。</p>
+<p>对 CPU 来说，它执行到某个特定的编码数值，就会执行特定的操作。比如计算 2+3，其实就是通过<strong>总线</strong>把数据 2 和 3 从<strong>内存</strong>里读入，然后放到<strong>寄存器</strong>上，再用加法器相加这两个数值并将结果放入到寄存器里，最后将这个数值回写到内存中，以此循环往复，一行行执行机器码直到退出。</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202407041122270.png" srcset="/img/loading.gif" lazyload alt="image-20240704112214945"></p>
+<h4 id="CPU-位数的含义"><a href="#CPU-位数的含义" class="headerlink" title="CPU 位数的含义"></a>CPU 位数的含义</h4><p>上面这个流程里，最重要的几个关键词，分别是<strong>CPU 寄存器，总线，内存</strong>。</p>
+<p>CPU 的寄存器，说白了就是个存放数值的小盒子，盒子的大小，叫<strong>位宽</strong>。32 位 CPU 能放入最大 2^32 的数值。64 位就是最大 2^64 的值。这里的 32 位位宽的 CPU 就是我们常说的 32 位 CPU，同理 64 位 CPU 也是一样。</p>
+<p>而<strong>CPU 跟内存</strong>之间，是用<strong>总线</strong>来进行信号传输的，总线可以分为<strong>数据总线，控制总线，地址总线</strong>。功能如其名，举个例子说明下他们的作用吧。在一个进程的运行过程中，CPU 会根据进程的机器码一行行执行操作。</p>
+<p>比如现在有一行是将 A 地址的数据与 B 地址的数据相加，那么 CPU 就会通过<strong>控制总线</strong>，发送信号给内存这个设备，告诉它，现在 CPU 要通过<strong>地址总线</strong>在内存中找到<strong>A 数据的地址</strong>，然后取得 A 数据的值，假设是 100，那么这个 100，就会通过<strong>数据总线</strong>回传到 CPU 的某个寄存器中。B 也一样，假设 B&#x3D;200，放到另一个寄存器中，此时 A 和 B 相加后，结果是 300，然后控制 CPU 通过<strong>地址总线</strong>找到返回的参数地址，再把数据结果通过<strong>数据总线</strong>传回内存中。这一存一取，CPU 都是通过<strong>控制总线</strong>对内存发出指令的。</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202407041123096.png" srcset="/img/loading.gif" lazyload alt="image-20240704112311917"></p>
+<p>而<strong>总线，也可以理解为有个宽度</strong>，比如宽度是 32 位，那么一次可以传 32 个 0 或 1 的信号，那么这个宽度能表达的数值范围就是 0 到 2^32 这么多。</p>
+<p>32 位 CPU 的总线宽度一般是 32 位，因为刚刚上面提到了，CPU 可以利用地址总线在<strong>内存</strong>中进行寻址操作，那么现在这根地址总线，最大能寻址的范围，也就到 2^32，其实就是 4G。</p>
+<p>64 位 CPU，按理说总线宽度是 64 位，但实际上是 48 位（也有看到说是 40 位或 46 位的，没关系，你知道它很大就行了），所以寻址范围能到 2^48 次方，也就是 256T。</p>
+<h4 id="系统和软件的位数的含义"><a href="#系统和软件的位数的含义" class="headerlink" title="系统和软件的位数的含义"></a>系统和软件的位数的含义</h4><p>上面提到了 32 位 CPU 和 64 位 CPU 的内存寻址范围，那么相应的操作系统，和软件（其实操作系统也能说是软件），也应该按 CPU 所能支持的范围去构建自己的寻址范围。</p>
+<p>比方说下面这个图，在操作系统上运行一个用户态进程，会分为用户态和内核态，并设定一定的内存布局。操作系统和软件都需要以这个内存布局为基础运行程序。比如 32 位，内核态分配了 1 个 G，用户态分配了 3G，这种时候，你总不能将程序的运行内存边界设定在大于 10G 的地方。所以，系统和软件的位数，可以理解为，这个系统或软件内存寻址的范围位数。</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202407041123666.png" srcset="/img/loading.gif" lazyload alt="image-20240704112342617"></p>
+<p>一般情况下，由于现在我们的 CPU 架构在设计上都是<strong>完全向前兼容</strong>的，别说 32 位了，16 位的都还兼容着，因此 64 位的 CPU 是能装上 32 位操作系统的。</p>
+<p>同理，64 位的操作系统是兼容 32 位的软件的，所以 32 位软件能装在 64 位系统上。</p>
+<p>但反过来，因为 32 位操作系统只支持 4g 的内存，而 64 位的软件在编译的时候就设定自己的内存边界不止 4 个 G，并且 64 位的 CPU 指令集内容比 32 位的要多，所以 32 位操作系统是肯定不能运行 64 位软件的。</p>
+<p>同理，32 位 CPU 也不能装 64 位的操作系统的。</p>
+<h4 id="程序数值-int32-和-int64-的含义"><a href="#程序数值-int32-和-int64-的含义" class="headerlink" title="程序数值 int32 和 int64 的含义"></a>程序数值 int32 和 int64 的含义</h4><p>这个我们平时写代码接触的最多，比较好理解了。int32 也就是用 4 个字节，32 位的内存去存储数据，int64 也就是用 8 个字节，64 位去存数据。这个数值就是刚刚 CPU 运行流程中放在<strong>内存里</strong>的数据。</p>
+<p>那么问题又来了。</p>
+<h4 id="32-位的-CPU-能进行-int64-位的数值计算吗？"><a href="#32-位的-CPU-能进行-int64-位的数值计算吗？" class="headerlink" title="32 位的 CPU 能进行 int64 位的数值计算吗？"></a>32 位的 CPU 能进行 int64 位的数值计算吗？</h4><p>先说结论，<strong>能</strong>。但比起 64 位的 CPU，<strong>性能会慢一些</strong>。</p>
+<p>如果说我用的是 64 位的<strong>CPU</strong>，那么我在计算两个 int64 的<strong>数值</strong>相加时，我就能将数据通过 64 位的<strong>总线</strong>，一次性存入到 64 位的<strong>寄存器</strong>，并在进行计算后返回到内存中。整个过程一步到位，一气呵成。</p>
+<p>但如果我现在用的是 32 位的 CPU，那就憋屈一点了，我虽然在代码里放了个 int64 的数值，但实际上 CPU 的寄存器根本放不下这么大的数据，因此最简单的方法是，将 int64 的数值，拆成前后两半，现在两个 int64 相加，就变成了 4 个 int32 的数值相加，并且后半部分加好了之后，拿到进位，才能去计算前面的部分，这里光是执行的指令数就比 64 位的 CPU 要多。所以理论上，会更慢些。</p>
+<h3 id="三、系统位数会限制内存吗？"><a href="#三、系统位数会限制内存吗？" class="headerlink" title="三、系统位数会限制内存吗？"></a>三、系统位数会限制内存吗？</h3><p>上面提到了 CPU 位数，系统位数，软件位数，以及数值位数之间的区别与联系。</p>
+<p>现在，我们回到标题里提到的问题。</p>
+<h4 id="32-位-CPU-和系统插-8g-内存条，能用吗？"><a href="#32-位-CPU-和系统插-8g-内存条，能用吗？" class="headerlink" title="32 位 CPU 和系统插 8g 内存条，能用吗？"></a>32 位 CPU 和系统插 8g 内存条，能用吗？</h4><p>系统能正常工作，但<strong>一般用不到 8G</strong>，因为 32 位系统的总线寻址能力为 2 的 32 次方，也就是 4G，<strong>哪怕装了 8G 的内存，真正能被用到的其实只有 4g，多少有点浪费。</strong></p>
+<p>注意上面提到的是<strong>一般</strong>，为什么这么说，因为这里有例外，32 位系统里，有些是可以支持超过 4G 内存的，比如<strong>Windows Server 2003</strong>就能最大支持 64G 的内存，它通过使用 <strong>PAE</strong> （Intel <strong>P</strong>hysical <strong>A</strong>ddress <strong>E</strong>xtension）技术向程序提供更多的物理内存，PAE 本质上是通过<strong>分页管理</strong>的方式将 32 位的总线寻址能力增加到 36 位。因此<strong>理论上</strong>寻址能力达到 2 的 36 次方，也就是 64G。</p>
+<p><img src="https://zwj-typora-ipic.oss-cn-beijing.aliyuncs.com/img/202407041125377.png" srcset="/img/loading.gif" lazyload alt="image-20240704112529344"></p>
+<p>至于实现细节大家也不用关心，现在用到这玩意的机器也该淘汰的差不多了，而且都是 windows server，注意<strong>Windows Server 2003</strong> 名字里带个<strong>server</strong>，是用来做服务器的，我们一般也用不到，知道这件事，除了能帮助我们更好的装 x 外，就没什么作用了。</p>
+<p>所以，<strong>你当 32 位系统最大只能用到 4G 内存，那也没毛病。</strong></p>
+<h4 id="64-位-CPU-装-32-位操作系统，再插上-8g-的内存条，寻址能力还是-4G-吗？"><a href="#64-位-CPU-装-32-位操作系统，再插上-8g-的内存条，寻址能力还是-4G-吗？" class="headerlink" title="64 位 CPU 装 32 位操作系统，再插上 8g 的内存条，寻址能力还是 4G 吗？"></a>64 位 CPU 装 32 位操作系统，再插上 8g 的内存条，寻址能力还是 4G 吗？</h4><p>上面提到 32 位 CPU 就算插上 8G 内存条，寻址能力也还是 4G，那如果说我现在换用 64 位的 CPU，但装了个 32 位的操作系统，这时候插入 8G 内存条，寻址能力能超过 4G 吗？</p>
+<p>寻址能力，除了受到 cpu 的限制外，还受到操作系统的限制，如果操作系统就是按着 32 位的指令和寻址范围（4G）来编译的话，那么它就会缺少 64 位系统该有的指令，它在运行软件的时候就不能做到超过这个限制，因此<strong>寻址能力还会是 4G。</strong></p>
+<p>最后留下一个问题吧。</p>
+<p>上面提到，我们平时写的代码（也就是 C，go，java 这些），先转成汇编，再转成机器码。最后 CPU 执行的是机器码，那么问题来了。</p>
+<p><strong>为什么我们平时写的代码不直接转成机器码，而要先转成汇编，这是不是多此一举？</strong></p>
+<h3 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h3><ul>
+<li>CPU 位数主要指的是寄存器的位宽，</li>
+<li>32 位 CPU 只能装 32 位的系统和软件，且能计算 int64，int32 的数值。内存寻址范围是 4G。</li>
+<li>64 位 CPU，同时兼容 32 位和 64 位的系统和软件，并且进行 int64 数值计算的时候，性能比 32 位 CPU 更好，内存寻址范围可以达到 256T。</li>
+<li>32 位 CPU 和操作系统，插入 8G 的内存，会有点浪费，因为总线寻址范围比较有限，它只能用上 4G 不到的内存。</li>
+<li>64 位 CPU，如果装上 32 位的操作系统，就算插上 8G 的内存，效果也还是只能用上 4G 不到的内存。</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%AF%A6%E8%A7%A3-32-%E5%92%8C-64/">详解 32 和 64</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/04/10/APPLE%20M1%20%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEPyQt5/">
+                        <span class="hidden-mobile">APPLE M1 安装配置PyQt5</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"J0a9dxcs8XGWWoDR84hMXA01-gzGzoHsz","appKey":"WbImCRYLaCb0AN9W178IBFBs","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

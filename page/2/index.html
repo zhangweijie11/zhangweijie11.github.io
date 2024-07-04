@@ -171,6 +171,57 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2023/01/09/Kong-%E7%BD%91%E5%85%B3%E5%BF%AB%E9%80%9F%E5%88%9D%E5%A7%8B%E5%8C%96/" target="_self">
+          Kong 网关快速初始化
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2023/01/09/Kong-%E7%BD%91%E5%85%B3%E5%BF%AB%E9%80%9F%E5%88%9D%E5%A7%8B%E5%8C%96/" target="_self">
+          
+          操作步骤 执行 prepare.sh 文件，生成kong 和 konga 数据库，随后自动执行数据库迁移操作 kong 容器挂载自定义插件，注意修改 constants.lua 文件中的 plugins 参数（可选操作，如果没有自定义插件可跳过） 执行 docker-compose up 启动 kong、konga、pg 三个容器  prepare.sh文件12345678910111213141
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-01-09 10:07" pubdate>
+              2023-01-09
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BD%91%E5%85%B3/">网关</a>
+            
+              <a href="/categories/%E7%BD%91%E5%85%B3/Kong/">Kong</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BD%91%E5%85%B3/">网关</a>
+            
+              <a href="/tags/Kong/">Kong</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2022/05/16/%E5%9B%BE%E6%95%B0%E6%8D%AE%E5%BA%93-Neo4j/" target="_self">
           图数据库 Neo4j
         </a>
@@ -599,57 +650,6 @@
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/%E5%9F%9F%E5%90%8D%E5%8A%AB%E6%8C%81/">域名劫持</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/01/27/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9/" target="_self">
-          缓存穿透、缓存击穿、缓存雪崩
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/01/27/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9/" target="_self">
-          
-          Redis - 缓存穿透、缓存击穿、缓存雪崩为啥要有缓存 每次请求数据，都直接达到数据库上，数据库受不了，所以得在请求和数据库中间加个缓冲带。这个缓冲带需要非常快，所以就放在内存中，和 CPU 离得近，数据拷贝等操作会很快。然后就先抵挡一部分请求，直接在缓存中就能获取到部分数据，如果没命中缓存再去数据库查，也能减少很大一部分请求，尤其是针对热点数据，能减少 80%以上的请求。 缓存穿透场景有个黑客
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-01-27 17:50" pubdate>
-              2022-01-27
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/">Redis</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-              <a href="/tags/Redis/">Redis</a>
             
           </div>
         
