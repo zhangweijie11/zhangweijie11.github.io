@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>解决 Golang Toolchain 问题</title>
+    <link href="/2024/09/03/%E8%A7%A3%E5%86%B3%20Golang%20Toolchain%20%E9%97%AE%E9%A2%98/"/>
+    <url>/2024/09/03/%E8%A7%A3%E5%86%B3%20Golang%20Toolchain%20%E9%97%AE%E9%A2%98/</url>
+    
+    <content type="html"><![CDATA[<h2 id="Golang-Toolchain-问题"><a href="#Golang-Toolchain-问题" class="headerlink" title="Golang  Toolchain 问题"></a>Golang  Toolchain 问题</h2><h3 id="1、问题描述"><a href="#1、问题描述" class="headerlink" title="1、问题描述"></a>1、问题描述</h3><p>当本地服务使用的 Golang 版本为 <code>1.20</code>，但是依赖的服务或者第三方库使用的 Golang 版本 <code>&gt;= 1.21</code>（比如是 1.22.6），执行 <code>go mod tidy</code>以后，在 <code>go.mod</code>文件中就会出现<code> toolchain 1.22.6</code> 这行文字。同时也会报错</p><p><code>unknown directive: toolchain</code>，导致项目无法编译和执行。</p><h3 id="2、问题原因"><a href="#2、问题原因" class="headerlink" title="2、问题原因"></a>2、问题原因</h3><p>出现上述问题的原因是 Golang 的向前兼容版本特性改变导致的。在 <code>1.21 </code>以前的版本编译的时候不会强制检查依赖项和本身项目使用的 Golang 版本，也就意味着你可以使用 <code>Golang1.19 </code>来编译 <code>Golang1.20 </code>的代码，前提是没有用到 1.20 的特性。但是当升级到<code>Golang1.21</code> 版本以后，就会强制检查依赖项和本身项目使用的 Golang 版本，取最小值或者能够编译项目的最小最合适 Golang 版本来进行编译，如果无法编译则会自动下载合适版本（下载路径为<code> Gopath/pkg/mod/golang.org</code>）然后进行编译。然后就会出现上述问题。</p><h3 id="3、解决方案"><a href="#3、解决方案" class="headerlink" title="3、解决方案"></a>3、解决方案</h3><p>上述问题可以使用策略来解决。在 <code>Golang1.21</code> 版本及以后版本添加了新的配置变量 <code>GOTOOLCHAIN</code>，默认为<code>GOTOOLCHAIN=&#39;auto&#39;</code>,会自动寻找合适版本去编译代码，可以将其配置为<code>GOTOOLCHAIN=&#39;local&#39;</code>，还是用我们本地的编译工具链来进行编译即可。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>编程语言</category>
+      
+      <category>Golang</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Golang</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Gob 协议</title>
     <link href="/2024/07/05/Gob%20%E5%8D%8F%E8%AE%AE/"/>
     <url>/2024/07/05/Gob%20%E5%8D%8F%E8%AE%AE/</url>

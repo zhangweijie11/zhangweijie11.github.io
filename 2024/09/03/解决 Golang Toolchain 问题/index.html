@@ -18,21 +18,21 @@
   <meta name="author" content="zhangweijie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Gob 协议Gob（Go binary）是Go语言标准库中提供的一种数据序列化格式，主要用于在Go语言程序之间高效地传输数据。Gob协议的设计目标是简单、高效，并且特别适合在Go语言环境中使用。以下是Gob协议的一些关键特性和详细解释： 1. 数据类型支持Gob协议支持Go语言中的大多数数据类型，包括但不限于：  基本数据类型（如int、float、string等） 复合数据类型（如struct、">
+    <meta name="description" content="Golang  Toolchain 问题1、问题描述当本地服务使用的 Golang 版本为 1.20，但是依赖的服务或者第三方库使用的 Golang 版本 &gt;&#x3D; 1.21（比如是 1.22.6），执行 go mod tidy以后，在 go.mod文件中就会出现 toolchain 1.22.6 这行文字。同时也会报错 unknown directive: toolchain，导致项目无法编译">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Gob 协议">
-<meta property="og:url" content="http://example.com/2024/07/05/Gob%20%E5%8D%8F%E8%AE%AE/index.html">
+<meta property="og:title" content="解决 Golang Toolchain 问题">
+<meta property="og:url" content="http://example.com/2024/09/03/%E8%A7%A3%E5%86%B3%20Golang%20Toolchain%20%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="ffreedom">
-<meta property="og:description" content="Gob 协议Gob（Go binary）是Go语言标准库中提供的一种数据序列化格式，主要用于在Go语言程序之间高效地传输数据。Gob协议的设计目标是简单、高效，并且特别适合在Go语言环境中使用。以下是Gob协议的一些关键特性和详细解释： 1. 数据类型支持Gob协议支持Go语言中的大多数数据类型，包括但不限于：  基本数据类型（如int、float、string等） 复合数据类型（如struct、">
+<meta property="og:description" content="Golang  Toolchain 问题1、问题描述当本地服务使用的 Golang 版本为 1.20，但是依赖的服务或者第三方库使用的 Golang 版本 &gt;&#x3D; 1.21（比如是 1.22.6），执行 go mod tidy以后，在 go.mod文件中就会出现 toolchain 1.22.6 这行文字。同时也会报错 unknown directive: toolchain，导致项目无法编译">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-07-05T03:27:31.000Z">
-<meta property="article:modified_time" content="2024-07-05T06:29:16.513Z">
+<meta property="article:published_time" content="2024-09-03T03:36:31.000Z">
+<meta property="article:modified_time" content="2024-09-03T03:50:43.887Z">
 <meta property="article:author" content="zhangweijie">
-<meta property="article:tag" content="Gob">
+<meta property="article:tag" content="Golang">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>Gob 协议 - ffreedom</title>
+  <title>解决 Golang Toolchain 问题 - ffreedom</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -154,7 +154,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Gob 协议">
+            <span class="h2" id="subtitle" title="解决 Golang Toolchain 问题">
               
             </span>
 
@@ -164,8 +164,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2024-07-05 11:27" pubdate>
-        2024年7月5日 上午
+      <time datetime="2024-09-03 11:36" pubdate>
+        2024年9月3日 中午
       </time>
     </span>
   
@@ -175,7 +175,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.5k 字
+      618 字
     </span>
   
 
@@ -184,7 +184,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      13 分钟
+      6 分钟
     </span>
   
 
@@ -221,40 +221,13 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Gob 协议</h1>
+            <h1 style="display: none">解决 Golang Toolchain 问题</h1>
             
             <div class="markdown-body">
-              <h2 id="Gob-协议"><a href="#Gob-协议" class="headerlink" title="Gob 协议"></a>Gob 协议</h2><p>Gob（Go binary）是Go语言标准库中提供的一种数据序列化格式，主要用于在Go语言程序之间高效地传输数据。Gob协议的设计目标是简单、高效，并且特别适合在Go语言环境中使用。以下是Gob协议的一些关键特性和详细解释：</p>
-<h3 id="1-数据类型支持"><a href="#1-数据类型支持" class="headerlink" title="1. 数据类型支持"></a>1. 数据类型支持</h3><p>Gob协议支持Go语言中的大多数数据类型，包括但不限于：</p>
-<ul>
-<li>基本数据类型（如int、float、string等）</li>
-<li>复合数据类型（如struct、array、slice、map等）</li>
-<li>指针</li>
-<li>接口</li>
-</ul>
-<h3 id="2-自描述性"><a href="#2-自描述性" class="headerlink" title="2. 自描述性"></a>2. 自描述性</h3><p>Gob数据流是自描述的，这意味着在解码时，接收方不需要事先知道数据的结构。Gob编码器会在数据流中包含类型信息，使得接收方能够动态地理解数据的结构。</p>
-<h3 id="3-编码格式"><a href="#3-编码格式" class="headerlink" title="3. 编码格式"></a>3. 编码格式</h3><p>Gob编码格式是二进制的，这使得它比文本格式（如JSON或XML）更紧凑，传输效率更高。Gob编码器会将Go语言的数据结构转换为二进制格式，并包含必要的类型信息。</p>
-<h3 id="4-编码过程"><a href="#4-编码过程" class="headerlink" title="4. 编码过程"></a>4. 编码过程</h3><p>编码过程大致如下：</p>
-<ol>
-<li><strong>类型注册</strong>：在编码之前，需要注册所有自定义的类型。这可以通过<code>gob.Register</code>函数来完成。</li>
-<li><strong>编码</strong>：使用<code>gob.NewEncoder</code>创建一个编码器，然后调用<code>Encode</code>方法将数据编码为二进制格式。</li>
-</ol>
-<h3 id="5-解码过程"><a href="#5-解码过程" class="headerlink" title="5. 解码过程"></a>5. 解码过程</h3><p>解码过程大致如下：</p>
-<ol>
-<li><strong>类型注册</strong>：在解码之前，同样需要注册所有自定义的类型。</li>
-<li><strong>解码</strong>：使用<code>gob.NewDecoder</code>创建一个解码器，然后调用<code>Decode</code>方法将二进制数据解码为Go语言的数据结构。</li>
-</ol>
-<h3 id="6-示例代码"><a href="#6-示例代码" class="headerlink" title="6. 示例代码"></a>6. 示例代码</h3><p>以下是一个简单的Gob编码和解码的示例代码：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></div></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">go</span>复制<span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br>	<span class="hljs-string">&quot;bytes&quot;</span><br>	<span class="hljs-string">&quot;encoding/gob&quot;</span><br>	<span class="hljs-string">&quot;fmt&quot;</span><br>)<br><br><span class="hljs-keyword">type</span> Person <span class="hljs-keyword">struct</span> &#123;<br>	Name <span class="hljs-type">string</span><br>	Age  <span class="hljs-type">int</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	<span class="hljs-comment">// 创建一个Person对象</span><br>	p := Person&#123;Name: <span class="hljs-string">&quot;Alice&quot;</span>, Age: <span class="hljs-number">30</span>&#125;<br><br>	<span class="hljs-comment">// 编码</span><br>	<span class="hljs-keyword">var</span> buf bytes.Buffer<br>	enc := gob.NewEncoder(&amp;buf)<br>	err := enc.Encode(p)<br>	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br>		fmt.Println(<span class="hljs-string">&quot;编码错误:&quot;</span>, err)<br>		<span class="hljs-keyword">return</span><br>	&#125;<br><br>	<span class="hljs-comment">// 解码</span><br>	<span class="hljs-keyword">var</span> decodedPerson Person<br>	dec := gob.NewDecoder(&amp;buf)<br>	err = dec.Decode(&amp;decodedPerson)<br>	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br>		fmt.Println(<span class="hljs-string">&quot;解码错误:&quot;</span>, err)<br>		<span class="hljs-keyword">return</span><br>	&#125;<br><br>	fmt.Printf(<span class="hljs-string">&quot;解码后的Person: %+v\n&quot;</span>, decodedPerson)<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="7-性能"><a href="#7-性能" class="headerlink" title="7. 性能"></a>7. 性能</h3><p>Gob协议在Go语言环境中的性能表现优秀，特别是在处理大量数据时。由于其二进制格式和内置的类型信息，Gob在序列化和反序列化过程中比其他格式（如JSON）更快。</p>
-<h3 id="8-适用场景"><a href="#8-适用场景" class="headerlink" title="8. 适用场景"></a>8. 适用场景</h3><p>Gob协议特别适合在以下场景中使用：</p>
-<ul>
-<li>在Go语言程序之间传输数据。</li>
-<li>需要高效的数据序列化和反序列化。</li>
-<li>数据结构相对稳定，不需要跨语言支持。</li>
-</ul>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>Gob协议是Go语言中一种高效、自描述的二进制数据序列化格式。它支持多种Go语言数据类型，具有良好的性能，特别适合在Go语言环境中使用。通过简单的编码和解码过程，Gob能够实现数据的快速传输和处理。</p>
+              <h2 id="Golang-Toolchain-问题"><a href="#Golang-Toolchain-问题" class="headerlink" title="Golang  Toolchain 问题"></a>Golang  Toolchain 问题</h2><h3 id="1、问题描述"><a href="#1、问题描述" class="headerlink" title="1、问题描述"></a>1、问题描述</h3><p>当本地服务使用的 Golang 版本为 <code>1.20</code>，但是依赖的服务或者第三方库使用的 Golang 版本 <code>&gt;= 1.21</code>（比如是 1.22.6），执行 <code>go mod tidy</code>以后，在 <code>go.mod</code>文件中就会出现<code> toolchain 1.22.6</code> 这行文字。同时也会报错</p>
+<p><code>unknown directive: toolchain</code>，导致项目无法编译和执行。</p>
+<h3 id="2、问题原因"><a href="#2、问题原因" class="headerlink" title="2、问题原因"></a>2、问题原因</h3><p>出现上述问题的原因是 Golang 的向前兼容版本特性改变导致的。在 <code>1.21 </code>以前的版本编译的时候不会强制检查依赖项和本身项目使用的 Golang 版本，也就意味着你可以使用 <code>Golang1.19 </code>来编译 <code>Golang1.20 </code>的代码，前提是没有用到 1.20 的特性。但是当升级到<code>Golang1.21</code> 版本以后，就会强制检查依赖项和本身项目使用的 Golang 版本，取最小值或者能够编译项目的最小最合适 Golang 版本来进行编译，如果无法编译则会自动下载合适版本（下载路径为<code> Gopath/pkg/mod/golang.org</code>）然后进行编译。然后就会出现上述问题。</p>
+<h3 id="3、解决方案"><a href="#3、解决方案" class="headerlink" title="3、解决方案"></a>3、解决方案</h3><p>上述问题可以使用策略来解决。在 <code>Golang1.21</code> 版本及以后版本添加了新的配置变量 <code>GOTOOLCHAIN</code>，默认为<code>GOTOOLCHAIN=&#39;auto&#39;</code>,会自动寻找合适版本去编译代码，可以将其配置为<code>GOTOOLCHAIN=&#39;local&#39;</code>，还是用我们本地的编译工具链来进行编译即可。</p>
 
             </div>
             <hr>
@@ -274,7 +247,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Gob/">Gob</a>
+                      <a class="hover-with-bg" href="/tags/Golang/">Golang</a>
                     
                   </div>
                 
@@ -291,18 +264,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/09/03/%E8%A7%A3%E5%86%B3%20Golang%20Toolchain%20%E9%97%AE%E9%A2%98/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">解决 Golang Toolchain 问题</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/07/04/TCP%20%E7%B2%98%E5%8C%85/">
-                        <span class="hidden-mobile">TCP 粘包</span>
+                      <a href="/2024/07/05/Gob%20%E5%8D%8F%E8%AE%AE/">
+                        <span class="hidden-mobile">Gob 协议</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
